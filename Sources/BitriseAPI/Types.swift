@@ -2852,10 +2852,10 @@ public enum Components {
         public struct service_period_dto_period_CreatedSecretNoValue: Codable, Hashable, Sendable {
             /// - Remark: Generated from `#/components/schemas/service.dto.CreatedSecretNoValue/expand_in_step_inputs`.
             public var expand_in_step_inputs: Swift.Bool?
-            /// - Remark: Generated from `#/components/schemas/service.dto.CreatedSecretNoValue/exposed_for_pull_requests`.
-            public var exposed_for_pull_requests: Swift.Bool?
             /// - Remark: Generated from `#/components/schemas/service.dto.CreatedSecretNoValue/id`.
             public var id: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/service.dto.CreatedSecretNoValue/is_exposed_for_pull_requests`.
+            public var is_exposed_for_pull_requests: Swift.Bool?
             /// - Remark: Generated from `#/components/schemas/service.dto.CreatedSecretNoValue/is_protected`.
             public var is_protected: Swift.Bool?
             /// - Remark: Generated from `#/components/schemas/service.dto.CreatedSecretNoValue/name`.
@@ -2866,30 +2866,30 @@ public enum Components {
             ///
             /// - Parameters:
             ///   - expand_in_step_inputs:
-            ///   - exposed_for_pull_requests:
             ///   - id:
+            ///   - is_exposed_for_pull_requests:
             ///   - is_protected:
             ///   - name:
             ///   - scope:
             public init(
                 expand_in_step_inputs: Swift.Bool? = nil,
-                exposed_for_pull_requests: Swift.Bool? = nil,
                 id: Swift.String? = nil,
+                is_exposed_for_pull_requests: Swift.Bool? = nil,
                 is_protected: Swift.Bool? = nil,
                 name: Swift.String? = nil,
                 scope: Swift.String? = nil
             ) {
                 self.expand_in_step_inputs = expand_in_step_inputs
-                self.exposed_for_pull_requests = exposed_for_pull_requests
                 self.id = id
+                self.is_exposed_for_pull_requests = is_exposed_for_pull_requests
                 self.is_protected = is_protected
                 self.name = name
                 self.scope = scope
             }
             public enum CodingKeys: String, CodingKey {
                 case expand_in_step_inputs
-                case exposed_for_pull_requests
                 case id
+                case is_exposed_for_pull_requests
                 case is_protected
                 case name
                 case scope
@@ -38737,13 +38737,28 @@ public enum Operations {
             public struct Ok: Sendable, Hashable {
                 /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/GET/responses/200/content`.
                 @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/GET/responses/200/content/json`.
+                    public struct jsonPayload: Codable, Hashable, Sendable {
+                        /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/GET/responses/200/content/json/secrets`.
+                        public var secrets: [Components.Schemas.service_period_dto_period_CreatedSecretNoValue]?
+                        /// Creates a new `jsonPayload`.
+                        ///
+                        /// - Parameters:
+                        ///   - secrets:
+                        public init(secrets: [Components.Schemas.service_period_dto_period_CreatedSecretNoValue]? = nil) {
+                            self.secrets = secrets
+                        }
+                        public enum CodingKeys: String, CodingKey {
+                            case secrets
+                        }
+                    }
                     /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/GET/responses/200/content/application\/json`.
-                    case json([Components.Schemas.service_period_dto_period_CreatedSecretNoValue])
+                    case json(Operations.secretsList.Output.Ok.Body.jsonPayload)
                     /// The associated value of the enum case if `self` is `.json`.
                     ///
                     /// - Throws: An error if `self` is not `.json`.
                     /// - SeeAlso: `.json`.
-                    public var json: [Components.Schemas.service_period_dto_period_CreatedSecretNoValue] {
+                    public var json: Operations.secretsList.Output.Ok.Body.jsonPayload {
                         get throws {
                             switch self {
                             case let .json(body):
@@ -39011,8 +39026,8 @@ public enum Operations {
                 public struct jsonPayload: Codable, Hashable, Sendable {
                     /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/POST/requestBody/json/expand_in_step_inputs`.
                     public var expand_in_step_inputs: Swift.Bool?
-                    /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/POST/requestBody/json/exposed_for_pull_requests`.
-                    public var exposed_for_pull_requests: Swift.Bool?
+                    /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/POST/requestBody/json/is_exposed_for_pull_requests`.
+                    public var is_exposed_for_pull_requests: Swift.Bool?
                     /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/POST/requestBody/json/is_protected`.
                     public var is_protected: Swift.Bool?
                     /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/POST/requestBody/json/name`.
@@ -39025,21 +39040,21 @@ public enum Operations {
                     ///
                     /// - Parameters:
                     ///   - expand_in_step_inputs:
-                    ///   - exposed_for_pull_requests:
+                    ///   - is_exposed_for_pull_requests:
                     ///   - is_protected:
                     ///   - name:
                     ///   - scope:
                     ///   - value:
                     public init(
                         expand_in_step_inputs: Swift.Bool? = nil,
-                        exposed_for_pull_requests: Swift.Bool? = nil,
+                        is_exposed_for_pull_requests: Swift.Bool? = nil,
                         is_protected: Swift.Bool? = nil,
                         name: Swift.String,
                         scope: Swift.String? = nil,
                         value: Swift.String
                     ) {
                         self.expand_in_step_inputs = expand_in_step_inputs
-                        self.exposed_for_pull_requests = exposed_for_pull_requests
+                        self.is_exposed_for_pull_requests = is_exposed_for_pull_requests
                         self.is_protected = is_protected
                         self.name = name
                         self.scope = scope
@@ -39047,7 +39062,7 @@ public enum Operations {
                     }
                     public enum CodingKeys: String, CodingKey {
                         case expand_in_step_inputs
-                        case exposed_for_pull_requests
+                        case is_exposed_for_pull_requests
                         case is_protected
                         case name
                         case scope
@@ -39697,8 +39712,8 @@ public enum Operations {
                 public struct jsonPayload: Codable, Hashable, Sendable {
                     /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/{secret-name}/PATCH/requestBody/json/expand_in_step_inputs`.
                     public var expand_in_step_inputs: Swift.Bool?
-                    /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/{secret-name}/PATCH/requestBody/json/exposed_for_pull_requests`.
-                    public var exposed_for_pull_requests: Swift.Bool?
+                    /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/{secret-name}/PATCH/requestBody/json/is_exposed_for_pull_requests`.
+                    public var is_exposed_for_pull_requests: Swift.Bool?
                     /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/{secret-name}/PATCH/requestBody/json/is_protected`.
                     public var is_protected: Swift.Bool?
                     /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/{secret-name}/PATCH/requestBody/json/value`.
@@ -39707,23 +39722,23 @@ public enum Operations {
                     ///
                     /// - Parameters:
                     ///   - expand_in_step_inputs:
-                    ///   - exposed_for_pull_requests:
+                    ///   - is_exposed_for_pull_requests:
                     ///   - is_protected:
                     ///   - value:
                     public init(
                         expand_in_step_inputs: Swift.Bool? = nil,
-                        exposed_for_pull_requests: Swift.Bool? = nil,
+                        is_exposed_for_pull_requests: Swift.Bool? = nil,
                         is_protected: Swift.Bool? = nil,
                         value: Swift.String? = nil
                     ) {
                         self.expand_in_step_inputs = expand_in_step_inputs
-                        self.exposed_for_pull_requests = exposed_for_pull_requests
+                        self.is_exposed_for_pull_requests = is_exposed_for_pull_requests
                         self.is_protected = is_protected
                         self.value = value
                     }
                     public enum CodingKeys: String, CodingKey {
                         case expand_in_step_inputs
-                        case exposed_for_pull_requests
+                        case is_exposed_for_pull_requests
                         case is_protected
                         case value
                     }
