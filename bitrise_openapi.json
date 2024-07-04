@@ -6573,11 +6573,19 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Ok",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/v0.AppSecretListResponse"
+                                    "type": "object",
+                                    "properties": {
+                                        "secrets": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/service.dto.CreatedSecretNoValue"
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -6628,9 +6636,195 @@
                         "PersonalAccessToken": []
                     }
                 ]
+            },
+            "post": {
+                "tags": [
+                    "secrets"
+                ],
+                "summary": "Create a new app secret",
+                "description": "Create a new app secret",
+                "operationId": "appSecretCreate",
+                "parameters": [
+                    {
+                        "name": "app-slug",
+                        "in": "path",
+                        "description": "app slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "secret data",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "value"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "expand_in_step_inputs": {
+                                        "type": "boolean"
+                                    },
+                                    "is_exposed_for_pull_requests": {
+                                        "type": "boolean"
+                                    },
+                                    "is_protected": {
+                                        "type": "boolean"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "value": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/service.dto.CreatedSecretNoValue"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/service.ProxyErrorRespModel"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/service.ProxyErrorRespModel"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/service.ProxyErrorRespModel"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "PersonalAccessToken": []
+                    }
+                ],
+                "x-codegen-request-body-name": "secret"
             }
         },
         "/apps/{app-slug}/secrets/{secret-name}": {
+            "get": {
+                "tags": [
+                    "secrets"
+                ],
+                "summary": "Get a single app secret by name",
+                "description": "Get a single app secret by name, including the value if not protected",
+                "operationId": "appSecretsShow",
+                "parameters": [
+                    {
+                        "name": "app-slug",
+                        "in": "path",
+                        "description": "app slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "secret-name",
+                        "in": "path",
+                        "description": "secret name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/service.dto.CreatedSecretNoValue"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "value": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/service.ProxyErrorRespModel"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/service.ProxyErrorRespModel"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/service.ProxyErrorRespModel"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "PersonalAccessToken": []
+                    }
+                ]
+            },
             "put": {
                 "tags": [
                     "secrets"
@@ -6663,7 +6857,25 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/v0.AppSecretUpsertParams"
+                                "type": "object",
+                                "properties": {
+                                    "expand_in_step_inputs": {
+                                        "type": "boolean",
+                                        "description": "Replace variable in inputs? https://devcenter.bitrise.io/en/references/steps-reference/step-inputs-reference.html#step-input-properties"
+                                    },
+                                    "is_exposed_for_pull_requests": {
+                                        "type": "boolean",
+                                        "description": "Expose for Pull Requests?"
+                                    },
+                                    "is_protected": {
+                                        "type": "boolean",
+                                        "description": "Secret marked as protected?"
+                                    },
+                                    "value": {
+                                        "type": "string",
+                                        "description": "Value of the secret"
+                                    }
+                                }
                             }
                         }
                     },
@@ -6719,6 +6931,7 @@
                         }
                     }
                 },
+                "deprecated": true,
                 "security": [
                     {
                         "PersonalAccessToken": []
@@ -6804,6 +7017,119 @@
                         "PersonalAccessToken": []
                     }
                 ]
+            },
+            "patch": {
+                "tags": [
+                    "secrets"
+                ],
+                "summary": "Update an existing app secret",
+                "description": "Update an existing app secret. If the secret is protected, only its value can be overridden.",
+                "operationId": "appSecretUpdate",
+                "parameters": [
+                    {
+                        "name": "app-slug",
+                        "in": "path",
+                        "description": "app slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "secret-name",
+                        "in": "path",
+                        "description": "secret name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "secret data",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "expand_in_step_inputs": {
+                                        "type": "boolean"
+                                    },
+                                    "is_exposed_for_pull_requests": {
+                                        "type": "boolean"
+                                    },
+                                    "is_protected": {
+                                        "type": "boolean"
+                                    },
+                                    "value": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/service.dto.CreatedSecretNoValue"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "value": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/service.ProxyErrorRespModel"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/service.ProxyErrorRespModel"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/service.ProxyErrorRespModel"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "PersonalAccessToken": []
+                    }
+                ],
+                "x-codegen-request-body-name": "secret"
             }
         },
         "/apps/{app-slug}/secrets/{secret-name}/value": {
@@ -6840,7 +7166,12 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/v0.AppSecretGetValueResponse"
+                                    "type": "object",
+                                    "properties": {
+                                        "value": {
+                                            "type": "string"
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -6886,6 +7217,7 @@
                         }
                     }
                 },
+                "deprecated": true,
                 "security": [
                     {
                         "PersonalAccessToken": []
@@ -8098,7 +8430,7 @@
                 ],
                 "summary": "Get the secrets of an organization",
                 "description": "Get the secrets of an organization",
-                "operationId": "secretsList",
+                "operationId": "organizationSecretsList",
                 "parameters": [
                     {
                         "name": "org-slug",
@@ -8170,9 +8502,9 @@
                 "tags": [
                     "secrets"
                 ],
-                "summary": "Create a new secret",
-                "description": "Create a new secret",
-                "operationId": "secretCreate",
+                "summary": "Create a new organization secret",
+                "description": "Create a new organization secret",
+                "operationId": "organizationSecretCreate",
                 "parameters": [
                     {
                         "name": "org-slug",
@@ -8276,7 +8608,7 @@
                 ],
                 "summary": "Get a single secret by name",
                 "description": "Get a single secret by name, including the value if not protected",
-                "operationId": "secretsShow",
+                "operationId": "organizationSecretsShow",
                 "parameters": [
                     {
                         "name": "org-slug",
@@ -8363,7 +8695,7 @@
                 ],
                 "summary": "Delete a secret by name",
                 "description": "Delete a secret by name",
-                "operationId": "secretDeletemixin0",
+                "operationId": "organizationSecretDelete",
                 "parameters": [
                     {
                         "name": "org-slug",
@@ -8432,7 +8764,7 @@
                 ],
                 "summary": "Update an existing secret",
                 "description": "Update an existing secret. If the secret is protected, only its value can be overridden.",
-                "operationId": "secretUpdate",
+                "operationId": "organizationSecretUpdate",
                 "parameters": [
                     {
                         "name": "org-slug",
@@ -9844,71 +10176,6 @@
                     },
                     "title": {
                         "type": "string"
-                    }
-                }
-            },
-            "v0.AppSecret": {
-                "type": "object",
-                "properties": {
-                    "expand_in_step_inputs": {
-                        "type": "boolean",
-                        "description": "Replace variable in inputs? https://devcenter.bitrise.io/en/references/steps-reference/step-inputs-reference.html#step-input-properties"
-                    },
-                    "is_exposed_for_pull_requests": {
-                        "type": "boolean",
-                        "description": "Expose for Pull Requests?"
-                    },
-                    "is_protected": {
-                        "type": "boolean",
-                        "description": "Secret marked as protected?"
-                    },
-                    "name": {
-                        "type": "string",
-                        "description": "Name of the secret"
-                    },
-                    "scope": {
-                        "type": "string",
-                        "description": "Scope of the secret (workspace or app or nothing)"
-                    }
-                }
-            },
-            "v0.AppSecretGetValueResponse": {
-                "type": "object",
-                "properties": {
-                    "value": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v0.AppSecretListResponse": {
-                "type": "object",
-                "properties": {
-                    "secrets": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/v0.AppSecret"
-                        }
-                    }
-                }
-            },
-            "v0.AppSecretUpsertParams": {
-                "type": "object",
-                "properties": {
-                    "expand_in_step_inputs": {
-                        "type": "boolean",
-                        "description": "Replace variable in inputs? https://devcenter.bitrise.io/en/references/steps-reference/step-inputs-reference.html#step-input-properties"
-                    },
-                    "is_exposed_for_pull_requests": {
-                        "type": "boolean",
-                        "description": "Expose for Pull Requests?"
-                    },
-                    "is_protected": {
-                        "type": "boolean",
-                        "description": "Secret marked as protected?"
-                    },
-                    "value": {
-                        "type": "string",
-                        "description": "Value of the secret"
                     }
                 }
             },
@@ -11559,6 +11826,15 @@
                     },
                     "triggered_by": {
                         "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "workflows": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/v0.PipelineShowWorkflowResponseModel"
+                        }
                     }
                 }
             },
@@ -11634,6 +11910,12 @@
                 "properties": {
                     "credit_cost": {
                         "type": "object"
+                    },
+                    "depends_on": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
                     },
                     "external_id": {
                         "type": "string"

@@ -513,12 +513,34 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `GET /apps/{app-slug}/secrets`.
     /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/get(secretList)`.
     func secretList(_ input: Operations.secretList.Input) async throws -> Operations.secretList.Output
+    /// Create a new app secret
+    ///
+    /// Create a new app secret
+    ///
+    /// - Remark: HTTP `POST /apps/{app-slug}/secrets`.
+    /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/post(appSecretCreate)`.
+    func appSecretCreate(_ input: Operations.appSecretCreate.Input) async throws -> Operations.appSecretCreate.Output
+    /// Get a single app secret by name
+    ///
+    /// Get a single app secret by name, including the value if not protected
+    ///
+    /// - Remark: HTTP `GET /apps/{app-slug}/secrets/{secret-name}`.
+    /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/{secret-name}/get(appSecretsShow)`.
+    func appSecretsShow(_ input: Operations.appSecretsShow.Input) async throws -> Operations.appSecretsShow.Output
+    /// Update an existing app secret
+    ///
+    /// Update an existing app secret. If the secret is protected, only its value can be overridden.
+    ///
+    /// - Remark: HTTP `PATCH /apps/{app-slug}/secrets/{secret-name}`.
+    /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/{secret-name}/patch(appSecretUpdate)`.
+    func appSecretUpdate(_ input: Operations.appSecretUpdate.Input) async throws -> Operations.appSecretUpdate.Output
     /// Upsert an application secret
     ///
     /// Upsert an application secret. Requires administrator level privileges to the app.
     ///
     /// - Remark: HTTP `PUT /apps/{app-slug}/secrets/{secret-name}`.
     /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/{secret-name}/put(secretUpsert)`.
+    @available(*, deprecated)
     func secretUpsert(_ input: Operations.secretUpsert.Input) async throws -> Operations.secretUpsert.Output
     /// Delete an application secret
     ///
@@ -533,6 +555,7 @@ public protocol APIProtocol: Sendable {
     ///
     /// - Remark: HTTP `GET /apps/{app-slug}/secrets/{secret-name}/value`.
     /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/{secret-name}/value/get(secretValueGet)`.
+    @available(*, deprecated)
     func secretValueGet(_ input: Operations.secretValueGet.Input) async throws -> Operations.secretValueGet.Output
     /// List the test devices for an app
     ///
@@ -644,36 +667,36 @@ public protocol APIProtocol: Sendable {
     /// Get the secrets of an organization
     ///
     /// - Remark: HTTP `GET /organizations/{org-slug}/secrets`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/get(secretsList)`.
-    func secretsList(_ input: Operations.secretsList.Input) async throws -> Operations.secretsList.Output
-    /// Create a new secret
+    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/get(organizationSecretsList)`.
+    func organizationSecretsList(_ input: Operations.organizationSecretsList.Input) async throws -> Operations.organizationSecretsList.Output
+    /// Create a new organization secret
     ///
-    /// Create a new secret
+    /// Create a new organization secret
     ///
     /// - Remark: HTTP `POST /organizations/{org-slug}/secrets`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/post(secretCreate)`.
-    func secretCreate(_ input: Operations.secretCreate.Input) async throws -> Operations.secretCreate.Output
+    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/post(organizationSecretCreate)`.
+    func organizationSecretCreate(_ input: Operations.organizationSecretCreate.Input) async throws -> Operations.organizationSecretCreate.Output
     /// Get a single secret by name
     ///
     /// Get a single secret by name, including the value if not protected
     ///
     /// - Remark: HTTP `GET /organizations/{org-slug}/secrets/{secret-name}`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/get(secretsShow)`.
-    func secretsShow(_ input: Operations.secretsShow.Input) async throws -> Operations.secretsShow.Output
+    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/get(organizationSecretsShow)`.
+    func organizationSecretsShow(_ input: Operations.organizationSecretsShow.Input) async throws -> Operations.organizationSecretsShow.Output
     /// Update an existing secret
     ///
     /// Update an existing secret. If the secret is protected, only its value can be overridden.
     ///
     /// - Remark: HTTP `PATCH /organizations/{org-slug}/secrets/{secret-name}`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/patch(secretUpdate)`.
-    func secretUpdate(_ input: Operations.secretUpdate.Input) async throws -> Operations.secretUpdate.Output
+    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/patch(organizationSecretUpdate)`.
+    func organizationSecretUpdate(_ input: Operations.organizationSecretUpdate.Input) async throws -> Operations.organizationSecretUpdate.Output
     /// Delete a secret by name
     ///
     /// Delete a secret by name
     ///
     /// - Remark: HTTP `DELETE /organizations/{org-slug}/secrets/{secret-name}`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/delete(secretDeletemixin0)`.
-    func secretDeletemixin0(_ input: Operations.secretDeletemixin0.Input) async throws -> Operations.secretDeletemixin0.Output
+    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/delete(organizationSecretDelete)`.
+    func organizationSecretDelete(_ input: Operations.organizationSecretDelete.Input) async throws -> Operations.organizationSecretDelete.Output
     /// Get list of the addons for organization
     ///
     /// List all the provisioned addons for organization
@@ -1869,12 +1892,62 @@ extension APIProtocol {
             headers: headers
         ))
     }
+    /// Create a new app secret
+    ///
+    /// Create a new app secret
+    ///
+    /// - Remark: HTTP `POST /apps/{app-slug}/secrets`.
+    /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/post(appSecretCreate)`.
+    public func appSecretCreate(
+        path: Operations.appSecretCreate.Input.Path,
+        headers: Operations.appSecretCreate.Input.Headers = .init(),
+        body: Operations.appSecretCreate.Input.Body
+    ) async throws -> Operations.appSecretCreate.Output {
+        try await appSecretCreate(Operations.appSecretCreate.Input(
+            path: path,
+            headers: headers,
+            body: body
+        ))
+    }
+    /// Get a single app secret by name
+    ///
+    /// Get a single app secret by name, including the value if not protected
+    ///
+    /// - Remark: HTTP `GET /apps/{app-slug}/secrets/{secret-name}`.
+    /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/{secret-name}/get(appSecretsShow)`.
+    public func appSecretsShow(
+        path: Operations.appSecretsShow.Input.Path,
+        headers: Operations.appSecretsShow.Input.Headers = .init()
+    ) async throws -> Operations.appSecretsShow.Output {
+        try await appSecretsShow(Operations.appSecretsShow.Input(
+            path: path,
+            headers: headers
+        ))
+    }
+    /// Update an existing app secret
+    ///
+    /// Update an existing app secret. If the secret is protected, only its value can be overridden.
+    ///
+    /// - Remark: HTTP `PATCH /apps/{app-slug}/secrets/{secret-name}`.
+    /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/{secret-name}/patch(appSecretUpdate)`.
+    public func appSecretUpdate(
+        path: Operations.appSecretUpdate.Input.Path,
+        headers: Operations.appSecretUpdate.Input.Headers = .init(),
+        body: Operations.appSecretUpdate.Input.Body
+    ) async throws -> Operations.appSecretUpdate.Output {
+        try await appSecretUpdate(Operations.appSecretUpdate.Input(
+            path: path,
+            headers: headers,
+            body: body
+        ))
+    }
     /// Upsert an application secret
     ///
     /// Upsert an application secret. Requires administrator level privileges to the app.
     ///
     /// - Remark: HTTP `PUT /apps/{app-slug}/secrets/{secret-name}`.
     /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/{secret-name}/put(secretUpsert)`.
+    @available(*, deprecated)
     public func secretUpsert(
         path: Operations.secretUpsert.Input.Path,
         headers: Operations.secretUpsert.Input.Headers = .init(),
@@ -1907,6 +1980,7 @@ extension APIProtocol {
     ///
     /// - Remark: HTTP `GET /apps/{app-slug}/secrets/{secret-name}/value`.
     /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/{secret-name}/value/get(secretValueGet)`.
+    @available(*, deprecated)
     public func secretValueGet(
         path: Operations.secretValueGet.Input.Path,
         headers: Operations.secretValueGet.Input.Headers = .init()
@@ -2138,28 +2212,28 @@ extension APIProtocol {
     /// Get the secrets of an organization
     ///
     /// - Remark: HTTP `GET /organizations/{org-slug}/secrets`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/get(secretsList)`.
-    public func secretsList(
-        path: Operations.secretsList.Input.Path,
-        headers: Operations.secretsList.Input.Headers = .init()
-    ) async throws -> Operations.secretsList.Output {
-        try await secretsList(Operations.secretsList.Input(
+    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/get(organizationSecretsList)`.
+    public func organizationSecretsList(
+        path: Operations.organizationSecretsList.Input.Path,
+        headers: Operations.organizationSecretsList.Input.Headers = .init()
+    ) async throws -> Operations.organizationSecretsList.Output {
+        try await organizationSecretsList(Operations.organizationSecretsList.Input(
             path: path,
             headers: headers
         ))
     }
-    /// Create a new secret
+    /// Create a new organization secret
     ///
-    /// Create a new secret
+    /// Create a new organization secret
     ///
     /// - Remark: HTTP `POST /organizations/{org-slug}/secrets`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/post(secretCreate)`.
-    public func secretCreate(
-        path: Operations.secretCreate.Input.Path,
-        headers: Operations.secretCreate.Input.Headers = .init(),
-        body: Operations.secretCreate.Input.Body
-    ) async throws -> Operations.secretCreate.Output {
-        try await secretCreate(Operations.secretCreate.Input(
+    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/post(organizationSecretCreate)`.
+    public func organizationSecretCreate(
+        path: Operations.organizationSecretCreate.Input.Path,
+        headers: Operations.organizationSecretCreate.Input.Headers = .init(),
+        body: Operations.organizationSecretCreate.Input.Body
+    ) async throws -> Operations.organizationSecretCreate.Output {
+        try await organizationSecretCreate(Operations.organizationSecretCreate.Input(
             path: path,
             headers: headers,
             body: body
@@ -2170,12 +2244,12 @@ extension APIProtocol {
     /// Get a single secret by name, including the value if not protected
     ///
     /// - Remark: HTTP `GET /organizations/{org-slug}/secrets/{secret-name}`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/get(secretsShow)`.
-    public func secretsShow(
-        path: Operations.secretsShow.Input.Path,
-        headers: Operations.secretsShow.Input.Headers = .init()
-    ) async throws -> Operations.secretsShow.Output {
-        try await secretsShow(Operations.secretsShow.Input(
+    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/get(organizationSecretsShow)`.
+    public func organizationSecretsShow(
+        path: Operations.organizationSecretsShow.Input.Path,
+        headers: Operations.organizationSecretsShow.Input.Headers = .init()
+    ) async throws -> Operations.organizationSecretsShow.Output {
+        try await organizationSecretsShow(Operations.organizationSecretsShow.Input(
             path: path,
             headers: headers
         ))
@@ -2185,13 +2259,13 @@ extension APIProtocol {
     /// Update an existing secret. If the secret is protected, only its value can be overridden.
     ///
     /// - Remark: HTTP `PATCH /organizations/{org-slug}/secrets/{secret-name}`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/patch(secretUpdate)`.
-    public func secretUpdate(
-        path: Operations.secretUpdate.Input.Path,
-        headers: Operations.secretUpdate.Input.Headers = .init(),
-        body: Operations.secretUpdate.Input.Body
-    ) async throws -> Operations.secretUpdate.Output {
-        try await secretUpdate(Operations.secretUpdate.Input(
+    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/patch(organizationSecretUpdate)`.
+    public func organizationSecretUpdate(
+        path: Operations.organizationSecretUpdate.Input.Path,
+        headers: Operations.organizationSecretUpdate.Input.Headers = .init(),
+        body: Operations.organizationSecretUpdate.Input.Body
+    ) async throws -> Operations.organizationSecretUpdate.Output {
+        try await organizationSecretUpdate(Operations.organizationSecretUpdate.Input(
             path: path,
             headers: headers,
             body: body
@@ -2202,12 +2276,12 @@ extension APIProtocol {
     /// Delete a secret by name
     ///
     /// - Remark: HTTP `DELETE /organizations/{org-slug}/secrets/{secret-name}`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/delete(secretDeletemixin0)`.
-    public func secretDeletemixin0(
-        path: Operations.secretDeletemixin0.Input.Path,
-        headers: Operations.secretDeletemixin0.Input.Headers = .init()
-    ) async throws -> Operations.secretDeletemixin0.Output {
-        try await secretDeletemixin0(Operations.secretDeletemixin0.Input(
+    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/delete(organizationSecretDelete)`.
+    public func organizationSecretDelete(
+        path: Operations.organizationSecretDelete.Input.Path,
+        headers: Operations.organizationSecretDelete.Input.Headers = .init()
+    ) async throws -> Operations.organizationSecretDelete.Output {
+        try await organizationSecretDelete(Operations.organizationSecretDelete.Input(
             path: path,
             headers: headers
         ))
@@ -3624,130 +3698,6 @@ public enum Components {
                 case slug
                 case status
                 case title
-            }
-        }
-        /// - Remark: Generated from `#/components/schemas/v0.AppSecret`.
-        public struct v0_period_AppSecret: Codable, Hashable, Sendable {
-            /// Replace variable in inputs? https://devcenter.bitrise.io/en/references/steps-reference/step-inputs-reference.html#step-input-properties
-            ///
-            /// - Remark: Generated from `#/components/schemas/v0.AppSecret/expand_in_step_inputs`.
-            public var expand_in_step_inputs: Swift.Bool?
-            /// Expose for Pull Requests?
-            ///
-            /// - Remark: Generated from `#/components/schemas/v0.AppSecret/is_exposed_for_pull_requests`.
-            public var is_exposed_for_pull_requests: Swift.Bool?
-            /// Secret marked as protected?
-            ///
-            /// - Remark: Generated from `#/components/schemas/v0.AppSecret/is_protected`.
-            public var is_protected: Swift.Bool?
-            /// Name of the secret
-            ///
-            /// - Remark: Generated from `#/components/schemas/v0.AppSecret/name`.
-            public var name: Swift.String?
-            /// Scope of the secret (workspace or app or nothing)
-            ///
-            /// - Remark: Generated from `#/components/schemas/v0.AppSecret/scope`.
-            public var scope: Swift.String?
-            /// Creates a new `v0_period_AppSecret`.
-            ///
-            /// - Parameters:
-            ///   - expand_in_step_inputs: Replace variable in inputs? https://devcenter.bitrise.io/en/references/steps-reference/step-inputs-reference.html#step-input-properties
-            ///   - is_exposed_for_pull_requests: Expose for Pull Requests?
-            ///   - is_protected: Secret marked as protected?
-            ///   - name: Name of the secret
-            ///   - scope: Scope of the secret (workspace or app or nothing)
-            public init(
-                expand_in_step_inputs: Swift.Bool? = nil,
-                is_exposed_for_pull_requests: Swift.Bool? = nil,
-                is_protected: Swift.Bool? = nil,
-                name: Swift.String? = nil,
-                scope: Swift.String? = nil
-            ) {
-                self.expand_in_step_inputs = expand_in_step_inputs
-                self.is_exposed_for_pull_requests = is_exposed_for_pull_requests
-                self.is_protected = is_protected
-                self.name = name
-                self.scope = scope
-            }
-            public enum CodingKeys: String, CodingKey {
-                case expand_in_step_inputs
-                case is_exposed_for_pull_requests
-                case is_protected
-                case name
-                case scope
-            }
-        }
-        /// - Remark: Generated from `#/components/schemas/v0.AppSecretGetValueResponse`.
-        public struct v0_period_AppSecretGetValueResponse: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/v0.AppSecretGetValueResponse/value`.
-            public var value: Swift.String?
-            /// Creates a new `v0_period_AppSecretGetValueResponse`.
-            ///
-            /// - Parameters:
-            ///   - value:
-            public init(value: Swift.String? = nil) {
-                self.value = value
-            }
-            public enum CodingKeys: String, CodingKey {
-                case value
-            }
-        }
-        /// - Remark: Generated from `#/components/schemas/v0.AppSecretListResponse`.
-        public struct v0_period_AppSecretListResponse: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/v0.AppSecretListResponse/secrets`.
-            public var secrets: [Components.Schemas.v0_period_AppSecret]?
-            /// Creates a new `v0_period_AppSecretListResponse`.
-            ///
-            /// - Parameters:
-            ///   - secrets:
-            public init(secrets: [Components.Schemas.v0_period_AppSecret]? = nil) {
-                self.secrets = secrets
-            }
-            public enum CodingKeys: String, CodingKey {
-                case secrets
-            }
-        }
-        /// - Remark: Generated from `#/components/schemas/v0.AppSecretUpsertParams`.
-        public struct v0_period_AppSecretUpsertParams: Codable, Hashable, Sendable {
-            /// Replace variable in inputs? https://devcenter.bitrise.io/en/references/steps-reference/step-inputs-reference.html#step-input-properties
-            ///
-            /// - Remark: Generated from `#/components/schemas/v0.AppSecretUpsertParams/expand_in_step_inputs`.
-            public var expand_in_step_inputs: Swift.Bool?
-            /// Expose for Pull Requests?
-            ///
-            /// - Remark: Generated from `#/components/schemas/v0.AppSecretUpsertParams/is_exposed_for_pull_requests`.
-            public var is_exposed_for_pull_requests: Swift.Bool?
-            /// Secret marked as protected?
-            ///
-            /// - Remark: Generated from `#/components/schemas/v0.AppSecretUpsertParams/is_protected`.
-            public var is_protected: Swift.Bool?
-            /// Value of the secret
-            ///
-            /// - Remark: Generated from `#/components/schemas/v0.AppSecretUpsertParams/value`.
-            public var value: Swift.String?
-            /// Creates a new `v0_period_AppSecretUpsertParams`.
-            ///
-            /// - Parameters:
-            ///   - expand_in_step_inputs: Replace variable in inputs? https://devcenter.bitrise.io/en/references/steps-reference/step-inputs-reference.html#step-input-properties
-            ///   - is_exposed_for_pull_requests: Expose for Pull Requests?
-            ///   - is_protected: Secret marked as protected?
-            ///   - value: Value of the secret
-            public init(
-                expand_in_step_inputs: Swift.Bool? = nil,
-                is_exposed_for_pull_requests: Swift.Bool? = nil,
-                is_protected: Swift.Bool? = nil,
-                value: Swift.String? = nil
-            ) {
-                self.expand_in_step_inputs = expand_in_step_inputs
-                self.is_exposed_for_pull_requests = is_exposed_for_pull_requests
-                self.is_protected = is_protected
-                self.value = value
-            }
-            public enum CodingKeys: String, CodingKey {
-                case expand_in_step_inputs
-                case is_exposed_for_pull_requests
-                case is_protected
-                case value
             }
         }
         /// - Remark: Generated from `#/components/schemas/v0.AppShowResponseModel`.
@@ -6829,6 +6779,10 @@ public enum Components {
             public var triggered_at: Swift.String?
             /// - Remark: Generated from `#/components/schemas/v0.PipelineShowResponseModel/triggered_by`.
             public var triggered_by: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/v0.PipelineShowResponseModel/type`.
+            public var _type: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/v0.PipelineShowResponseModel/workflows`.
+            public var workflows: [Components.Schemas.v0_period_PipelineShowWorkflowResponseModel]?
             /// Creates a new `v0_period_PipelineShowResponseModel`.
             ///
             /// - Parameters:
@@ -6849,6 +6803,8 @@ public enum Components {
             ///   - trigger_params:
             ///   - triggered_at:
             ///   - triggered_by:
+            ///   - _type:
+            ///   - workflows:
             public init(
                 abort_reason: Swift.String? = nil,
                 app: Components.Schemas.v0_period_PipelineShowAppResponseModel? = nil,
@@ -6866,7 +6822,9 @@ public enum Components {
                 status: Components.Schemas.v0_period_PipelineShowResponseModel.statusPayload? = nil,
                 trigger_params: Components.Schemas.v0_period_PipelineShowTriggerParamsResponseModel? = nil,
                 triggered_at: Swift.String? = nil,
-                triggered_by: Swift.String? = nil
+                triggered_by: Swift.String? = nil,
+                _type: Swift.String? = nil,
+                workflows: [Components.Schemas.v0_period_PipelineShowWorkflowResponseModel]? = nil
             ) {
                 self.abort_reason = abort_reason
                 self.app = app
@@ -6885,6 +6843,8 @@ public enum Components {
                 self.trigger_params = trigger_params
                 self.triggered_at = triggered_at
                 self.triggered_by = triggered_by
+                self._type = _type
+                self.workflows = workflows
             }
             public enum CodingKeys: String, CodingKey {
                 case abort_reason
@@ -6904,6 +6864,8 @@ public enum Components {
                 case trigger_params
                 case triggered_at
                 case triggered_by
+                case _type = "type"
+                case workflows
             }
         }
         /// - Remark: Generated from `#/components/schemas/v0.PipelineShowStageResponseModel`.
@@ -7034,6 +6996,8 @@ public enum Components {
         public struct v0_period_PipelineShowWorkflowResponseModel: Codable, Hashable, Sendable {
             /// - Remark: Generated from `#/components/schemas/v0.PipelineShowWorkflowResponseModel/credit_cost`.
             public var credit_cost: OpenAPIRuntime.OpenAPIObjectContainer?
+            /// - Remark: Generated from `#/components/schemas/v0.PipelineShowWorkflowResponseModel/depends_on`.
+            public var depends_on: [Swift.String]?
             /// - Remark: Generated from `#/components/schemas/v0.PipelineShowWorkflowResponseModel/external_id`.
             public var external_id: Swift.String?
             /// - Remark: Generated from `#/components/schemas/v0.PipelineShowWorkflowResponseModel/finished_at`.
@@ -7052,6 +7016,7 @@ public enum Components {
             ///
             /// - Parameters:
             ///   - credit_cost:
+            ///   - depends_on:
             ///   - external_id:
             ///   - finished_at:
             ///   - id:
@@ -7061,6 +7026,7 @@ public enum Components {
             ///   - status:
             public init(
                 credit_cost: OpenAPIRuntime.OpenAPIObjectContainer? = nil,
+                depends_on: [Swift.String]? = nil,
                 external_id: Swift.String? = nil,
                 finished_at: Swift.String? = nil,
                 id: Swift.String? = nil,
@@ -7070,6 +7036,7 @@ public enum Components {
                 status: Swift.String? = nil
             ) {
                 self.credit_cost = credit_cost
+                self.depends_on = depends_on
                 self.external_id = external_id
                 self.finished_at = finished_at
                 self.id = id
@@ -7080,6 +7047,7 @@ public enum Components {
             }
             public enum CodingKeys: String, CodingKey {
                 case credit_cost
+                case depends_on
                 case external_id
                 case finished_at
                 case id
@@ -32788,13 +32756,28 @@ public enum Operations {
             public struct Ok: Sendable, Hashable {
                 /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/GET/responses/200/content`.
                 @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/GET/responses/200/content/json`.
+                    public struct jsonPayload: Codable, Hashable, Sendable {
+                        /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/GET/responses/200/content/json/secrets`.
+                        public var secrets: [Components.Schemas.service_period_dto_period_CreatedSecretNoValue]?
+                        /// Creates a new `jsonPayload`.
+                        ///
+                        /// - Parameters:
+                        ///   - secrets:
+                        public init(secrets: [Components.Schemas.service_period_dto_period_CreatedSecretNoValue]? = nil) {
+                            self.secrets = secrets
+                        }
+                        public enum CodingKeys: String, CodingKey {
+                            case secrets
+                        }
+                    }
                     /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/GET/responses/200/content/application\/json`.
-                    case json(Components.Schemas.v0_period_AppSecretListResponse)
+                    case json(Operations.secretList.Output.Ok.Body.jsonPayload)
                     /// The associated value of the enum case if `self` is `.json`.
                     ///
                     /// - Throws: An error if `self` is not `.json`.
                     /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.v0_period_AppSecretListResponse {
+                    public var json: Operations.secretList.Output.Ok.Body.jsonPayload {
                         get throws {
                             switch self {
                             case let .json(body):
@@ -32813,7 +32796,7 @@ public enum Operations {
                     self.body = body
                 }
             }
-            /// OK
+            /// Ok
             ///
             /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/get(secretList)/responses/200`.
             ///
@@ -33071,6 +33054,1057 @@ public enum Operations {
             }
         }
     }
+    /// Create a new app secret
+    ///
+    /// Create a new app secret
+    ///
+    /// - Remark: HTTP `POST /apps/{app-slug}/secrets`.
+    /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/post(appSecretCreate)`.
+    public enum appSecretCreate {
+        public static let id: Swift.String = "appSecretCreate"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/POST/path`.
+            public struct Path: Sendable, Hashable {
+                /// app slug
+                ///
+                /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/POST/path/app-slug`.
+                public var app_hyphen_slug: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - app_hyphen_slug: app slug
+                public init(app_hyphen_slug: Swift.String) {
+                    self.app_hyphen_slug = app_hyphen_slug
+                }
+            }
+            public var path: Operations.appSecretCreate.Input.Path
+            /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/POST/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.appSecretCreate.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.appSecretCreate.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.appSecretCreate.Input.Headers
+            /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/POST/requestBody`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/POST/requestBody/json`.
+                public struct jsonPayload: Codable, Hashable, Sendable {
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/POST/requestBody/json/expand_in_step_inputs`.
+                    public var expand_in_step_inputs: Swift.Bool?
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/POST/requestBody/json/is_exposed_for_pull_requests`.
+                    public var is_exposed_for_pull_requests: Swift.Bool?
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/POST/requestBody/json/is_protected`.
+                    public var is_protected: Swift.Bool?
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/POST/requestBody/json/name`.
+                    public var name: Swift.String
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/POST/requestBody/json/value`.
+                    public var value: Swift.String
+                    /// Creates a new `jsonPayload`.
+                    ///
+                    /// - Parameters:
+                    ///   - expand_in_step_inputs:
+                    ///   - is_exposed_for_pull_requests:
+                    ///   - is_protected:
+                    ///   - name:
+                    ///   - value:
+                    public init(
+                        expand_in_step_inputs: Swift.Bool? = nil,
+                        is_exposed_for_pull_requests: Swift.Bool? = nil,
+                        is_protected: Swift.Bool? = nil,
+                        name: Swift.String,
+                        value: Swift.String
+                    ) {
+                        self.expand_in_step_inputs = expand_in_step_inputs
+                        self.is_exposed_for_pull_requests = is_exposed_for_pull_requests
+                        self.is_protected = is_protected
+                        self.name = name
+                        self.value = value
+                    }
+                    public enum CodingKeys: String, CodingKey {
+                        case expand_in_step_inputs
+                        case is_exposed_for_pull_requests
+                        case is_protected
+                        case name
+                        case value
+                    }
+                }
+                /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/POST/requestBody/content/application\/json`.
+                case json(Operations.appSecretCreate.Input.Body.jsonPayload)
+            }
+            public var body: Operations.appSecretCreate.Input.Body
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            ///   - body:
+            public init(
+                path: Operations.appSecretCreate.Input.Path,
+                headers: Operations.appSecretCreate.Input.Headers = .init(),
+                body: Operations.appSecretCreate.Input.Body
+            ) {
+                self.path = path
+                self.headers = headers
+                self.body = body
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            public struct Created: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/POST/responses/201/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/POST/responses/201/content/application\/json`.
+                    case json(Components.Schemas.service_period_dto_period_CreatedSecretNoValue)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.service_period_dto_period_CreatedSecretNoValue {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.appSecretCreate.Output.Created.Body
+                /// Creates a new `Created`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.appSecretCreate.Output.Created.Body) {
+                    self.body = body
+                }
+            }
+            /// Created
+            ///
+            /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/post(appSecretCreate)/responses/201`.
+            ///
+            /// HTTP response code: `201 created`.
+            case created(Operations.appSecretCreate.Output.Created)
+            /// The associated value of the enum case if `self` is `.created`.
+            ///
+            /// - Throws: An error if `self` is not `.created`.
+            /// - SeeAlso: `.created`.
+            public var created: Operations.appSecretCreate.Output.Created {
+                get throws {
+                    switch self {
+                    case let .created(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "created",
+                            response: self
+                        )
+                    }
+                }
+            }
+            public struct Unauthorized: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/POST/responses/401/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/POST/responses/401/content/application\/json`.
+                    case json(Components.Schemas.service_period_ProxyErrorRespModel)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.service_period_ProxyErrorRespModel {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.appSecretCreate.Output.Unauthorized.Body
+                /// Creates a new `Unauthorized`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.appSecretCreate.Output.Unauthorized.Body) {
+                    self.body = body
+                }
+            }
+            /// Unauthorized
+            ///
+            /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/post(appSecretCreate)/responses/401`.
+            ///
+            /// HTTP response code: `401 unauthorized`.
+            case unauthorized(Operations.appSecretCreate.Output.Unauthorized)
+            /// The associated value of the enum case if `self` is `.unauthorized`.
+            ///
+            /// - Throws: An error if `self` is not `.unauthorized`.
+            /// - SeeAlso: `.unauthorized`.
+            public var unauthorized: Operations.appSecretCreate.Output.Unauthorized {
+                get throws {
+                    switch self {
+                    case let .unauthorized(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "unauthorized",
+                            response: self
+                        )
+                    }
+                }
+            }
+            public struct Forbidden: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/POST/responses/403/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/POST/responses/403/content/application\/json`.
+                    case json(Components.Schemas.service_period_ProxyErrorRespModel)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.service_period_ProxyErrorRespModel {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.appSecretCreate.Output.Forbidden.Body
+                /// Creates a new `Forbidden`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.appSecretCreate.Output.Forbidden.Body) {
+                    self.body = body
+                }
+            }
+            /// Forbidden
+            ///
+            /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/post(appSecretCreate)/responses/403`.
+            ///
+            /// HTTP response code: `403 forbidden`.
+            case forbidden(Operations.appSecretCreate.Output.Forbidden)
+            /// The associated value of the enum case if `self` is `.forbidden`.
+            ///
+            /// - Throws: An error if `self` is not `.forbidden`.
+            /// - SeeAlso: `.forbidden`.
+            public var forbidden: Operations.appSecretCreate.Output.Forbidden {
+                get throws {
+                    switch self {
+                    case let .forbidden(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "forbidden",
+                            response: self
+                        )
+                    }
+                }
+            }
+            public struct NotFound: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/POST/responses/404/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/POST/responses/404/content/application\/json`.
+                    case json(Components.Schemas.service_period_ProxyErrorRespModel)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.service_period_ProxyErrorRespModel {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.appSecretCreate.Output.NotFound.Body
+                /// Creates a new `NotFound`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.appSecretCreate.Output.NotFound.Body) {
+                    self.body = body
+                }
+            }
+            /// Not found
+            ///
+            /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/post(appSecretCreate)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Operations.appSecretCreate.Output.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Operations.appSecretCreate.Output.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json
+                ]
+            }
+        }
+    }
+    /// Get a single app secret by name
+    ///
+    /// Get a single app secret by name, including the value if not protected
+    ///
+    /// - Remark: HTTP `GET /apps/{app-slug}/secrets/{secret-name}`.
+    /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/{secret-name}/get(appSecretsShow)`.
+    public enum appSecretsShow {
+        public static let id: Swift.String = "appSecretsShow"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/GET/path`.
+            public struct Path: Sendable, Hashable {
+                /// app slug
+                ///
+                /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/GET/path/app-slug`.
+                public var app_hyphen_slug: Swift.String
+                /// secret name
+                ///
+                /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/GET/path/secret-name`.
+                public var secret_hyphen_name: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - app_hyphen_slug: app slug
+                ///   - secret_hyphen_name: secret name
+                public init(
+                    app_hyphen_slug: Swift.String,
+                    secret_hyphen_name: Swift.String
+                ) {
+                    self.app_hyphen_slug = app_hyphen_slug
+                    self.secret_hyphen_name = secret_hyphen_name
+                }
+            }
+            public var path: Operations.appSecretsShow.Input.Path
+            /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/GET/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.appSecretsShow.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.appSecretsShow.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.appSecretsShow.Input.Headers
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            public init(
+                path: Operations.appSecretsShow.Input.Path,
+                headers: Operations.appSecretsShow.Input.Headers = .init()
+            ) {
+                self.path = path
+                self.headers = headers
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            public struct Ok: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/GET/responses/200/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/GET/responses/200/content/json`.
+                    public struct jsonPayload: Codable, Hashable, Sendable {
+                        /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/GET/responses/200/content/json/value1`.
+                        public var value1: Components.Schemas.service_period_dto_period_CreatedSecretNoValue
+                        /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/GET/responses/200/content/json/value2`.
+                        public struct Value2Payload: Codable, Hashable, Sendable {
+                            /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/GET/responses/200/content/json/value2/value`.
+                            public var value: Swift.String?
+                            /// Creates a new `Value2Payload`.
+                            ///
+                            /// - Parameters:
+                            ///   - value:
+                            public init(value: Swift.String? = nil) {
+                                self.value = value
+                            }
+                            public enum CodingKeys: String, CodingKey {
+                                case value
+                            }
+                        }
+                        /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/GET/responses/200/content/json/value2`.
+                        public var value2: Operations.appSecretsShow.Output.Ok.Body.jsonPayload.Value2Payload
+                        /// Creates a new `jsonPayload`.
+                        ///
+                        /// - Parameters:
+                        ///   - value1:
+                        ///   - value2:
+                        public init(
+                            value1: Components.Schemas.service_period_dto_period_CreatedSecretNoValue,
+                            value2: Operations.appSecretsShow.Output.Ok.Body.jsonPayload.Value2Payload
+                        ) {
+                            self.value1 = value1
+                            self.value2 = value2
+                        }
+                        public init(from decoder: any Decoder) throws {
+                            value1 = try .init(from: decoder)
+                            value2 = try .init(from: decoder)
+                        }
+                        public func encode(to encoder: any Encoder) throws {
+                            try value1.encode(to: encoder)
+                            try value2.encode(to: encoder)
+                        }
+                    }
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/GET/responses/200/content/application\/json`.
+                    case json(Operations.appSecretsShow.Output.Ok.Body.jsonPayload)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Operations.appSecretsShow.Output.Ok.Body.jsonPayload {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.appSecretsShow.Output.Ok.Body
+                /// Creates a new `Ok`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.appSecretsShow.Output.Ok.Body) {
+                    self.body = body
+                }
+            }
+            /// Ok
+            ///
+            /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/{secret-name}/get(appSecretsShow)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Operations.appSecretsShow.Output.Ok)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Operations.appSecretsShow.Output.Ok {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            public struct Unauthorized: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/GET/responses/401/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/GET/responses/401/content/application\/json`.
+                    case json(Components.Schemas.service_period_ProxyErrorRespModel)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.service_period_ProxyErrorRespModel {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.appSecretsShow.Output.Unauthorized.Body
+                /// Creates a new `Unauthorized`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.appSecretsShow.Output.Unauthorized.Body) {
+                    self.body = body
+                }
+            }
+            /// Unauthorized
+            ///
+            /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/{secret-name}/get(appSecretsShow)/responses/401`.
+            ///
+            /// HTTP response code: `401 unauthorized`.
+            case unauthorized(Operations.appSecretsShow.Output.Unauthorized)
+            /// The associated value of the enum case if `self` is `.unauthorized`.
+            ///
+            /// - Throws: An error if `self` is not `.unauthorized`.
+            /// - SeeAlso: `.unauthorized`.
+            public var unauthorized: Operations.appSecretsShow.Output.Unauthorized {
+                get throws {
+                    switch self {
+                    case let .unauthorized(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "unauthorized",
+                            response: self
+                        )
+                    }
+                }
+            }
+            public struct Forbidden: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/GET/responses/403/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/GET/responses/403/content/application\/json`.
+                    case json(Components.Schemas.service_period_ProxyErrorRespModel)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.service_period_ProxyErrorRespModel {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.appSecretsShow.Output.Forbidden.Body
+                /// Creates a new `Forbidden`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.appSecretsShow.Output.Forbidden.Body) {
+                    self.body = body
+                }
+            }
+            /// Forbidden
+            ///
+            /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/{secret-name}/get(appSecretsShow)/responses/403`.
+            ///
+            /// HTTP response code: `403 forbidden`.
+            case forbidden(Operations.appSecretsShow.Output.Forbidden)
+            /// The associated value of the enum case if `self` is `.forbidden`.
+            ///
+            /// - Throws: An error if `self` is not `.forbidden`.
+            /// - SeeAlso: `.forbidden`.
+            public var forbidden: Operations.appSecretsShow.Output.Forbidden {
+                get throws {
+                    switch self {
+                    case let .forbidden(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "forbidden",
+                            response: self
+                        )
+                    }
+                }
+            }
+            public struct NotFound: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/GET/responses/404/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/GET/responses/404/content/application\/json`.
+                    case json(Components.Schemas.service_period_ProxyErrorRespModel)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.service_period_ProxyErrorRespModel {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.appSecretsShow.Output.NotFound.Body
+                /// Creates a new `NotFound`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.appSecretsShow.Output.NotFound.Body) {
+                    self.body = body
+                }
+            }
+            /// Not found
+            ///
+            /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/{secret-name}/get(appSecretsShow)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Operations.appSecretsShow.Output.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Operations.appSecretsShow.Output.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json
+                ]
+            }
+        }
+    }
+    /// Update an existing app secret
+    ///
+    /// Update an existing app secret. If the secret is protected, only its value can be overridden.
+    ///
+    /// - Remark: HTTP `PATCH /apps/{app-slug}/secrets/{secret-name}`.
+    /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/{secret-name}/patch(appSecretUpdate)`.
+    public enum appSecretUpdate {
+        public static let id: Swift.String = "appSecretUpdate"
+        public struct Input: Sendable, Hashable {
+            /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PATCH/path`.
+            public struct Path: Sendable, Hashable {
+                /// app slug
+                ///
+                /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PATCH/path/app-slug`.
+                public var app_hyphen_slug: Swift.String
+                /// secret name
+                ///
+                /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PATCH/path/secret-name`.
+                public var secret_hyphen_name: Swift.String
+                /// Creates a new `Path`.
+                ///
+                /// - Parameters:
+                ///   - app_hyphen_slug: app slug
+                ///   - secret_hyphen_name: secret name
+                public init(
+                    app_hyphen_slug: Swift.String,
+                    secret_hyphen_name: Swift.String
+                ) {
+                    self.app_hyphen_slug = app_hyphen_slug
+                    self.secret_hyphen_name = secret_hyphen_name
+                }
+            }
+            public var path: Operations.appSecretUpdate.Input.Path
+            /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PATCH/header`.
+            public struct Headers: Sendable, Hashable {
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.appSecretUpdate.AcceptableContentType>]
+                /// Creates a new `Headers`.
+                ///
+                /// - Parameters:
+                ///   - accept:
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.appSecretUpdate.AcceptableContentType>] = .defaultValues()) {
+                    self.accept = accept
+                }
+            }
+            public var headers: Operations.appSecretUpdate.Input.Headers
+            /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PATCH/requestBody`.
+            @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PATCH/requestBody/json`.
+                public struct jsonPayload: Codable, Hashable, Sendable {
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PATCH/requestBody/json/expand_in_step_inputs`.
+                    public var expand_in_step_inputs: Swift.Bool?
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PATCH/requestBody/json/is_exposed_for_pull_requests`.
+                    public var is_exposed_for_pull_requests: Swift.Bool?
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PATCH/requestBody/json/is_protected`.
+                    public var is_protected: Swift.Bool?
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PATCH/requestBody/json/value`.
+                    public var value: Swift.String?
+                    /// Creates a new `jsonPayload`.
+                    ///
+                    /// - Parameters:
+                    ///   - expand_in_step_inputs:
+                    ///   - is_exposed_for_pull_requests:
+                    ///   - is_protected:
+                    ///   - value:
+                    public init(
+                        expand_in_step_inputs: Swift.Bool? = nil,
+                        is_exposed_for_pull_requests: Swift.Bool? = nil,
+                        is_protected: Swift.Bool? = nil,
+                        value: Swift.String? = nil
+                    ) {
+                        self.expand_in_step_inputs = expand_in_step_inputs
+                        self.is_exposed_for_pull_requests = is_exposed_for_pull_requests
+                        self.is_protected = is_protected
+                        self.value = value
+                    }
+                    public enum CodingKeys: String, CodingKey {
+                        case expand_in_step_inputs
+                        case is_exposed_for_pull_requests
+                        case is_protected
+                        case value
+                    }
+                }
+                /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PATCH/requestBody/content/application\/json`.
+                case json(Operations.appSecretUpdate.Input.Body.jsonPayload)
+            }
+            public var body: Operations.appSecretUpdate.Input.Body
+            /// Creates a new `Input`.
+            ///
+            /// - Parameters:
+            ///   - path:
+            ///   - headers:
+            ///   - body:
+            public init(
+                path: Operations.appSecretUpdate.Input.Path,
+                headers: Operations.appSecretUpdate.Input.Headers = .init(),
+                body: Operations.appSecretUpdate.Input.Body
+            ) {
+                self.path = path
+                self.headers = headers
+                self.body = body
+            }
+        }
+        @frozen public enum Output: Sendable, Hashable {
+            public struct Ok: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PATCH/responses/200/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PATCH/responses/200/content/json`.
+                    public struct jsonPayload: Codable, Hashable, Sendable {
+                        /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PATCH/responses/200/content/json/value1`.
+                        public var value1: Components.Schemas.service_period_dto_period_CreatedSecretNoValue
+                        /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PATCH/responses/200/content/json/value2`.
+                        public struct Value2Payload: Codable, Hashable, Sendable {
+                            /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PATCH/responses/200/content/json/value2/value`.
+                            public var value: Swift.String?
+                            /// Creates a new `Value2Payload`.
+                            ///
+                            /// - Parameters:
+                            ///   - value:
+                            public init(value: Swift.String? = nil) {
+                                self.value = value
+                            }
+                            public enum CodingKeys: String, CodingKey {
+                                case value
+                            }
+                        }
+                        /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PATCH/responses/200/content/json/value2`.
+                        public var value2: Operations.appSecretUpdate.Output.Ok.Body.jsonPayload.Value2Payload
+                        /// Creates a new `jsonPayload`.
+                        ///
+                        /// - Parameters:
+                        ///   - value1:
+                        ///   - value2:
+                        public init(
+                            value1: Components.Schemas.service_period_dto_period_CreatedSecretNoValue,
+                            value2: Operations.appSecretUpdate.Output.Ok.Body.jsonPayload.Value2Payload
+                        ) {
+                            self.value1 = value1
+                            self.value2 = value2
+                        }
+                        public init(from decoder: any Decoder) throws {
+                            value1 = try .init(from: decoder)
+                            value2 = try .init(from: decoder)
+                        }
+                        public func encode(to encoder: any Encoder) throws {
+                            try value1.encode(to: encoder)
+                            try value2.encode(to: encoder)
+                        }
+                    }
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PATCH/responses/200/content/application\/json`.
+                    case json(Operations.appSecretUpdate.Output.Ok.Body.jsonPayload)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Operations.appSecretUpdate.Output.Ok.Body.jsonPayload {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.appSecretUpdate.Output.Ok.Body
+                /// Creates a new `Ok`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.appSecretUpdate.Output.Ok.Body) {
+                    self.body = body
+                }
+            }
+            /// Ok
+            ///
+            /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/{secret-name}/patch(appSecretUpdate)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Operations.appSecretUpdate.Output.Ok)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Operations.appSecretUpdate.Output.Ok {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
+            public struct Unauthorized: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PATCH/responses/401/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PATCH/responses/401/content/application\/json`.
+                    case json(Components.Schemas.service_period_ProxyErrorRespModel)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.service_period_ProxyErrorRespModel {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.appSecretUpdate.Output.Unauthorized.Body
+                /// Creates a new `Unauthorized`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.appSecretUpdate.Output.Unauthorized.Body) {
+                    self.body = body
+                }
+            }
+            /// Unauthorized
+            ///
+            /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/{secret-name}/patch(appSecretUpdate)/responses/401`.
+            ///
+            /// HTTP response code: `401 unauthorized`.
+            case unauthorized(Operations.appSecretUpdate.Output.Unauthorized)
+            /// The associated value of the enum case if `self` is `.unauthorized`.
+            ///
+            /// - Throws: An error if `self` is not `.unauthorized`.
+            /// - SeeAlso: `.unauthorized`.
+            public var unauthorized: Operations.appSecretUpdate.Output.Unauthorized {
+                get throws {
+                    switch self {
+                    case let .unauthorized(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "unauthorized",
+                            response: self
+                        )
+                    }
+                }
+            }
+            public struct Forbidden: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PATCH/responses/403/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PATCH/responses/403/content/application\/json`.
+                    case json(Components.Schemas.service_period_ProxyErrorRespModel)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.service_period_ProxyErrorRespModel {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.appSecretUpdate.Output.Forbidden.Body
+                /// Creates a new `Forbidden`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.appSecretUpdate.Output.Forbidden.Body) {
+                    self.body = body
+                }
+            }
+            /// Forbidden
+            ///
+            /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/{secret-name}/patch(appSecretUpdate)/responses/403`.
+            ///
+            /// HTTP response code: `403 forbidden`.
+            case forbidden(Operations.appSecretUpdate.Output.Forbidden)
+            /// The associated value of the enum case if `self` is `.forbidden`.
+            ///
+            /// - Throws: An error if `self` is not `.forbidden`.
+            /// - SeeAlso: `.forbidden`.
+            public var forbidden: Operations.appSecretUpdate.Output.Forbidden {
+                get throws {
+                    switch self {
+                    case let .forbidden(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "forbidden",
+                            response: self
+                        )
+                    }
+                }
+            }
+            public struct NotFound: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PATCH/responses/404/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PATCH/responses/404/content/application\/json`.
+                    case json(Components.Schemas.service_period_ProxyErrorRespModel)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.service_period_ProxyErrorRespModel {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.appSecretUpdate.Output.NotFound.Body
+                /// Creates a new `NotFound`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.appSecretUpdate.Output.NotFound.Body) {
+                    self.body = body
+                }
+            }
+            /// Not found
+            ///
+            /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/{secret-name}/patch(appSecretUpdate)/responses/404`.
+            ///
+            /// HTTP response code: `404 notFound`.
+            case notFound(Operations.appSecretUpdate.Output.NotFound)
+            /// The associated value of the enum case if `self` is `.notFound`.
+            ///
+            /// - Throws: An error if `self` is not `.notFound`.
+            /// - SeeAlso: `.notFound`.
+            public var notFound: Operations.appSecretUpdate.Output.NotFound {
+                get throws {
+                    switch self {
+                    case let .notFound(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "notFound",
+                            response: self
+                        )
+                    }
+                }
+            }
+            /// Undocumented response.
+            ///
+            /// A response with a code that is not documented in the OpenAPI document.
+            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
+        }
+        @frozen public enum AcceptableContentType: AcceptableProtocol {
+            case json
+            case other(Swift.String)
+            public init?(rawValue: Swift.String) {
+                switch rawValue.lowercased() {
+                case "application/json":
+                    self = .json
+                default:
+                    self = .other(rawValue)
+                }
+            }
+            public var rawValue: Swift.String {
+                switch self {
+                case let .other(string):
+                    return string
+                case .json:
+                    return "application/json"
+                }
+            }
+            public static var allCases: [Self] {
+                [
+                    .json
+                ]
+            }
+        }
+    }
     /// Upsert an application secret
     ///
     /// Upsert an application secret. Requires administrator level privileges to the app.
@@ -33118,8 +34152,51 @@ public enum Operations {
             public var headers: Operations.secretUpsert.Input.Headers
             /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PUT/requestBody`.
             @frozen public enum Body: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PUT/requestBody/json`.
+                public struct jsonPayload: Codable, Hashable, Sendable {
+                    /// Replace variable in inputs? https://devcenter.bitrise.io/en/references/steps-reference/step-inputs-reference.html#step-input-properties
+                    ///
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PUT/requestBody/json/expand_in_step_inputs`.
+                    public var expand_in_step_inputs: Swift.Bool?
+                    /// Expose for Pull Requests?
+                    ///
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PUT/requestBody/json/is_exposed_for_pull_requests`.
+                    public var is_exposed_for_pull_requests: Swift.Bool?
+                    /// Secret marked as protected?
+                    ///
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PUT/requestBody/json/is_protected`.
+                    public var is_protected: Swift.Bool?
+                    /// Value of the secret
+                    ///
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PUT/requestBody/json/value`.
+                    public var value: Swift.String?
+                    /// Creates a new `jsonPayload`.
+                    ///
+                    /// - Parameters:
+                    ///   - expand_in_step_inputs: Replace variable in inputs? https://devcenter.bitrise.io/en/references/steps-reference/step-inputs-reference.html#step-input-properties
+                    ///   - is_exposed_for_pull_requests: Expose for Pull Requests?
+                    ///   - is_protected: Secret marked as protected?
+                    ///   - value: Value of the secret
+                    public init(
+                        expand_in_step_inputs: Swift.Bool? = nil,
+                        is_exposed_for_pull_requests: Swift.Bool? = nil,
+                        is_protected: Swift.Bool? = nil,
+                        value: Swift.String? = nil
+                    ) {
+                        self.expand_in_step_inputs = expand_in_step_inputs
+                        self.is_exposed_for_pull_requests = is_exposed_for_pull_requests
+                        self.is_protected = is_protected
+                        self.value = value
+                    }
+                    public enum CodingKeys: String, CodingKey {
+                        case expand_in_step_inputs
+                        case is_exposed_for_pull_requests
+                        case is_protected
+                        case value
+                    }
+                }
                 /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/PUT/requestBody/content/application\/json`.
-                case json(Components.Schemas.v0_period_AppSecretUpsertParams)
+                case json(Operations.secretUpsert.Input.Body.jsonPayload)
             }
             public var body: Operations.secretUpsert.Input.Body
             /// Creates a new `Input`.
@@ -33811,13 +34888,28 @@ public enum Operations {
             public struct Ok: Sendable, Hashable {
                 /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/value/GET/responses/200/content`.
                 @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/value/GET/responses/200/content/json`.
+                    public struct jsonPayload: Codable, Hashable, Sendable {
+                        /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/value/GET/responses/200/content/json/value`.
+                        public var value: Swift.String?
+                        /// Creates a new `jsonPayload`.
+                        ///
+                        /// - Parameters:
+                        ///   - value:
+                        public init(value: Swift.String? = nil) {
+                            self.value = value
+                        }
+                        public enum CodingKeys: String, CodingKey {
+                            case value
+                        }
+                    }
                     /// - Remark: Generated from `#/paths/apps/{app-slug}/secrets/{secret-name}/value/GET/responses/200/content/application\/json`.
-                    case json(Components.Schemas.v0_period_AppSecretGetValueResponse)
+                    case json(Operations.secretValueGet.Output.Ok.Body.jsonPayload)
                     /// The associated value of the enum case if `self` is `.json`.
                     ///
                     /// - Throws: An error if `self` is not `.json`.
                     /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.v0_period_AppSecretGetValueResponse {
+                    public var json: Operations.secretValueGet.Output.Ok.Body.jsonPayload {
                         get throws {
                             switch self {
                             case let .json(body):
@@ -38689,9 +39781,9 @@ public enum Operations {
     /// Get the secrets of an organization
     ///
     /// - Remark: HTTP `GET /organizations/{org-slug}/secrets`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/get(secretsList)`.
-    public enum secretsList {
-        public static let id: Swift.String = "secretsList"
+    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/get(organizationSecretsList)`.
+    public enum organizationSecretsList {
+        public static let id: Swift.String = "organizationSecretsList"
         public struct Input: Sendable, Hashable {
             /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/GET/path`.
             public struct Path: Sendable, Hashable {
@@ -38707,27 +39799,27 @@ public enum Operations {
                     self.org_hyphen_slug = org_hyphen_slug
                 }
             }
-            public var path: Operations.secretsList.Input.Path
+            public var path: Operations.organizationSecretsList.Input.Path
             /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/GET/header`.
             public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.secretsList.AcceptableContentType>]
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.organizationSecretsList.AcceptableContentType>]
                 /// Creates a new `Headers`.
                 ///
                 /// - Parameters:
                 ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.secretsList.AcceptableContentType>] = .defaultValues()) {
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.organizationSecretsList.AcceptableContentType>] = .defaultValues()) {
                     self.accept = accept
                 }
             }
-            public var headers: Operations.secretsList.Input.Headers
+            public var headers: Operations.organizationSecretsList.Input.Headers
             /// Creates a new `Input`.
             ///
             /// - Parameters:
             ///   - path:
             ///   - headers:
             public init(
-                path: Operations.secretsList.Input.Path,
-                headers: Operations.secretsList.Input.Headers = .init()
+                path: Operations.organizationSecretsList.Input.Path,
+                headers: Operations.organizationSecretsList.Input.Headers = .init()
             ) {
                 self.path = path
                 self.headers = headers
@@ -38753,12 +39845,12 @@ public enum Operations {
                         }
                     }
                     /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/GET/responses/200/content/application\/json`.
-                    case json(Operations.secretsList.Output.Ok.Body.jsonPayload)
+                    case json(Operations.organizationSecretsList.Output.Ok.Body.jsonPayload)
                     /// The associated value of the enum case if `self` is `.json`.
                     ///
                     /// - Throws: An error if `self` is not `.json`.
                     /// - SeeAlso: `.json`.
-                    public var json: Operations.secretsList.Output.Ok.Body.jsonPayload {
+                    public var json: Operations.organizationSecretsList.Output.Ok.Body.jsonPayload {
                         get throws {
                             switch self {
                             case let .json(body):
@@ -38768,26 +39860,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.secretsList.Output.Ok.Body
+                public var body: Operations.organizationSecretsList.Output.Ok.Body
                 /// Creates a new `Ok`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.secretsList.Output.Ok.Body) {
+                public init(body: Operations.organizationSecretsList.Output.Ok.Body) {
                     self.body = body
                 }
             }
             /// Ok
             ///
-            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/get(secretsList)/responses/200`.
+            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/get(organizationSecretsList)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Operations.secretsList.Output.Ok)
+            case ok(Operations.organizationSecretsList.Output.Ok)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Operations.secretsList.Output.Ok {
+            public var ok: Operations.organizationSecretsList.Output.Ok {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -38819,26 +39911,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.secretsList.Output.Unauthorized.Body
+                public var body: Operations.organizationSecretsList.Output.Unauthorized.Body
                 /// Creates a new `Unauthorized`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.secretsList.Output.Unauthorized.Body) {
+                public init(body: Operations.organizationSecretsList.Output.Unauthorized.Body) {
                     self.body = body
                 }
             }
             /// Unauthorized
             ///
-            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/get(secretsList)/responses/401`.
+            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/get(organizationSecretsList)/responses/401`.
             ///
             /// HTTP response code: `401 unauthorized`.
-            case unauthorized(Operations.secretsList.Output.Unauthorized)
+            case unauthorized(Operations.organizationSecretsList.Output.Unauthorized)
             /// The associated value of the enum case if `self` is `.unauthorized`.
             ///
             /// - Throws: An error if `self` is not `.unauthorized`.
             /// - SeeAlso: `.unauthorized`.
-            public var unauthorized: Operations.secretsList.Output.Unauthorized {
+            public var unauthorized: Operations.organizationSecretsList.Output.Unauthorized {
                 get throws {
                     switch self {
                     case let .unauthorized(response):
@@ -38870,26 +39962,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.secretsList.Output.Forbidden.Body
+                public var body: Operations.organizationSecretsList.Output.Forbidden.Body
                 /// Creates a new `Forbidden`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.secretsList.Output.Forbidden.Body) {
+                public init(body: Operations.organizationSecretsList.Output.Forbidden.Body) {
                     self.body = body
                 }
             }
             /// Forbidden
             ///
-            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/get(secretsList)/responses/403`.
+            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/get(organizationSecretsList)/responses/403`.
             ///
             /// HTTP response code: `403 forbidden`.
-            case forbidden(Operations.secretsList.Output.Forbidden)
+            case forbidden(Operations.organizationSecretsList.Output.Forbidden)
             /// The associated value of the enum case if `self` is `.forbidden`.
             ///
             /// - Throws: An error if `self` is not `.forbidden`.
             /// - SeeAlso: `.forbidden`.
-            public var forbidden: Operations.secretsList.Output.Forbidden {
+            public var forbidden: Operations.organizationSecretsList.Output.Forbidden {
                 get throws {
                     switch self {
                     case let .forbidden(response):
@@ -38921,26 +40013,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.secretsList.Output.NotFound.Body
+                public var body: Operations.organizationSecretsList.Output.NotFound.Body
                 /// Creates a new `NotFound`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.secretsList.Output.NotFound.Body) {
+                public init(body: Operations.organizationSecretsList.Output.NotFound.Body) {
                     self.body = body
                 }
             }
             /// Not found
             ///
-            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/get(secretsList)/responses/404`.
+            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/get(organizationSecretsList)/responses/404`.
             ///
             /// HTTP response code: `404 notFound`.
-            case notFound(Operations.secretsList.Output.NotFound)
+            case notFound(Operations.organizationSecretsList.Output.NotFound)
             /// The associated value of the enum case if `self` is `.notFound`.
             ///
             /// - Throws: An error if `self` is not `.notFound`.
             /// - SeeAlso: `.notFound`.
-            public var notFound: Operations.secretsList.Output.NotFound {
+            public var notFound: Operations.organizationSecretsList.Output.NotFound {
                 get throws {
                     switch self {
                     case let .notFound(response):
@@ -38984,14 +40076,14 @@ public enum Operations {
             }
         }
     }
-    /// Create a new secret
+    /// Create a new organization secret
     ///
-    /// Create a new secret
+    /// Create a new organization secret
     ///
     /// - Remark: HTTP `POST /organizations/{org-slug}/secrets`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/post(secretCreate)`.
-    public enum secretCreate {
-        public static let id: Swift.String = "secretCreate"
+    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/post(organizationSecretCreate)`.
+    public enum organizationSecretCreate {
+        public static let id: Swift.String = "organizationSecretCreate"
         public struct Input: Sendable, Hashable {
             /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/POST/path`.
             public struct Path: Sendable, Hashable {
@@ -39007,19 +40099,19 @@ public enum Operations {
                     self.org_hyphen_slug = org_hyphen_slug
                 }
             }
-            public var path: Operations.secretCreate.Input.Path
+            public var path: Operations.organizationSecretCreate.Input.Path
             /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/POST/header`.
             public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.secretCreate.AcceptableContentType>]
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.organizationSecretCreate.AcceptableContentType>]
                 /// Creates a new `Headers`.
                 ///
                 /// - Parameters:
                 ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.secretCreate.AcceptableContentType>] = .defaultValues()) {
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.organizationSecretCreate.AcceptableContentType>] = .defaultValues()) {
                     self.accept = accept
                 }
             }
-            public var headers: Operations.secretCreate.Input.Headers
+            public var headers: Operations.organizationSecretCreate.Input.Headers
             /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/POST/requestBody`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/POST/requestBody/json`.
@@ -39070,9 +40162,9 @@ public enum Operations {
                     }
                 }
                 /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/POST/requestBody/content/application\/json`.
-                case json(Operations.secretCreate.Input.Body.jsonPayload)
+                case json(Operations.organizationSecretCreate.Input.Body.jsonPayload)
             }
-            public var body: Operations.secretCreate.Input.Body
+            public var body: Operations.organizationSecretCreate.Input.Body
             /// Creates a new `Input`.
             ///
             /// - Parameters:
@@ -39080,9 +40172,9 @@ public enum Operations {
             ///   - headers:
             ///   - body:
             public init(
-                path: Operations.secretCreate.Input.Path,
-                headers: Operations.secretCreate.Input.Headers = .init(),
-                body: Operations.secretCreate.Input.Body
+                path: Operations.organizationSecretCreate.Input.Path,
+                headers: Operations.organizationSecretCreate.Input.Headers = .init(),
+                body: Operations.organizationSecretCreate.Input.Body
             ) {
                 self.path = path
                 self.headers = headers
@@ -39109,26 +40201,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.secretCreate.Output.Created.Body
+                public var body: Operations.organizationSecretCreate.Output.Created.Body
                 /// Creates a new `Created`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.secretCreate.Output.Created.Body) {
+                public init(body: Operations.organizationSecretCreate.Output.Created.Body) {
                     self.body = body
                 }
             }
             /// Created
             ///
-            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/post(secretCreate)/responses/201`.
+            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/post(organizationSecretCreate)/responses/201`.
             ///
             /// HTTP response code: `201 created`.
-            case created(Operations.secretCreate.Output.Created)
+            case created(Operations.organizationSecretCreate.Output.Created)
             /// The associated value of the enum case if `self` is `.created`.
             ///
             /// - Throws: An error if `self` is not `.created`.
             /// - SeeAlso: `.created`.
-            public var created: Operations.secretCreate.Output.Created {
+            public var created: Operations.organizationSecretCreate.Output.Created {
                 get throws {
                     switch self {
                     case let .created(response):
@@ -39160,26 +40252,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.secretCreate.Output.Unauthorized.Body
+                public var body: Operations.organizationSecretCreate.Output.Unauthorized.Body
                 /// Creates a new `Unauthorized`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.secretCreate.Output.Unauthorized.Body) {
+                public init(body: Operations.organizationSecretCreate.Output.Unauthorized.Body) {
                     self.body = body
                 }
             }
             /// Unauthorized
             ///
-            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/post(secretCreate)/responses/401`.
+            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/post(organizationSecretCreate)/responses/401`.
             ///
             /// HTTP response code: `401 unauthorized`.
-            case unauthorized(Operations.secretCreate.Output.Unauthorized)
+            case unauthorized(Operations.organizationSecretCreate.Output.Unauthorized)
             /// The associated value of the enum case if `self` is `.unauthorized`.
             ///
             /// - Throws: An error if `self` is not `.unauthorized`.
             /// - SeeAlso: `.unauthorized`.
-            public var unauthorized: Operations.secretCreate.Output.Unauthorized {
+            public var unauthorized: Operations.organizationSecretCreate.Output.Unauthorized {
                 get throws {
                     switch self {
                     case let .unauthorized(response):
@@ -39211,26 +40303,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.secretCreate.Output.Forbidden.Body
+                public var body: Operations.organizationSecretCreate.Output.Forbidden.Body
                 /// Creates a new `Forbidden`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.secretCreate.Output.Forbidden.Body) {
+                public init(body: Operations.organizationSecretCreate.Output.Forbidden.Body) {
                     self.body = body
                 }
             }
             /// Forbidden
             ///
-            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/post(secretCreate)/responses/403`.
+            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/post(organizationSecretCreate)/responses/403`.
             ///
             /// HTTP response code: `403 forbidden`.
-            case forbidden(Operations.secretCreate.Output.Forbidden)
+            case forbidden(Operations.organizationSecretCreate.Output.Forbidden)
             /// The associated value of the enum case if `self` is `.forbidden`.
             ///
             /// - Throws: An error if `self` is not `.forbidden`.
             /// - SeeAlso: `.forbidden`.
-            public var forbidden: Operations.secretCreate.Output.Forbidden {
+            public var forbidden: Operations.organizationSecretCreate.Output.Forbidden {
                 get throws {
                     switch self {
                     case let .forbidden(response):
@@ -39262,26 +40354,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.secretCreate.Output.NotFound.Body
+                public var body: Operations.organizationSecretCreate.Output.NotFound.Body
                 /// Creates a new `NotFound`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.secretCreate.Output.NotFound.Body) {
+                public init(body: Operations.organizationSecretCreate.Output.NotFound.Body) {
                     self.body = body
                 }
             }
             /// Not found
             ///
-            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/post(secretCreate)/responses/404`.
+            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/post(organizationSecretCreate)/responses/404`.
             ///
             /// HTTP response code: `404 notFound`.
-            case notFound(Operations.secretCreate.Output.NotFound)
+            case notFound(Operations.organizationSecretCreate.Output.NotFound)
             /// The associated value of the enum case if `self` is `.notFound`.
             ///
             /// - Throws: An error if `self` is not `.notFound`.
             /// - SeeAlso: `.notFound`.
-            public var notFound: Operations.secretCreate.Output.NotFound {
+            public var notFound: Operations.organizationSecretCreate.Output.NotFound {
                 get throws {
                     switch self {
                     case let .notFound(response):
@@ -39330,9 +40422,9 @@ public enum Operations {
     /// Get a single secret by name, including the value if not protected
     ///
     /// - Remark: HTTP `GET /organizations/{org-slug}/secrets/{secret-name}`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/get(secretsShow)`.
-    public enum secretsShow {
-        public static let id: Swift.String = "secretsShow"
+    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/get(organizationSecretsShow)`.
+    public enum organizationSecretsShow {
+        public static let id: Swift.String = "organizationSecretsShow"
         public struct Input: Sendable, Hashable {
             /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/{secret-name}/GET/path`.
             public struct Path: Sendable, Hashable {
@@ -39357,27 +40449,27 @@ public enum Operations {
                     self.secret_hyphen_name = secret_hyphen_name
                 }
             }
-            public var path: Operations.secretsShow.Input.Path
+            public var path: Operations.organizationSecretsShow.Input.Path
             /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/{secret-name}/GET/header`.
             public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.secretsShow.AcceptableContentType>]
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.organizationSecretsShow.AcceptableContentType>]
                 /// Creates a new `Headers`.
                 ///
                 /// - Parameters:
                 ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.secretsShow.AcceptableContentType>] = .defaultValues()) {
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.organizationSecretsShow.AcceptableContentType>] = .defaultValues()) {
                     self.accept = accept
                 }
             }
-            public var headers: Operations.secretsShow.Input.Headers
+            public var headers: Operations.organizationSecretsShow.Input.Headers
             /// Creates a new `Input`.
             ///
             /// - Parameters:
             ///   - path:
             ///   - headers:
             public init(
-                path: Operations.secretsShow.Input.Path,
-                headers: Operations.secretsShow.Input.Headers = .init()
+                path: Operations.organizationSecretsShow.Input.Path,
+                headers: Operations.organizationSecretsShow.Input.Headers = .init()
             ) {
                 self.path = path
                 self.headers = headers
@@ -39407,7 +40499,7 @@ public enum Operations {
                             }
                         }
                         /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/{secret-name}/GET/responses/200/content/json/value2`.
-                        public var value2: Operations.secretsShow.Output.Ok.Body.jsonPayload.Value2Payload
+                        public var value2: Operations.organizationSecretsShow.Output.Ok.Body.jsonPayload.Value2Payload
                         /// Creates a new `jsonPayload`.
                         ///
                         /// - Parameters:
@@ -39415,7 +40507,7 @@ public enum Operations {
                         ///   - value2:
                         public init(
                             value1: Components.Schemas.service_period_dto_period_CreatedSecretNoValue,
-                            value2: Operations.secretsShow.Output.Ok.Body.jsonPayload.Value2Payload
+                            value2: Operations.organizationSecretsShow.Output.Ok.Body.jsonPayload.Value2Payload
                         ) {
                             self.value1 = value1
                             self.value2 = value2
@@ -39430,12 +40522,12 @@ public enum Operations {
                         }
                     }
                     /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/{secret-name}/GET/responses/200/content/application\/json`.
-                    case json(Operations.secretsShow.Output.Ok.Body.jsonPayload)
+                    case json(Operations.organizationSecretsShow.Output.Ok.Body.jsonPayload)
                     /// The associated value of the enum case if `self` is `.json`.
                     ///
                     /// - Throws: An error if `self` is not `.json`.
                     /// - SeeAlso: `.json`.
-                    public var json: Operations.secretsShow.Output.Ok.Body.jsonPayload {
+                    public var json: Operations.organizationSecretsShow.Output.Ok.Body.jsonPayload {
                         get throws {
                             switch self {
                             case let .json(body):
@@ -39445,26 +40537,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.secretsShow.Output.Ok.Body
+                public var body: Operations.organizationSecretsShow.Output.Ok.Body
                 /// Creates a new `Ok`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.secretsShow.Output.Ok.Body) {
+                public init(body: Operations.organizationSecretsShow.Output.Ok.Body) {
                     self.body = body
                 }
             }
             /// Ok
             ///
-            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/get(secretsShow)/responses/200`.
+            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/get(organizationSecretsShow)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Operations.secretsShow.Output.Ok)
+            case ok(Operations.organizationSecretsShow.Output.Ok)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Operations.secretsShow.Output.Ok {
+            public var ok: Operations.organizationSecretsShow.Output.Ok {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -39496,26 +40588,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.secretsShow.Output.Unauthorized.Body
+                public var body: Operations.organizationSecretsShow.Output.Unauthorized.Body
                 /// Creates a new `Unauthorized`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.secretsShow.Output.Unauthorized.Body) {
+                public init(body: Operations.organizationSecretsShow.Output.Unauthorized.Body) {
                     self.body = body
                 }
             }
             /// Unauthorized
             ///
-            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/get(secretsShow)/responses/401`.
+            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/get(organizationSecretsShow)/responses/401`.
             ///
             /// HTTP response code: `401 unauthorized`.
-            case unauthorized(Operations.secretsShow.Output.Unauthorized)
+            case unauthorized(Operations.organizationSecretsShow.Output.Unauthorized)
             /// The associated value of the enum case if `self` is `.unauthorized`.
             ///
             /// - Throws: An error if `self` is not `.unauthorized`.
             /// - SeeAlso: `.unauthorized`.
-            public var unauthorized: Operations.secretsShow.Output.Unauthorized {
+            public var unauthorized: Operations.organizationSecretsShow.Output.Unauthorized {
                 get throws {
                     switch self {
                     case let .unauthorized(response):
@@ -39547,26 +40639,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.secretsShow.Output.Forbidden.Body
+                public var body: Operations.organizationSecretsShow.Output.Forbidden.Body
                 /// Creates a new `Forbidden`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.secretsShow.Output.Forbidden.Body) {
+                public init(body: Operations.organizationSecretsShow.Output.Forbidden.Body) {
                     self.body = body
                 }
             }
             /// Forbidden
             ///
-            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/get(secretsShow)/responses/403`.
+            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/get(organizationSecretsShow)/responses/403`.
             ///
             /// HTTP response code: `403 forbidden`.
-            case forbidden(Operations.secretsShow.Output.Forbidden)
+            case forbidden(Operations.organizationSecretsShow.Output.Forbidden)
             /// The associated value of the enum case if `self` is `.forbidden`.
             ///
             /// - Throws: An error if `self` is not `.forbidden`.
             /// - SeeAlso: `.forbidden`.
-            public var forbidden: Operations.secretsShow.Output.Forbidden {
+            public var forbidden: Operations.organizationSecretsShow.Output.Forbidden {
                 get throws {
                     switch self {
                     case let .forbidden(response):
@@ -39598,26 +40690,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.secretsShow.Output.NotFound.Body
+                public var body: Operations.organizationSecretsShow.Output.NotFound.Body
                 /// Creates a new `NotFound`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.secretsShow.Output.NotFound.Body) {
+                public init(body: Operations.organizationSecretsShow.Output.NotFound.Body) {
                     self.body = body
                 }
             }
             /// Not found
             ///
-            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/get(secretsShow)/responses/404`.
+            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/get(organizationSecretsShow)/responses/404`.
             ///
             /// HTTP response code: `404 notFound`.
-            case notFound(Operations.secretsShow.Output.NotFound)
+            case notFound(Operations.organizationSecretsShow.Output.NotFound)
             /// The associated value of the enum case if `self` is `.notFound`.
             ///
             /// - Throws: An error if `self` is not `.notFound`.
             /// - SeeAlso: `.notFound`.
-            public var notFound: Operations.secretsShow.Output.NotFound {
+            public var notFound: Operations.organizationSecretsShow.Output.NotFound {
                 get throws {
                     switch self {
                     case let .notFound(response):
@@ -39666,9 +40758,9 @@ public enum Operations {
     /// Update an existing secret. If the secret is protected, only its value can be overridden.
     ///
     /// - Remark: HTTP `PATCH /organizations/{org-slug}/secrets/{secret-name}`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/patch(secretUpdate)`.
-    public enum secretUpdate {
-        public static let id: Swift.String = "secretUpdate"
+    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/patch(organizationSecretUpdate)`.
+    public enum organizationSecretUpdate {
+        public static let id: Swift.String = "organizationSecretUpdate"
         public struct Input: Sendable, Hashable {
             /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/{secret-name}/PATCH/path`.
             public struct Path: Sendable, Hashable {
@@ -39693,19 +40785,19 @@ public enum Operations {
                     self.secret_hyphen_name = secret_hyphen_name
                 }
             }
-            public var path: Operations.secretUpdate.Input.Path
+            public var path: Operations.organizationSecretUpdate.Input.Path
             /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/{secret-name}/PATCH/header`.
             public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.secretUpdate.AcceptableContentType>]
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.organizationSecretUpdate.AcceptableContentType>]
                 /// Creates a new `Headers`.
                 ///
                 /// - Parameters:
                 ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.secretUpdate.AcceptableContentType>] = .defaultValues()) {
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.organizationSecretUpdate.AcceptableContentType>] = .defaultValues()) {
                     self.accept = accept
                 }
             }
-            public var headers: Operations.secretUpdate.Input.Headers
+            public var headers: Operations.organizationSecretUpdate.Input.Headers
             /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/{secret-name}/PATCH/requestBody`.
             @frozen public enum Body: Sendable, Hashable {
                 /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/{secret-name}/PATCH/requestBody/json`.
@@ -39744,9 +40836,9 @@ public enum Operations {
                     }
                 }
                 /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/{secret-name}/PATCH/requestBody/content/application\/json`.
-                case json(Operations.secretUpdate.Input.Body.jsonPayload)
+                case json(Operations.organizationSecretUpdate.Input.Body.jsonPayload)
             }
-            public var body: Operations.secretUpdate.Input.Body
+            public var body: Operations.organizationSecretUpdate.Input.Body
             /// Creates a new `Input`.
             ///
             /// - Parameters:
@@ -39754,9 +40846,9 @@ public enum Operations {
             ///   - headers:
             ///   - body:
             public init(
-                path: Operations.secretUpdate.Input.Path,
-                headers: Operations.secretUpdate.Input.Headers = .init(),
-                body: Operations.secretUpdate.Input.Body
+                path: Operations.organizationSecretUpdate.Input.Path,
+                headers: Operations.organizationSecretUpdate.Input.Headers = .init(),
+                body: Operations.organizationSecretUpdate.Input.Body
             ) {
                 self.path = path
                 self.headers = headers
@@ -39787,7 +40879,7 @@ public enum Operations {
                             }
                         }
                         /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/{secret-name}/PATCH/responses/200/content/json/value2`.
-                        public var value2: Operations.secretUpdate.Output.Ok.Body.jsonPayload.Value2Payload
+                        public var value2: Operations.organizationSecretUpdate.Output.Ok.Body.jsonPayload.Value2Payload
                         /// Creates a new `jsonPayload`.
                         ///
                         /// - Parameters:
@@ -39795,7 +40887,7 @@ public enum Operations {
                         ///   - value2:
                         public init(
                             value1: Components.Schemas.service_period_dto_period_CreatedSecretNoValue,
-                            value2: Operations.secretUpdate.Output.Ok.Body.jsonPayload.Value2Payload
+                            value2: Operations.organizationSecretUpdate.Output.Ok.Body.jsonPayload.Value2Payload
                         ) {
                             self.value1 = value1
                             self.value2 = value2
@@ -39810,12 +40902,12 @@ public enum Operations {
                         }
                     }
                     /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/{secret-name}/PATCH/responses/200/content/application\/json`.
-                    case json(Operations.secretUpdate.Output.Ok.Body.jsonPayload)
+                    case json(Operations.organizationSecretUpdate.Output.Ok.Body.jsonPayload)
                     /// The associated value of the enum case if `self` is `.json`.
                     ///
                     /// - Throws: An error if `self` is not `.json`.
                     /// - SeeAlso: `.json`.
-                    public var json: Operations.secretUpdate.Output.Ok.Body.jsonPayload {
+                    public var json: Operations.organizationSecretUpdate.Output.Ok.Body.jsonPayload {
                         get throws {
                             switch self {
                             case let .json(body):
@@ -39825,26 +40917,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.secretUpdate.Output.Ok.Body
+                public var body: Operations.organizationSecretUpdate.Output.Ok.Body
                 /// Creates a new `Ok`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.secretUpdate.Output.Ok.Body) {
+                public init(body: Operations.organizationSecretUpdate.Output.Ok.Body) {
                     self.body = body
                 }
             }
             /// Ok
             ///
-            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/patch(secretUpdate)/responses/200`.
+            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/patch(organizationSecretUpdate)/responses/200`.
             ///
             /// HTTP response code: `200 ok`.
-            case ok(Operations.secretUpdate.Output.Ok)
+            case ok(Operations.organizationSecretUpdate.Output.Ok)
             /// The associated value of the enum case if `self` is `.ok`.
             ///
             /// - Throws: An error if `self` is not `.ok`.
             /// - SeeAlso: `.ok`.
-            public var ok: Operations.secretUpdate.Output.Ok {
+            public var ok: Operations.organizationSecretUpdate.Output.Ok {
                 get throws {
                     switch self {
                     case let .ok(response):
@@ -39876,26 +40968,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.secretUpdate.Output.Unauthorized.Body
+                public var body: Operations.organizationSecretUpdate.Output.Unauthorized.Body
                 /// Creates a new `Unauthorized`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.secretUpdate.Output.Unauthorized.Body) {
+                public init(body: Operations.organizationSecretUpdate.Output.Unauthorized.Body) {
                     self.body = body
                 }
             }
             /// Unauthorized
             ///
-            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/patch(secretUpdate)/responses/401`.
+            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/patch(organizationSecretUpdate)/responses/401`.
             ///
             /// HTTP response code: `401 unauthorized`.
-            case unauthorized(Operations.secretUpdate.Output.Unauthorized)
+            case unauthorized(Operations.organizationSecretUpdate.Output.Unauthorized)
             /// The associated value of the enum case if `self` is `.unauthorized`.
             ///
             /// - Throws: An error if `self` is not `.unauthorized`.
             /// - SeeAlso: `.unauthorized`.
-            public var unauthorized: Operations.secretUpdate.Output.Unauthorized {
+            public var unauthorized: Operations.organizationSecretUpdate.Output.Unauthorized {
                 get throws {
                     switch self {
                     case let .unauthorized(response):
@@ -39927,26 +41019,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.secretUpdate.Output.Forbidden.Body
+                public var body: Operations.organizationSecretUpdate.Output.Forbidden.Body
                 /// Creates a new `Forbidden`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.secretUpdate.Output.Forbidden.Body) {
+                public init(body: Operations.organizationSecretUpdate.Output.Forbidden.Body) {
                     self.body = body
                 }
             }
             /// Forbidden
             ///
-            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/patch(secretUpdate)/responses/403`.
+            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/patch(organizationSecretUpdate)/responses/403`.
             ///
             /// HTTP response code: `403 forbidden`.
-            case forbidden(Operations.secretUpdate.Output.Forbidden)
+            case forbidden(Operations.organizationSecretUpdate.Output.Forbidden)
             /// The associated value of the enum case if `self` is `.forbidden`.
             ///
             /// - Throws: An error if `self` is not `.forbidden`.
             /// - SeeAlso: `.forbidden`.
-            public var forbidden: Operations.secretUpdate.Output.Forbidden {
+            public var forbidden: Operations.organizationSecretUpdate.Output.Forbidden {
                 get throws {
                     switch self {
                     case let .forbidden(response):
@@ -39978,26 +41070,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.secretUpdate.Output.NotFound.Body
+                public var body: Operations.organizationSecretUpdate.Output.NotFound.Body
                 /// Creates a new `NotFound`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.secretUpdate.Output.NotFound.Body) {
+                public init(body: Operations.organizationSecretUpdate.Output.NotFound.Body) {
                     self.body = body
                 }
             }
             /// Not found
             ///
-            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/patch(secretUpdate)/responses/404`.
+            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/patch(organizationSecretUpdate)/responses/404`.
             ///
             /// HTTP response code: `404 notFound`.
-            case notFound(Operations.secretUpdate.Output.NotFound)
+            case notFound(Operations.organizationSecretUpdate.Output.NotFound)
             /// The associated value of the enum case if `self` is `.notFound`.
             ///
             /// - Throws: An error if `self` is not `.notFound`.
             /// - SeeAlso: `.notFound`.
-            public var notFound: Operations.secretUpdate.Output.NotFound {
+            public var notFound: Operations.organizationSecretUpdate.Output.NotFound {
                 get throws {
                     switch self {
                     case let .notFound(response):
@@ -40046,9 +41138,9 @@ public enum Operations {
     /// Delete a secret by name
     ///
     /// - Remark: HTTP `DELETE /organizations/{org-slug}/secrets/{secret-name}`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/delete(secretDeletemixin0)`.
-    public enum secretDeletemixin0 {
-        public static let id: Swift.String = "secretDeletemixin0"
+    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/delete(organizationSecretDelete)`.
+    public enum organizationSecretDelete {
+        public static let id: Swift.String = "organizationSecretDelete"
         public struct Input: Sendable, Hashable {
             /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/{secret-name}/DELETE/path`.
             public struct Path: Sendable, Hashable {
@@ -40073,27 +41165,27 @@ public enum Operations {
                     self.secret_hyphen_name = secret_hyphen_name
                 }
             }
-            public var path: Operations.secretDeletemixin0.Input.Path
+            public var path: Operations.organizationSecretDelete.Input.Path
             /// - Remark: Generated from `#/paths/organizations/{org-slug}/secrets/{secret-name}/DELETE/header`.
             public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.secretDeletemixin0.AcceptableContentType>]
+                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.organizationSecretDelete.AcceptableContentType>]
                 /// Creates a new `Headers`.
                 ///
                 /// - Parameters:
                 ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.secretDeletemixin0.AcceptableContentType>] = .defaultValues()) {
+                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.organizationSecretDelete.AcceptableContentType>] = .defaultValues()) {
                     self.accept = accept
                 }
             }
-            public var headers: Operations.secretDeletemixin0.Input.Headers
+            public var headers: Operations.organizationSecretDelete.Input.Headers
             /// Creates a new `Input`.
             ///
             /// - Parameters:
             ///   - path:
             ///   - headers:
             public init(
-                path: Operations.secretDeletemixin0.Input.Path,
-                headers: Operations.secretDeletemixin0.Input.Headers = .init()
+                path: Operations.organizationSecretDelete.Input.Path,
+                headers: Operations.organizationSecretDelete.Input.Headers = .init()
             ) {
                 self.path = path
                 self.headers = headers
@@ -40106,15 +41198,15 @@ public enum Operations {
             }
             /// No Content
             ///
-            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/delete(secretDeletemixin0)/responses/204`.
+            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/delete(organizationSecretDelete)/responses/204`.
             ///
             /// HTTP response code: `204 noContent`.
-            case noContent(Operations.secretDeletemixin0.Output.NoContent)
+            case noContent(Operations.organizationSecretDelete.Output.NoContent)
             /// The associated value of the enum case if `self` is `.noContent`.
             ///
             /// - Throws: An error if `self` is not `.noContent`.
             /// - SeeAlso: `.noContent`.
-            public var noContent: Operations.secretDeletemixin0.Output.NoContent {
+            public var noContent: Operations.organizationSecretDelete.Output.NoContent {
                 get throws {
                     switch self {
                     case let .noContent(response):
@@ -40146,26 +41238,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.secretDeletemixin0.Output.Unauthorized.Body
+                public var body: Operations.organizationSecretDelete.Output.Unauthorized.Body
                 /// Creates a new `Unauthorized`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.secretDeletemixin0.Output.Unauthorized.Body) {
+                public init(body: Operations.organizationSecretDelete.Output.Unauthorized.Body) {
                     self.body = body
                 }
             }
             /// Unauthorized
             ///
-            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/delete(secretDeletemixin0)/responses/401`.
+            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/delete(organizationSecretDelete)/responses/401`.
             ///
             /// HTTP response code: `401 unauthorized`.
-            case unauthorized(Operations.secretDeletemixin0.Output.Unauthorized)
+            case unauthorized(Operations.organizationSecretDelete.Output.Unauthorized)
             /// The associated value of the enum case if `self` is `.unauthorized`.
             ///
             /// - Throws: An error if `self` is not `.unauthorized`.
             /// - SeeAlso: `.unauthorized`.
-            public var unauthorized: Operations.secretDeletemixin0.Output.Unauthorized {
+            public var unauthorized: Operations.organizationSecretDelete.Output.Unauthorized {
                 get throws {
                     switch self {
                     case let .unauthorized(response):
@@ -40197,26 +41289,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.secretDeletemixin0.Output.Forbidden.Body
+                public var body: Operations.organizationSecretDelete.Output.Forbidden.Body
                 /// Creates a new `Forbidden`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.secretDeletemixin0.Output.Forbidden.Body) {
+                public init(body: Operations.organizationSecretDelete.Output.Forbidden.Body) {
                     self.body = body
                 }
             }
             /// Forbidden
             ///
-            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/delete(secretDeletemixin0)/responses/403`.
+            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/delete(organizationSecretDelete)/responses/403`.
             ///
             /// HTTP response code: `403 forbidden`.
-            case forbidden(Operations.secretDeletemixin0.Output.Forbidden)
+            case forbidden(Operations.organizationSecretDelete.Output.Forbidden)
             /// The associated value of the enum case if `self` is `.forbidden`.
             ///
             /// - Throws: An error if `self` is not `.forbidden`.
             /// - SeeAlso: `.forbidden`.
-            public var forbidden: Operations.secretDeletemixin0.Output.Forbidden {
+            public var forbidden: Operations.organizationSecretDelete.Output.Forbidden {
                 get throws {
                     switch self {
                     case let .forbidden(response):
@@ -40248,26 +41340,26 @@ public enum Operations {
                     }
                 }
                 /// Received HTTP response body
-                public var body: Operations.secretDeletemixin0.Output.NotFound.Body
+                public var body: Operations.organizationSecretDelete.Output.NotFound.Body
                 /// Creates a new `NotFound`.
                 ///
                 /// - Parameters:
                 ///   - body: Received HTTP response body
-                public init(body: Operations.secretDeletemixin0.Output.NotFound.Body) {
+                public init(body: Operations.organizationSecretDelete.Output.NotFound.Body) {
                     self.body = body
                 }
             }
             /// Not found
             ///
-            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/delete(secretDeletemixin0)/responses/404`.
+            /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/delete(organizationSecretDelete)/responses/404`.
             ///
             /// HTTP response code: `404 notFound`.
-            case notFound(Operations.secretDeletemixin0.Output.NotFound)
+            case notFound(Operations.organizationSecretDelete.Output.NotFound)
             /// The associated value of the enum case if `self` is `.notFound`.
             ///
             /// - Throws: An error if `self` is not `.notFound`.
             /// - SeeAlso: `.notFound`.
-            public var notFound: Operations.secretDeletemixin0.Output.NotFound {
+            public var notFound: Operations.organizationSecretDelete.Output.NotFound {
                 get throws {
                     switch self {
                     case let .notFound(response):

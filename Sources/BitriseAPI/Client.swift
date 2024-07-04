@@ -11024,7 +11024,7 @@ public struct Client: APIProtocol {
                     switch chosenContentType {
                     case "application/json":
                         body = try await converter.getResponseBodyAsJSON(
-                            Components.Schemas.v0_period_AppSecretListResponse.self,
+                            Operations.secretList.Output.Ok.Body.jsonPayload.self,
                             from: responseBody,
                             transforming: { value in
                                 .json(value)
@@ -11134,12 +11134,415 @@ public struct Client: APIProtocol {
             }
         )
     }
+    /// Create a new app secret
+    ///
+    /// Create a new app secret
+    ///
+    /// - Remark: HTTP `POST /apps/{app-slug}/secrets`.
+    /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/post(appSecretCreate)`.
+    public func appSecretCreate(_ input: Operations.appSecretCreate.Input) async throws -> Operations.appSecretCreate.Output {
+        try await client.send(
+            input: input,
+            forOperation: Operations.appSecretCreate.id,
+            serializer: { input in
+                let path = try converter.renderedPath(
+                    template: "/apps/app-slug/secrets",
+                    parameters: []
+                )
+                var request: HTTPTypes.HTTPRequest = .init(
+                    soar_path: path,
+                    method: .post
+                )
+                suppressMutabilityWarning(&request)
+                converter.setAcceptHeader(
+                    in: &request.headerFields,
+                    contentTypes: input.headers.accept
+                )
+                let body: OpenAPIRuntime.HTTPBody?
+                switch input.body {
+                case let .json(value):
+                    body = try converter.setRequiredRequestBodyAsJSON(
+                        value,
+                        headerFields: &request.headerFields,
+                        contentType: "application/json; charset=utf-8"
+                    )
+                }
+                return (request, body)
+            },
+            deserializer: { response, responseBody in
+                switch response.status.code {
+                case 201:
+                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
+                    let body: Operations.appSecretCreate.Output.Created.Body
+                    let chosenContentType = try converter.bestContentType(
+                        received: contentType,
+                        options: [
+                            "application/json"
+                        ]
+                    )
+                    switch chosenContentType {
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.service_period_dto_period_CreatedSecretNoValue.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .json(value)
+                            }
+                        )
+                    default:
+                        preconditionFailure("bestContentType chose an invalid content type.")
+                    }
+                    return .created(.init(body: body))
+                case 401:
+                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
+                    let body: Operations.appSecretCreate.Output.Unauthorized.Body
+                    let chosenContentType = try converter.bestContentType(
+                        received: contentType,
+                        options: [
+                            "application/json"
+                        ]
+                    )
+                    switch chosenContentType {
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.service_period_ProxyErrorRespModel.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .json(value)
+                            }
+                        )
+                    default:
+                        preconditionFailure("bestContentType chose an invalid content type.")
+                    }
+                    return .unauthorized(.init(body: body))
+                case 403:
+                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
+                    let body: Operations.appSecretCreate.Output.Forbidden.Body
+                    let chosenContentType = try converter.bestContentType(
+                        received: contentType,
+                        options: [
+                            "application/json"
+                        ]
+                    )
+                    switch chosenContentType {
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.service_period_ProxyErrorRespModel.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .json(value)
+                            }
+                        )
+                    default:
+                        preconditionFailure("bestContentType chose an invalid content type.")
+                    }
+                    return .forbidden(.init(body: body))
+                case 404:
+                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
+                    let body: Operations.appSecretCreate.Output.NotFound.Body
+                    let chosenContentType = try converter.bestContentType(
+                        received: contentType,
+                        options: [
+                            "application/json"
+                        ]
+                    )
+                    switch chosenContentType {
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.service_period_ProxyErrorRespModel.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .json(value)
+                            }
+                        )
+                    default:
+                        preconditionFailure("bestContentType chose an invalid content type.")
+                    }
+                    return .notFound(.init(body: body))
+                default:
+                    return .undocumented(
+                        statusCode: response.status.code,
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
+                    )
+                }
+            }
+        )
+    }
+    /// Get a single app secret by name
+    ///
+    /// Get a single app secret by name, including the value if not protected
+    ///
+    /// - Remark: HTTP `GET /apps/{app-slug}/secrets/{secret-name}`.
+    /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/{secret-name}/get(appSecretsShow)`.
+    public func appSecretsShow(_ input: Operations.appSecretsShow.Input) async throws -> Operations.appSecretsShow.Output {
+        try await client.send(
+            input: input,
+            forOperation: Operations.appSecretsShow.id,
+            serializer: { input in
+                let path = try converter.renderedPath(
+                    template: "/apps/app-slug/secrets/secret-name",
+                    parameters: []
+                )
+                var request: HTTPTypes.HTTPRequest = .init(
+                    soar_path: path,
+                    method: .get
+                )
+                suppressMutabilityWarning(&request)
+                converter.setAcceptHeader(
+                    in: &request.headerFields,
+                    contentTypes: input.headers.accept
+                )
+                return (request, nil)
+            },
+            deserializer: { response, responseBody in
+                switch response.status.code {
+                case 200:
+                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
+                    let body: Operations.appSecretsShow.Output.Ok.Body
+                    let chosenContentType = try converter.bestContentType(
+                        received: contentType,
+                        options: [
+                            "application/json"
+                        ]
+                    )
+                    switch chosenContentType {
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Operations.appSecretsShow.Output.Ok.Body.jsonPayload.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .json(value)
+                            }
+                        )
+                    default:
+                        preconditionFailure("bestContentType chose an invalid content type.")
+                    }
+                    return .ok(.init(body: body))
+                case 401:
+                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
+                    let body: Operations.appSecretsShow.Output.Unauthorized.Body
+                    let chosenContentType = try converter.bestContentType(
+                        received: contentType,
+                        options: [
+                            "application/json"
+                        ]
+                    )
+                    switch chosenContentType {
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.service_period_ProxyErrorRespModel.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .json(value)
+                            }
+                        )
+                    default:
+                        preconditionFailure("bestContentType chose an invalid content type.")
+                    }
+                    return .unauthorized(.init(body: body))
+                case 403:
+                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
+                    let body: Operations.appSecretsShow.Output.Forbidden.Body
+                    let chosenContentType = try converter.bestContentType(
+                        received: contentType,
+                        options: [
+                            "application/json"
+                        ]
+                    )
+                    switch chosenContentType {
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.service_period_ProxyErrorRespModel.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .json(value)
+                            }
+                        )
+                    default:
+                        preconditionFailure("bestContentType chose an invalid content type.")
+                    }
+                    return .forbidden(.init(body: body))
+                case 404:
+                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
+                    let body: Operations.appSecretsShow.Output.NotFound.Body
+                    let chosenContentType = try converter.bestContentType(
+                        received: contentType,
+                        options: [
+                            "application/json"
+                        ]
+                    )
+                    switch chosenContentType {
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.service_period_ProxyErrorRespModel.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .json(value)
+                            }
+                        )
+                    default:
+                        preconditionFailure("bestContentType chose an invalid content type.")
+                    }
+                    return .notFound(.init(body: body))
+                default:
+                    return .undocumented(
+                        statusCode: response.status.code,
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
+                    )
+                }
+            }
+        )
+    }
+    /// Update an existing app secret
+    ///
+    /// Update an existing app secret. If the secret is protected, only its value can be overridden.
+    ///
+    /// - Remark: HTTP `PATCH /apps/{app-slug}/secrets/{secret-name}`.
+    /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/{secret-name}/patch(appSecretUpdate)`.
+    public func appSecretUpdate(_ input: Operations.appSecretUpdate.Input) async throws -> Operations.appSecretUpdate.Output {
+        try await client.send(
+            input: input,
+            forOperation: Operations.appSecretUpdate.id,
+            serializer: { input in
+                let path = try converter.renderedPath(
+                    template: "/apps/app-slug/secrets/secret-name",
+                    parameters: []
+                )
+                var request: HTTPTypes.HTTPRequest = .init(
+                    soar_path: path,
+                    method: .patch
+                )
+                suppressMutabilityWarning(&request)
+                converter.setAcceptHeader(
+                    in: &request.headerFields,
+                    contentTypes: input.headers.accept
+                )
+                let body: OpenAPIRuntime.HTTPBody?
+                switch input.body {
+                case let .json(value):
+                    body = try converter.setRequiredRequestBodyAsJSON(
+                        value,
+                        headerFields: &request.headerFields,
+                        contentType: "application/json; charset=utf-8"
+                    )
+                }
+                return (request, body)
+            },
+            deserializer: { response, responseBody in
+                switch response.status.code {
+                case 200:
+                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
+                    let body: Operations.appSecretUpdate.Output.Ok.Body
+                    let chosenContentType = try converter.bestContentType(
+                        received: contentType,
+                        options: [
+                            "application/json"
+                        ]
+                    )
+                    switch chosenContentType {
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Operations.appSecretUpdate.Output.Ok.Body.jsonPayload.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .json(value)
+                            }
+                        )
+                    default:
+                        preconditionFailure("bestContentType chose an invalid content type.")
+                    }
+                    return .ok(.init(body: body))
+                case 401:
+                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
+                    let body: Operations.appSecretUpdate.Output.Unauthorized.Body
+                    let chosenContentType = try converter.bestContentType(
+                        received: contentType,
+                        options: [
+                            "application/json"
+                        ]
+                    )
+                    switch chosenContentType {
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.service_period_ProxyErrorRespModel.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .json(value)
+                            }
+                        )
+                    default:
+                        preconditionFailure("bestContentType chose an invalid content type.")
+                    }
+                    return .unauthorized(.init(body: body))
+                case 403:
+                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
+                    let body: Operations.appSecretUpdate.Output.Forbidden.Body
+                    let chosenContentType = try converter.bestContentType(
+                        received: contentType,
+                        options: [
+                            "application/json"
+                        ]
+                    )
+                    switch chosenContentType {
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.service_period_ProxyErrorRespModel.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .json(value)
+                            }
+                        )
+                    default:
+                        preconditionFailure("bestContentType chose an invalid content type.")
+                    }
+                    return .forbidden(.init(body: body))
+                case 404:
+                    let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
+                    let body: Operations.appSecretUpdate.Output.NotFound.Body
+                    let chosenContentType = try converter.bestContentType(
+                        received: contentType,
+                        options: [
+                            "application/json"
+                        ]
+                    )
+                    switch chosenContentType {
+                    case "application/json":
+                        body = try await converter.getResponseBodyAsJSON(
+                            Components.Schemas.service_period_ProxyErrorRespModel.self,
+                            from: responseBody,
+                            transforming: { value in
+                                .json(value)
+                            }
+                        )
+                    default:
+                        preconditionFailure("bestContentType chose an invalid content type.")
+                    }
+                    return .notFound(.init(body: body))
+                default:
+                    return .undocumented(
+                        statusCode: response.status.code,
+                        .init(
+                            headerFields: response.headerFields,
+                            body: responseBody
+                        )
+                    )
+                }
+            }
+        )
+    }
     /// Upsert an application secret
     ///
     /// Upsert an application secret. Requires administrator level privileges to the app.
     ///
     /// - Remark: HTTP `PUT /apps/{app-slug}/secrets/{secret-name}`.
     /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/{secret-name}/put(secretUpsert)`.
+    @available(*, deprecated)
     public func secretUpsert(_ input: Operations.secretUpsert.Input) async throws -> Operations.secretUpsert.Output {
         try await client.send(
             input: input,
@@ -11411,6 +11814,7 @@ public struct Client: APIProtocol {
     ///
     /// - Remark: HTTP `GET /apps/{app-slug}/secrets/{secret-name}/value`.
     /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/{secret-name}/value/get(secretValueGet)`.
+    @available(*, deprecated)
     public func secretValueGet(_ input: Operations.secretValueGet.Input) async throws -> Operations.secretValueGet.Output {
         try await client.send(
             input: input,
@@ -11445,7 +11849,7 @@ public struct Client: APIProtocol {
                     switch chosenContentType {
                     case "application/json":
                         body = try await converter.getResponseBodyAsJSON(
-                            Components.Schemas.v0_period_AppSecretGetValueResponse.self,
+                            Operations.secretValueGet.Output.Ok.Body.jsonPayload.self,
                             from: responseBody,
                             transforming: { value in
                                 .json(value)
@@ -13695,11 +14099,11 @@ public struct Client: APIProtocol {
     /// Get the secrets of an organization
     ///
     /// - Remark: HTTP `GET /organizations/{org-slug}/secrets`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/get(secretsList)`.
-    public func secretsList(_ input: Operations.secretsList.Input) async throws -> Operations.secretsList.Output {
+    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/get(organizationSecretsList)`.
+    public func organizationSecretsList(_ input: Operations.organizationSecretsList.Input) async throws -> Operations.organizationSecretsList.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.secretsList.id,
+            forOperation: Operations.organizationSecretsList.id,
             serializer: { input in
                 let path = try converter.renderedPath(
                     template: "/organizations/org-slug/secrets",
@@ -13720,7 +14124,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretsList.Output.Ok.Body
+                    let body: Operations.organizationSecretsList.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13730,7 +14134,7 @@ public struct Client: APIProtocol {
                     switch chosenContentType {
                     case "application/json":
                         body = try await converter.getResponseBodyAsJSON(
-                            Operations.secretsList.Output.Ok.Body.jsonPayload.self,
+                            Operations.organizationSecretsList.Output.Ok.Body.jsonPayload.self,
                             from: responseBody,
                             transforming: { value in
                                 .json(value)
@@ -13742,7 +14146,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretsList.Output.Unauthorized.Body
+                    let body: Operations.organizationSecretsList.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13764,7 +14168,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 403:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretsList.Output.Forbidden.Body
+                    let body: Operations.organizationSecretsList.Output.Forbidden.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13786,7 +14190,7 @@ public struct Client: APIProtocol {
                     return .forbidden(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretsList.Output.NotFound.Body
+                    let body: Operations.organizationSecretsList.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13818,16 +14222,16 @@ public struct Client: APIProtocol {
             }
         )
     }
-    /// Create a new secret
+    /// Create a new organization secret
     ///
-    /// Create a new secret
+    /// Create a new organization secret
     ///
     /// - Remark: HTTP `POST /organizations/{org-slug}/secrets`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/post(secretCreate)`.
-    public func secretCreate(_ input: Operations.secretCreate.Input) async throws -> Operations.secretCreate.Output {
+    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/post(organizationSecretCreate)`.
+    public func organizationSecretCreate(_ input: Operations.organizationSecretCreate.Input) async throws -> Operations.organizationSecretCreate.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.secretCreate.id,
+            forOperation: Operations.organizationSecretCreate.id,
             serializer: { input in
                 let path = try converter.renderedPath(
                     template: "/organizations/org-slug/secrets",
@@ -13857,7 +14261,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 201:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretCreate.Output.Created.Body
+                    let body: Operations.organizationSecretCreate.Output.Created.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13879,7 +14283,7 @@ public struct Client: APIProtocol {
                     return .created(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretCreate.Output.Unauthorized.Body
+                    let body: Operations.organizationSecretCreate.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13901,7 +14305,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 403:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretCreate.Output.Forbidden.Body
+                    let body: Operations.organizationSecretCreate.Output.Forbidden.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13923,7 +14327,7 @@ public struct Client: APIProtocol {
                     return .forbidden(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretCreate.Output.NotFound.Body
+                    let body: Operations.organizationSecretCreate.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13960,11 +14364,11 @@ public struct Client: APIProtocol {
     /// Get a single secret by name, including the value if not protected
     ///
     /// - Remark: HTTP `GET /organizations/{org-slug}/secrets/{secret-name}`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/get(secretsShow)`.
-    public func secretsShow(_ input: Operations.secretsShow.Input) async throws -> Operations.secretsShow.Output {
+    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/get(organizationSecretsShow)`.
+    public func organizationSecretsShow(_ input: Operations.organizationSecretsShow.Input) async throws -> Operations.organizationSecretsShow.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.secretsShow.id,
+            forOperation: Operations.organizationSecretsShow.id,
             serializer: { input in
                 let path = try converter.renderedPath(
                     template: "/organizations/org-slug/secrets/secret-name",
@@ -13985,7 +14389,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretsShow.Output.Ok.Body
+                    let body: Operations.organizationSecretsShow.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13995,7 +14399,7 @@ public struct Client: APIProtocol {
                     switch chosenContentType {
                     case "application/json":
                         body = try await converter.getResponseBodyAsJSON(
-                            Operations.secretsShow.Output.Ok.Body.jsonPayload.self,
+                            Operations.organizationSecretsShow.Output.Ok.Body.jsonPayload.self,
                             from: responseBody,
                             transforming: { value in
                                 .json(value)
@@ -14007,7 +14411,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretsShow.Output.Unauthorized.Body
+                    let body: Operations.organizationSecretsShow.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14029,7 +14433,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 403:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretsShow.Output.Forbidden.Body
+                    let body: Operations.organizationSecretsShow.Output.Forbidden.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14051,7 +14455,7 @@ public struct Client: APIProtocol {
                     return .forbidden(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretsShow.Output.NotFound.Body
+                    let body: Operations.organizationSecretsShow.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14088,11 +14492,11 @@ public struct Client: APIProtocol {
     /// Update an existing secret. If the secret is protected, only its value can be overridden.
     ///
     /// - Remark: HTTP `PATCH /organizations/{org-slug}/secrets/{secret-name}`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/patch(secretUpdate)`.
-    public func secretUpdate(_ input: Operations.secretUpdate.Input) async throws -> Operations.secretUpdate.Output {
+    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/patch(organizationSecretUpdate)`.
+    public func organizationSecretUpdate(_ input: Operations.organizationSecretUpdate.Input) async throws -> Operations.organizationSecretUpdate.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.secretUpdate.id,
+            forOperation: Operations.organizationSecretUpdate.id,
             serializer: { input in
                 let path = try converter.renderedPath(
                     template: "/organizations/org-slug/secrets/secret-name",
@@ -14122,7 +14526,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretUpdate.Output.Ok.Body
+                    let body: Operations.organizationSecretUpdate.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14132,7 +14536,7 @@ public struct Client: APIProtocol {
                     switch chosenContentType {
                     case "application/json":
                         body = try await converter.getResponseBodyAsJSON(
-                            Operations.secretUpdate.Output.Ok.Body.jsonPayload.self,
+                            Operations.organizationSecretUpdate.Output.Ok.Body.jsonPayload.self,
                             from: responseBody,
                             transforming: { value in
                                 .json(value)
@@ -14144,7 +14548,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretUpdate.Output.Unauthorized.Body
+                    let body: Operations.organizationSecretUpdate.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14166,7 +14570,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 403:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretUpdate.Output.Forbidden.Body
+                    let body: Operations.organizationSecretUpdate.Output.Forbidden.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14188,7 +14592,7 @@ public struct Client: APIProtocol {
                     return .forbidden(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretUpdate.Output.NotFound.Body
+                    let body: Operations.organizationSecretUpdate.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14225,11 +14629,11 @@ public struct Client: APIProtocol {
     /// Delete a secret by name
     ///
     /// - Remark: HTTP `DELETE /organizations/{org-slug}/secrets/{secret-name}`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/delete(secretDeletemixin0)`.
-    public func secretDeletemixin0(_ input: Operations.secretDeletemixin0.Input) async throws -> Operations.secretDeletemixin0.Output {
+    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/delete(organizationSecretDelete)`.
+    public func organizationSecretDelete(_ input: Operations.organizationSecretDelete.Input) async throws -> Operations.organizationSecretDelete.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.secretDeletemixin0.id,
+            forOperation: Operations.organizationSecretDelete.id,
             serializer: { input in
                 let path = try converter.renderedPath(
                     template: "/organizations/org-slug/secrets/secret-name",
@@ -14252,7 +14656,7 @@ public struct Client: APIProtocol {
                     return .noContent(.init())
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretDeletemixin0.Output.Unauthorized.Body
+                    let body: Operations.organizationSecretDelete.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14274,7 +14678,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 403:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretDeletemixin0.Output.Forbidden.Body
+                    let body: Operations.organizationSecretDelete.Output.Forbidden.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14296,7 +14700,7 @@ public struct Client: APIProtocol {
                     return .forbidden(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretDeletemixin0.Output.NotFound.Body
+                    let body: Operations.organizationSecretDelete.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
