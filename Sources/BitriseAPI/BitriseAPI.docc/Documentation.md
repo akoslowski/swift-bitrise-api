@@ -18,7 +18,7 @@ Running the code requires to create a personal access token. See [Authenticating
 
 The example uses [OpenAPIURLSession](https://github.com/apple/swift-openapi-urlsession) which needs to be declared as a Swift Package dependency.
 
-The following code sets up a client with ``Client/init(serverURL:configuration:transport:middlewares:)`` and makes a request to list the configured applications for your account using ``Client/appList(_:)``.
+The following code sets up a client with ``Client/init(serverURL:configuration:transport:middlewares:)`` and makes a request to list the configured applications for your account using ``Client/app_list(_:)``.
 
 ```swift
 import OpenAPIURLSession
@@ -38,7 +38,7 @@ func printAppList() async throws {
         )
     )
 
-    let response = try await client.appList()
+    let response = try await client.app_list()
 
     switch response {
     case .ok(let output):

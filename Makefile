@@ -8,17 +8,17 @@ CONFIG := openapi-generator-config.yaml
 OUTPUT := Sources/BitriseAPI
 
 # Targets
-.PHONY: all download rename-operations convert-to-openapi generate
+.PHONY: all download rename convert-to-openapi generate
 
-all: download rename-operations convert-to-openapi generate
+all: download rename convert-to-openapi generate
 
 download:
 	@curl -sS -o $(FILE) $(URL)
 	@echo "Download completed. $(FILE)"
 
-rename-operations:
-	@swift run operation-renamer
-	@echo "Operation renamed."
+rename:
+	@swift run renamer
+	@echo "Everything renamed."
 
 convert-to-openapi:
 	@curl -s -X 'POST' 'https://converter.swagger.io/api/convert' \

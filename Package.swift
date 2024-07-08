@@ -14,7 +14,6 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/apple/swift-openapi-generator", from: "1.0.0"),
         .package(url: "https://github.com/apple/swift-openapi-runtime", from: "1.0.0"),
-        .package(url: "https://github.com/akoslowski/simple-code-gen-support", from: "0.0.1"),
     ],
     targets: [
         .target(
@@ -28,10 +27,7 @@ let package = Package(
             dependencies: ["BitriseAPI"]
         ),
         .executableTarget(
-            name: "operation-renamer",
-            dependencies: [
-                .product(name: "CodeGenSupport", package: "simple-code-gen-support")
-            ]
+            name: "renamer"
         ),
     ]
 )

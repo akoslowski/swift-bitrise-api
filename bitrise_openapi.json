@@ -26,7 +26,7 @@
                 ],
                 "summary": "Get list of available Bitrise addons",
                 "description": "List all the available Bitrise addons",
-                "operationId": "addonsList",
+                "operationId": "addons_list",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -81,17 +81,17 @@
                 }
             }
         },
-        "/addons/{addon-id}": {
+        "/addons/{addon_id}": {
             "get": {
                 "tags": [
                     "addons"
                 ],
                 "summary": "Get a specific Bitrise addon",
                 "description": "Show details of a specific Bitrise addon",
-                "operationId": "addonsShow",
+                "operationId": "addons_show",
                 "parameters": [
                     {
-                        "name": "addon-id",
+                        "name": "addon_id",
                         "in": "path",
                         "description": "Addon ID",
                         "required": true,
@@ -161,7 +161,7 @@
                 ],
                 "summary": "Get list of the apps",
                 "description": "List all the apps available for the authenticated account, including those that are owned by other users or Organizations.",
-                "operationId": "appList",
+                "operationId": "app_list",
                 "parameters": [
                     {
                         "name": "sort_by",
@@ -275,7 +275,7 @@
                 ],
                 "summary": "Add a new app",
                 "description": "Add a new app to Bitrise. This is the first step of the app registration process. To successfully set it up, you need to provide the required app parameters: the repository URL and the isPublic field. Read more about the app creation process in our [detailed guide](https://devcenter.bitrise.io/api/adding-and-managing-apps/#adding-a-new-app).",
-                "operationId": "appCreate",
+                "operationId": "app_create",
                 "requestBody": {
                     "description": "App parameters",
                     "content": {
@@ -347,17 +347,17 @@
                 "x-codegen-request-body-name": "app"
             }
         },
-        "/apps/{app-slug}": {
+        "/apps/{app_slug}": {
             "get": {
                 "tags": [
                     "application"
                 ],
                 "summary": "Get a specific app",
                 "description": "Get the details of a specific app by providing the app slug. You can get the app slug by calling the [/apps](https://api-docs.bitrise.io/#/application/app-list) endpoint or by opening the app on bitrise.io and copying the slug from the URL.",
-                "operationId": "appShow",
+                "operationId": "app_show",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -433,10 +433,10 @@
                 ],
                 "summary": "Deletes an app",
                 "description": "Deletes an app by slug. Use with care, make sure you really want to delete the app. This action cannot be undone.",
-                "operationId": "appDelete",
+                "operationId": "app_delete",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -509,10 +509,10 @@
                 ],
                 "summary": "Updates an app",
                 "description": "Updates an app by slug. Only updates the fields specified in the body.",
-                "operationId": "appUpdate",
+                "operationId": "app_update",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -592,17 +592,17 @@
                 "x-codegen-request-body-name": "app"
             }
         },
-        "/apps/{app-slug}/addons": {
+        "/apps/{app_slug}/addons": {
             "get": {
                 "tags": [
                     "addons"
                 ],
                 "summary": "Get list of the addons for apps",
                 "description": "List all the provisioned addons for the authorized apps",
-                "operationId": "addonListByApp",
+                "operationId": "addon_list_by_app",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -673,17 +673,17 @@
                 ]
             }
         },
-        "/apps/{app-slug}/android-keystore-files": {
+        "/apps/{app_slug}/android-keystore-files": {
             "get": {
                 "tags": [
                     "android-keystore-file"
                 ],
                 "summary": "Get a list of the android keystore files",
                 "description": "List all the android keystore files that have been uploaded to a specific app.",
-                "operationId": "androidKeystoreFileList",
+                "operationId": "android_keystore_file_list",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -776,10 +776,10 @@
                 ],
                 "summary": "Create an Android keystore file",
                 "description": "Add a new Android keystore file to an app. `keystore_file_name` is required if there is already an existing keystore file for the app. It will determine the environment variable key to be used to refer to the keystore file in builds. E.g. `BITRISE_ANDROID_KEYSTORE_<keystore_file_name>_URL`. The `keystore_file_name` can only contain letters, numbers, and underscores.",
-                "operationId": "androidKeystoreFileCreate",
+                "operationId": "android_keystore_file_create",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -856,20 +856,20 @@
                         "PersonalAccessToken": []
                     }
                 ],
-                "x-codegen-request-body-name": "android-keystore-file"
+                "x-codegen-request-body-name": "android_keystore_file"
             }
         },
-        "/apps/{app-slug}/android-keystore-files/{android-keystore-file-slug}": {
+        "/apps/{app_slug}/android-keystore-files/{android_keystore_file_slug}": {
             "delete": {
                 "tags": [
                     "android-keystore-file"
                 ],
                 "summary": "Delete an android keystore file",
-                "description": "Delete an app's android keystore file. You can fetch an app's android keystore file slug if you first list all the uploaded files with the [GET /apps/{app-slug}/android-keystore-files](https://api-docs.bitrise.io/#/android-keystore-file/android-keystore-file-list) endpoint. Read more in our [Deleting a file](https://devcenter.bitrise.io/api/managing-android-keystore-files.html) guide.",
-                "operationId": "androidKeystoreFileDelete",
+                "description": "Delete an app's android keystore file. You can fetch an app's android keystore file slug if you first list all the uploaded files with the [GET /apps/{app_slug}/android-keystore-files](https://api-docs.bitrise.io/#/android-keystore-file/android-keystore-file-list) endpoint. Read more in our [Deleting a file](https://devcenter.bitrise.io/api/managing-android-keystore-files.html) guide.",
+                "operationId": "android_keystore_file_delete",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -878,7 +878,7 @@
                         }
                     },
                     {
-                        "name": "android-keystore-file-slug",
+                        "name": "android_keystore_file_slug",
                         "in": "path",
                         "description": "Android keystore file slug",
                         "required": true,
@@ -946,17 +946,17 @@
                 ]
             }
         },
-        "/apps/{app-slug}/android-keystore-files/{android-keystore-file-slug}/uploaded": {
+        "/apps/{app_slug}/android-keystore-files/{android_keystore_file_slug}/uploaded": {
             "post": {
                 "tags": [
                     "android-keystore-file"
                 ],
                 "summary": "Confirm an android keystore file upload",
                 "description": "This is the last step of uploading an android keystore file to Bitrise. Confirm the android keystore file upload and view the file on the Code Signing tab of a specific app. Read more in our [Confirming the upload](https://devcenter.bitrise.io/api/managing-files-in-generic-file-storage/#confirming-the-file-upload) guide.",
-                "operationId": "androidKeystoreFileConfirm",
+                "operationId": "android_keystore_file_confirm",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -965,7 +965,7 @@
                         }
                     },
                     {
-                        "name": "android-keystore-file-slug",
+                        "name": "android_keystore_file_slug",
                         "in": "path",
                         "description": "Android keystore file slug",
                         "required": true,
@@ -1033,17 +1033,17 @@
                 ]
             }
         },
-        "/apps/{app-slug}/archived-builds": {
+        "/apps/{app_slug}/archived-builds": {
             "get": {
                 "tags": [
                     "builds"
                 ],
                 "summary": "List 1000 archived builds of an app",
                 "description": "List the first 1000 archived builds of a specified Bitrise app. Set parameters to filter builds:",
-                "operationId": "archivedBuildsList",
+                "operationId": "archived_builds_list",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -1132,17 +1132,17 @@
                 ]
             }
         },
-        "/apps/{app-slug}/bitrise.yml": {
+        "/apps/{app_slug}/bitrise.yml": {
             "get": {
                 "tags": [
                     "application"
                 ],
                 "summary": "Get bitrise.yml of a specific app",
                 "description": "Get the full `bitrise.yml` configuration of an application, by providing the app slug. It returns the current `bitrise.yml` that is stored on bitrise.io in full, including the trigger map, the different workflows and the Steps.",
-                "operationId": "appConfigDatastoreShow",
+                "operationId": "app_config_datastore_show",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -1218,10 +1218,10 @@
                 ],
                 "summary": "Upload a new bitrise.yml for your application.",
                 "description": "Upload a new bitrise.yml for your application.",
-                "operationId": "appConfigCreate",
+                "operationId": "app_config_create",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -1298,20 +1298,20 @@
                         "PersonalAccessToken": []
                     }
                 ],
-                "x-codegen-request-body-name": "app-config"
+                "x-codegen-request-body-name": "app_config"
             }
         },
-        "/apps/{app-slug}/bitrise.yml/config": {
+        "/apps/{app_slug}/bitrise.yml/config": {
             "get": {
                 "tags": [
                     "app-setup"
                 ],
                 "summary": "Getting the location of the application's bitrise.yaml",
                 "description": "Getting the location of the application's bitrise.yaml. Requires administrator level privileges to the app.",
-                "operationId": "appSetupBitriseYmlConfigGet",
+                "operationId": "app_setup_bitrise_yml_config_get",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -1384,10 +1384,10 @@
                 ],
                 "summary": "Changing the location of the application's bitrise.yaml",
                 "description": "Changing the location of the application's bitrise.yaml. Requires administrator level privileges to the app.",
-                "operationId": "appSetupBitriseYmlConfigUpdate",
+                "operationId": "app_setup_bitrise_yml_config_update",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -1461,17 +1461,17 @@
                 "x-codegen-request-body-name": "app"
             }
         },
-        "/apps/{app-slug}/branches": {
+        "/apps/{app_slug}/branches": {
             "get": {
                 "tags": [
                     "application"
                 ],
                 "summary": "List the branches with existing builds of an app's repository",
                 "description": "Lists only those branches of a specified Bitrise app that have existing builds.",
-                "operationId": "branchList",
+                "operationId": "branch_list",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -1542,17 +1542,17 @@
                 ]
             }
         },
-        "/apps/{app-slug}/build-certificates": {
+        "/apps/{app_slug}/build-certificates": {
             "get": {
                 "tags": [
                     "build-certificate"
                 ],
                 "summary": "Get a list of the build certificates",
                 "description": "List all the build certificates that have been uploaded to a specific app. Read more in our [Listing the uploaded iOS code signing files of an app](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#listing-the-uploaded-ios-code-signing-files-of-an-app) guide.",
-                "operationId": "buildCertificateList",
+                "operationId": "build_certificate_list",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -1644,11 +1644,11 @@
                     "build-certificate"
                 ],
                 "summary": "Create a build certificate",
-                "description": "Create a temporary pre-signed upload URL for the build certificate and upload the file to AWS with a simple `curl` request. To complete the uploading process and view your files on the Code Signing tab of your app, continue with the [POST /apps/{app-slug}/build-certificates/{build-certificate-slug}/uploaded](https://api-docs.bitrise.io/#/build-certificate/build-certificate-confirm) endpoint. Read more in our [Creating and uploading an iOS code signing file](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#creating--uploading-an-ios-code-signing-file) guide.",
-                "operationId": "buildCertificateCreate",
+                "description": "Create a temporary pre-signed upload URL for the build certificate and upload the file to AWS with a simple `curl` request. To complete the uploading process and view your files on the Code Signing tab of your app, continue with the [POST /apps/{app_slug}/build-certificates/{build_certificate_slug}/uploaded](https://api-docs.bitrise.io/#/build-certificate/build-certificate-confirm) endpoint. Read more in our [Creating and uploading an iOS code signing file](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#creating--uploading-an-ios-code-signing-file) guide.",
+                "operationId": "build_certificate_create",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -1725,20 +1725,20 @@
                         "PersonalAccessToken": []
                     }
                 ],
-                "x-codegen-request-body-name": "build-certificate"
+                "x-codegen-request-body-name": "build_certificate"
             }
         },
-        "/apps/{app-slug}/build-certificates/{build-certificate-slug}": {
+        "/apps/{app_slug}/build-certificates/{build_certificate_slug}": {
             "get": {
                 "tags": [
                     "build-certificate"
                 ],
                 "summary": "Get a specific build certificate",
-                "description": "Retrieve data of a specific build certificate. You can fetch the build certificate slug for this endpoint if you first call the [GET /apps/{app-slug}/build-certificates](https://api-docs.bitrise.io/#/build-certificate/build-certificate-list) endpoint to list all available build certificates of an app. Read more in our [Getting a specific iOS code signing file's data](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#getting-a-specific-ios-code-signing-files-data) guide.",
-                "operationId": "buildCertificateShow",
+                "description": "Retrieve data of a specific build certificate. You can fetch the build certificate slug for this endpoint if you first call the [GET /apps/{app_slug}/build-certificates](https://api-docs.bitrise.io/#/build-certificate/build-certificate-list) endpoint to list all available build certificates of an app. Read more in our [Getting a specific iOS code signing file's data](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#getting-a-specific-ios-code-signing-files-data) guide.",
+                "operationId": "build_certificate_show",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -1747,7 +1747,7 @@
                         }
                     },
                     {
-                        "name": "build-certificate-slug",
+                        "name": "build_certificate_slug",
                         "in": "path",
                         "description": "Build certificate slug",
                         "required": true,
@@ -1819,11 +1819,11 @@
                     "build-certificate"
                 ],
                 "summary": "Delete a build certificate",
-                "description": "Delete an app's build certificate. You can fetch the build certificate slug for this endpoint if you first call the [GET /apps/{app-slug}/build-certificates](https://api-docs.bitrise.io/#/build-certificate/build-certificate-list) endpoint to list all available build certificates of an app. Read more in our [Deleting an iOS code signing file](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#deleting-an-ios-code-signing-file) guide.",
-                "operationId": "buildCertificateDelete",
+                "description": "Delete an app's build certificate. You can fetch the build certificate slug for this endpoint if you first call the [GET /apps/{app_slug}/build-certificates](https://api-docs.bitrise.io/#/build-certificate/build-certificate-list) endpoint to list all available build certificates of an app. Read more in our [Deleting an iOS code signing file](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#deleting-an-ios-code-signing-file) guide.",
+                "operationId": "build_certificate_delete",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -1832,7 +1832,7 @@
                         }
                     },
                     {
-                        "name": "build-certificate-slug",
+                        "name": "build_certificate_slug",
                         "in": "path",
                         "description": "Build certificate slug",
                         "required": true,
@@ -1904,11 +1904,11 @@
                     "build-certificate"
                 ],
                 "summary": "Update a build certificate",
-                "description": "Update an uploaded build certificate's attributes. You can fetch the build certificate slug for this endpoint if you first call the [GET /apps/{app-slug}/build-certificates](https://api-docs.bitrise.io/#/build-certificate/build-certificate-list) endpoint. Read more in our [Updating an uploaded iOS code signing file](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#confirming-the-ios-code-signing-file-upload) guide.",
-                "operationId": "buildCertificateUpdate",
+                "description": "Update an uploaded build certificate's attributes. You can fetch the build certificate slug for this endpoint if you first call the [GET /apps/{app_slug}/build-certificates](https://api-docs.bitrise.io/#/build-certificate/build-certificate-list) endpoint. Read more in our [Updating an uploaded iOS code signing file](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#confirming-the-ios-code-signing-file-upload) guide.",
+                "operationId": "build_certificate_update",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -1917,7 +1917,7 @@
                         }
                     },
                     {
-                        "name": "build-certificate-slug",
+                        "name": "build_certificate_slug",
                         "in": "path",
                         "description": "Build certificate slug",
                         "required": true,
@@ -1994,20 +1994,20 @@
                         "PersonalAccessToken": []
                     }
                 ],
-                "x-codegen-request-body-name": "build-certificate"
+                "x-codegen-request-body-name": "build_certificate"
             }
         },
-        "/apps/{app-slug}/build-certificates/{build-certificate-slug}/uploaded": {
+        "/apps/{app_slug}/build-certificates/{build_certificate_slug}/uploaded": {
             "post": {
                 "tags": [
                     "build-certificate"
                 ],
                 "summary": "Confirm a build certificate upload",
                 "description": "This is the last step of uploading a build certificate to Bitrise. Confirm the build certificate upload and view the file on the Code Signing tab of a specific app. Read more in our [Confirming the iOS code signing file upload](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#confirming-the-ios-code-signing-file-upload) guide.",
-                "operationId": "buildCertificateConfirm",
+                "operationId": "build_certificate_confirm",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -2016,7 +2016,7 @@
                         }
                     },
                     {
-                        "name": "build-certificate-slug",
+                        "name": "build_certificate_slug",
                         "in": "path",
                         "description": "Build certificate slug",
                         "required": true,
@@ -2084,17 +2084,17 @@
                 ]
             }
         },
-        "/apps/{app-slug}/build-requests": {
+        "/apps/{app_slug}/build-requests": {
             "get": {
                 "tags": [
                     "build-request"
                 ],
                 "summary": "List the open build requests for an app",
                 "description": "List the existing open build requests of a specified Bitrise app",
-                "operationId": "buildRequestList",
+                "operationId": "build_request_list",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -2165,17 +2165,17 @@
                 ]
             }
         },
-        "/apps/{app-slug}/build-requests/{build-request-slug}": {
+        "/apps/{app_slug}/build-requests/{build_request_slug}": {
             "patch": {
                 "tags": [
                     "build-request"
                 ],
                 "summary": "Update a build request",
                 "description": "Update a specific build request of a specific app",
-                "operationId": "buildRequestUpdate",
+                "operationId": "build_request_update",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -2184,7 +2184,7 @@
                         }
                     },
                     {
-                        "name": "build-request-slug",
+                        "name": "build_request_slug",
                         "in": "path",
                         "description": "Build request slug",
                         "required": true,
@@ -2261,20 +2261,20 @@
                         "PersonalAccessToken": []
                     }
                 ],
-                "x-codegen-request-body-name": "build-request"
+                "x-codegen-request-body-name": "build_request"
             }
         },
-        "/apps/{app-slug}/build-workflows": {
+        "/apps/{app_slug}/build-workflows": {
             "get": {
                 "tags": [
                     "builds"
                 ],
                 "summary": "List the workflows of an app",
                 "description": "List the workflows that were triggered at any time for a given Bitrise app. Note that it might list workflows that are currently not defined in the app's `bitrise.yml` configuration - and conversely, workflows that were never triggered will not be listed even if they are defined in the `bitrise.yml` file.",
-                "operationId": "buildWorkflowList",
+                "operationId": "build_workflow_list",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -2345,17 +2345,17 @@
                 ]
             }
         },
-        "/apps/{app-slug}/builds": {
+        "/apps/{app_slug}/builds": {
             "get": {
                 "tags": [
                     "builds"
                 ],
                 "summary": "List all builds of an app",
                 "description": "List all the builds of a specified Bitrise app. Set parameters to filter builds: for example, you can search for builds run with a given workflow or all builds that were triggered by Pull Requests. It returns all the relevant data of the build.",
-                "operationId": "buildList",
+                "operationId": "build_list",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -2541,10 +2541,10 @@
                 ],
                 "summary": "Trigger a new build/pipeline",
                 "description": "Trigger a new build/pipeline. Specify an app slug and at least one parameter out of three: a git tag or git commit hash, a branch, or a workflow/pipeline ID. You can also set specific parameters for Pull Request builds/pipelines and define additional environment variables for your build/pipeline. [Check out our detailed guide](https://devcenter.bitrise.io/api/build-trigger/).",
-                "operationId": "buildTrigger",
+                "operationId": "build_trigger",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -2627,17 +2627,17 @@
                 "x-codegen-request-body-name": "build_params"
             }
         },
-        "/apps/{app-slug}/builds/{build-slug}": {
+        "/apps/{app_slug}/builds/{build_slug}": {
             "get": {
                 "tags": [
                     "builds"
                 ],
                 "summary": "Get a build of a given app",
                 "description": "Get the specified build of a given Bitrise app. You need to provide both an app slug and a build slug. You can get the build slug either by calling the [/builds](https://api-docs.bitrise.io/#/builds/build-list) endpoint or by clicking on the build on bitrise.io and copying the slug from the URL. The endpoint returns all the relevant data of the build.",
-                "operationId": "buildShow",
+                "operationId": "build_show",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -2646,7 +2646,7 @@
                         }
                     },
                     {
-                        "name": "build-slug",
+                        "name": "build_slug",
                         "in": "path",
                         "description": "Build slug",
                         "required": true,
@@ -2717,17 +2717,17 @@
                 ]
             }
         },
-        "/apps/{app-slug}/builds/{build-slug}/abort": {
+        "/apps/{app_slug}/builds/{build_slug}/abort": {
             "post": {
                 "tags": [
                     "builds"
                 ],
                 "summary": "Abort a specific build",
                 "description": "Abort a specific build. Set an abort reason with the `abort_reason` parameter. Use the `abort_with_success` parameter to abort a build but still count it as a successful one.",
-                "operationId": "buildAbort",
+                "operationId": "build_abort",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -2736,7 +2736,7 @@
                         }
                     },
                     {
-                        "name": "build-slug",
+                        "name": "build_slug",
                         "in": "path",
                         "description": "Build slug",
                         "required": true,
@@ -2826,20 +2826,20 @@
                         "AddonAuthToken": []
                     }
                 ],
-                "x-codegen-request-body-name": "build-abort-params"
+                "x-codegen-request-body-name": "build_abort_params"
             }
         },
-        "/apps/{app-slug}/builds/{build-slug}/artifacts": {
+        "/apps/{app_slug}/builds/{build_slug}/artifacts": {
             "get": {
                 "tags": [
                     "build-artifact"
                 ],
                 "summary": "Get a list of all build artifacts",
                 "description": "List all build artifacts that have been generated for an app's build. This endpoint can retrieve artifacts from the archive as well. You can use the created build artifact slugs from the response output to retrieve data of a specific build artifact with the [GET/apps/](https://api-docs.bitrise.io/#/build-artifact/artifact-show) endpoint or update a build artifact with the [PATCH/apps](https://api-docs.bitrise.io/#/build-artifact/artifact-update) endpoint.",
-                "operationId": "artifactList",
+                "operationId": "artifact_list",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -2848,7 +2848,7 @@
                         }
                     },
                     {
-                        "name": "build-slug",
+                        "name": "build_slug",
                         "in": "path",
                         "description": "Build slug",
                         "required": true,
@@ -2936,17 +2936,17 @@
                 ]
             }
         },
-        "/apps/{app-slug}/builds/{build-slug}/artifacts/{artifact-slug}": {
+        "/apps/{app_slug}/builds/{build_slug}/artifacts/{artifact_slug}": {
             "get": {
                 "tags": [
                     "build-artifact"
                 ],
                 "summary": "Get a specific build artifact",
                 "description": "Retrieve data of a specific build artifact. The endpoint can retrieve archived artifacts as well. The response output contains a time-limited download url (expires in 10 minutes) and a public install-page URL. You can view the build artifact with both URLs, but the public install-page url will not work unless you [enable it](https://devcenter.bitrise.io/tutorials/deploy/bitrise-app-deployment/#enabling-public-page-for-the-app).",
-                "operationId": "artifactShow",
+                "operationId": "artifact_show",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -2955,7 +2955,7 @@
                         }
                     },
                     {
-                        "name": "build-slug",
+                        "name": "build_slug",
                         "in": "path",
                         "description": "Build slug",
                         "required": true,
@@ -2964,7 +2964,7 @@
                         }
                     },
                     {
-                        "name": "artifact-slug",
+                        "name": "artifact_slug",
                         "in": "path",
                         "description": "Artifact slug",
                         "required": true,
@@ -3048,10 +3048,10 @@
                 ],
                 "summary": "Delete a build artifact",
                 "description": "Delete a build artifact of an app's build. The required parameters are app slug, build slug and artifact slug. You can fetch the build artifact slug if you first list all build artifacts of an app with the [/apps/](https://api-docs.bitrise.io/#/build-artifact/artifact-list) endpoint.",
-                "operationId": "artifactDelete",
+                "operationId": "artifact_delete",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -3060,7 +3060,7 @@
                         }
                     },
                     {
-                        "name": "build-slug",
+                        "name": "build_slug",
                         "in": "path",
                         "description": "Build slug",
                         "required": true,
@@ -3069,7 +3069,7 @@
                         }
                     },
                     {
-                        "name": "artifact-slug",
+                        "name": "artifact_slug",
                         "in": "path",
                         "description": "Artifact slug",
                         "required": true,
@@ -3142,10 +3142,10 @@
                 ],
                 "summary": "Update a build artifact",
                 "description": "Update the `is_public_page_enabled` attribute of your app's build. The required parameters are app slug, build slug and artifact slug. You can fetch the build artifact slug if you first list all build artifacts of an app with the [GET /apps/](https://api-docs.bitrise.io/#/build-artifact/artifact-list) endpoint.",
-                "operationId": "artifactUpdate",
+                "operationId": "artifact_update",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -3154,7 +3154,7 @@
                         }
                     },
                     {
-                        "name": "build-slug",
+                        "name": "build_slug",
                         "in": "path",
                         "description": "Build slug",
                         "required": true,
@@ -3163,7 +3163,7 @@
                         }
                     },
                     {
-                        "name": "artifact-slug",
+                        "name": "artifact_slug",
                         "in": "path",
                         "description": "Artifact slug",
                         "required": true,
@@ -3240,20 +3240,20 @@
                         "PersonalAccessToken": []
                     }
                 ],
-                "x-codegen-request-body-name": "artifact-params"
+                "x-codegen-request-body-name": "artifact_params"
             }
         },
-        "/apps/{app-slug}/builds/{build-slug}/bitrise.yml": {
+        "/apps/{app_slug}/builds/{build_slug}/bitrise.yml": {
             "get": {
                 "tags": [
                     "builds"
                 ],
                 "summary": "Get the bitrise.yml of a build",
                 "description": "Get the bitrise.yml file of one of the builds of a given app. This will return the `bitrise.yml` configuration with which the build ran. You can compare it to [the current bitrise.yml configuration](https://api-docs.bitrise.io/#/application/app-config-datastore-show) of the app.",
-                "operationId": "buildBitriseYmlShow",
+                "operationId": "build_bitrise_yml_show",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -3262,7 +3262,7 @@
                         }
                     },
                     {
-                        "name": "build-slug",
+                        "name": "build_slug",
                         "in": "path",
                         "description": "Build slug",
                         "required": true,
@@ -3333,17 +3333,17 @@
                 ]
             }
         },
-        "/apps/{app-slug}/builds/{build-slug}/log": {
+        "/apps/{app_slug}/builds/{build_slug}/log": {
             "get": {
                 "tags": [
                     "builds"
                 ],
                 "summary": "Get the build log of a build",
                 "description": "Get the build log of a specified build of a Bitrise app. You can get the build slug either by calling the [/builds](https://api-docs.bitrise.io/#/builds/build-list) endpoint or by clicking on the build on bitrise.io and copying the slug from the URL. Preview of the log is returned in `log_chunks` field in JSON format. You can download the full raw log in txt by using the signed url returned in `expiring_raw_log_url`. Be aware that this url is expiring in 10 minutes!",
-                "operationId": "buildLog",
+                "operationId": "build_log",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -3352,7 +3352,7 @@
                         }
                     },
                     {
-                        "name": "build-slug",
+                        "name": "build_slug",
                         "in": "path",
                         "description": "Build slug",
                         "required": true,
@@ -3413,17 +3413,17 @@
                 ]
             }
         },
-        "/apps/{app-slug}/cache-items": {
+        "/apps/{app_slug}/cache-items": {
             "get": {
                 "tags": [
                     "key-value-cache"
                 ],
                 "summary": "List the key-value cache items belonging to an app",
                 "description": "List all the available cache items that the builds of the app created via the save-cache step.",
-                "operationId": "cacheList",
+                "operationId": "cache_list",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -3512,10 +3512,10 @@
                 ],
                 "summary": "Deletes all key-value cache items belonging to an app",
                 "description": "Deletes all key-value cache items created by the builds of an app. Deleted cache items are no longer accessible and cannot be restored.",
-                "operationId": "cacheItemDeleteAll",
+                "operationId": "cache_item_delete_all",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -3577,17 +3577,17 @@
                 ]
             }
         },
-        "/apps/{app-slug}/cache-items/{cache-item-id}": {
+        "/apps/{app_slug}/cache-items/{cache_item_id}": {
             "delete": {
                 "tags": [
                     "key-value-cache"
                 ],
                 "summary": "Deletes a key-value cache item",
                 "description": "Deletes a key-value cache item. Deleted cache items are no longer accessible and cannot be restored.",
-                "operationId": "cacheItemDelete",
+                "operationId": "cache_item_delete",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -3596,7 +3596,7 @@
                         }
                     },
                     {
-                        "name": "cache-item-id",
+                        "name": "cache_item_id",
                         "in": "path",
                         "description": "The ID of the cache item to be deleted",
                         "required": true,
@@ -3658,17 +3658,17 @@
                 ]
             }
         },
-        "/apps/{app-slug}/cache-items/{cache-item-id}/download": {
+        "/apps/{app_slug}/cache-items/{cache_item_id}/download": {
             "get": {
                 "tags": [
                     "key-value-cache"
                 ],
                 "summary": "Gets the download URL of a key-value cache item",
                 "description": "Gets a download URL of a cache item.",
-                "operationId": "cacheItemDownload",
+                "operationId": "cache_item_download",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -3677,7 +3677,7 @@
                         }
                     },
                     {
-                        "name": "cache-item-id",
+                        "name": "cache_item_id",
                         "in": "path",
                         "description": "The ID of the cache item to be downloaded",
                         "required": true,
@@ -3745,17 +3745,17 @@
                 ]
             }
         },
-        "/apps/{app-slug}/finish": {
+        "/apps/{app_slug}/finish": {
             "post": {
                 "tags": [
                     "app-setup"
                 ],
                 "summary": "Save the application at the end of the app registration process",
                 "description": "Save the application after registering it on Bitrise and registering an SSH key (and, optionally, adding a webhook). With this endpoint you can define the initial configuration, define application-level environment variables, determine the project type, and set an Organization to be the owner of the app. Read more about the app registration process in our [detailed guide](https://devcenter.bitrise.io/api/adding-and-managing-apps/#adding-a-new-app).",
-                "operationId": "appFinish",
+                "operationId": "app_finish",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -3835,17 +3835,17 @@
                 "x-codegen-request-body-name": "app"
             }
         },
-        "/apps/{app-slug}/generic-project-files": {
+        "/apps/{app_slug}/generic-project-files": {
             "get": {
                 "tags": [
                     "generic-project-file"
                 ],
                 "summary": "Get a list of the generic project files",
                 "description": "List all the generic project files that have been uploaded to a specific app. Read more in our [Listing the uploaded files of an app](https://devcenter.bitrise.io/api/managing-files-in-generic-file-storage/#listing-the-uploaded-files-of-an-app) guide.",
-                "operationId": "genericProjectFileList",
+                "operationId": "generic_project_file_list",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -3937,11 +3937,11 @@
                     "generic-project-file"
                 ],
                 "summary": "Create a generic project file",
-                "description": "Create a temporary pre-signed upload URL (expires in 10 minutes) for the generic project file and upload it to AWS with a simple `curl` request. To complete the uploading process and view your files on the Code Signing tab of your app, continue with the [POST /apps/{app-slug}/generic-project-files/{generic-project-file-slug}/uploaded](https://api-docs.bitrise.io/#/generic-project-file/generic-project-file-confirm) endpoint. Read more in our [Creating and uploading files to Generic File Storage](https://devcenter.bitrise.io/api/managing-files-in-generic-file-storage/#creating-and-uploading-files-to-generic-file-storage) guide.",
-                "operationId": "genericProjectFilesCreate",
+                "description": "Create a temporary pre-signed upload URL (expires in 10 minutes) for the generic project file and upload it to AWS with a simple `curl` request. To complete the uploading process and view your files on the Code Signing tab of your app, continue with the [POST /apps/{app_slug}/generic-project-files/{generic_project_file_slug}/uploaded](https://api-docs.bitrise.io/#/generic-project-file/generic-project-file-confirm) endpoint. Read more in our [Creating and uploading files to Generic File Storage](https://devcenter.bitrise.io/api/managing-files-in-generic-file-storage/#creating-and-uploading-files-to-generic-file-storage) guide.",
+                "operationId": "generic_project_files_create",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -4018,20 +4018,20 @@
                         "PersonalAccessToken": []
                     }
                 ],
-                "x-codegen-request-body-name": "generic-project-file"
+                "x-codegen-request-body-name": "generic_project_file"
             }
         },
-        "/apps/{app-slug}/generic-project-files/{generic-project-file-slug}": {
+        "/apps/{app_slug}/generic-project-files/{generic_project_file_slug}": {
             "get": {
                 "tags": [
                     "generic-project-file"
                 ],
                 "summary": "Get a specific generic project file",
                 "description": "Retrieve data of a specific generic project file to check its attributes and optionally modify them with the [PATCH /apps/](https://api-docs.bitrise.io/#/generic-project-file/generic-project-file-update) endpoint. Read more in our [Retrieving a specific file's data](https://devcenter.bitrise.io/api/managing-files-in-generic-file-storage/#retrieving-a-specific-files-data) guide.",
-                "operationId": "genericProjectFileShow",
+                "operationId": "generic_project_file_show",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -4040,7 +4040,7 @@
                         }
                     },
                     {
-                        "name": "generic-project-file-slug",
+                        "name": "generic_project_file_slug",
                         "in": "path",
                         "description": "Generic project file slug",
                         "required": true,
@@ -4112,11 +4112,11 @@
                     "generic-project-file"
                 ],
                 "summary": "Delete a generic project file",
-                "description": "Delete an app's generic project file. You can fetch an app's generic project file slug if you first list all the uploaded files with the [GET /apps/{app-slug}/generic-project-files](https://api-docs.bitrise.io/#/generic-project-file/generic-project-file-list) endpoint. Read more in our [Deleting a file](https://devcenter.bitrise.io/api/managing-files-in-generic-file-storage/#deleting-a-file) guide.",
-                "operationId": "genericProjectFileDelete",
+                "description": "Delete an app's generic project file. You can fetch an app's generic project file slug if you first list all the uploaded files with the [GET /apps/{app_slug}/generic-project-files](https://api-docs.bitrise.io/#/generic-project-file/generic-project-file-list) endpoint. Read more in our [Deleting a file](https://devcenter.bitrise.io/api/managing-files-in-generic-file-storage/#deleting-a-file) guide.",
+                "operationId": "generic_project_file_delete",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -4125,7 +4125,7 @@
                         }
                     },
                     {
-                        "name": "generic-project-file-slug",
+                        "name": "generic_project_file_slug",
                         "in": "path",
                         "description": "Generic project file slug",
                         "required": true,
@@ -4197,11 +4197,11 @@
                     "generic-project-file"
                 ],
                 "summary": "Update a generic project file",
-                "description": "Update a generic project file's attributes. You can fetch an app's generic project file slug if you first list all the uploaded files with the [GET /apps/{app-slug}/generic-project-files](https://api-docs.bitrise.io/#/generic-project-file/generic-project-file-list) endpoint. Read more in our [Updating an uploaded file](https://devcenter.bitrise.io/api/managing-files-in-generic-file-storage/#updating-an-uploaded-file) guide.",
-                "operationId": "genericProjectFileUpdate",
+                "description": "Update a generic project file's attributes. You can fetch an app's generic project file slug if you first list all the uploaded files with the [GET /apps/{app_slug}/generic-project-files](https://api-docs.bitrise.io/#/generic-project-file/generic-project-file-list) endpoint. Read more in our [Updating an uploaded file](https://devcenter.bitrise.io/api/managing-files-in-generic-file-storage/#updating-an-uploaded-file) guide.",
+                "operationId": "generic_project_file_update",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -4210,7 +4210,7 @@
                         }
                     },
                     {
-                        "name": "generic-project-file-slug",
+                        "name": "generic_project_file_slug",
                         "in": "path",
                         "description": "Generic project file slug",
                         "required": true,
@@ -4287,20 +4287,20 @@
                         "PersonalAccessToken": []
                     }
                 ],
-                "x-codegen-request-body-name": "generic-project-file"
+                "x-codegen-request-body-name": "generic_project_file"
             }
         },
-        "/apps/{app-slug}/generic-project-files/{generic-project-file-slug}/uploaded": {
+        "/apps/{app_slug}/generic-project-files/{generic_project_file_slug}/uploaded": {
             "post": {
                 "tags": [
                     "generic-project-file"
                 ],
                 "summary": "Confirm a generic project file upload",
                 "description": "This is the last step of uploading a generic project file to Bitrise. Confirm the generic project file upload and view the file on the Code Signing tab of a specific app. Read more in our [Confirming the upload](https://devcenter.bitrise.io/api/managing-files-in-generic-file-storage/#confirming-the-file-upload) guide.",
-                "operationId": "genericProjectFileConfirm",
+                "operationId": "generic_project_file_confirm",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -4309,7 +4309,7 @@
                         }
                     },
                     {
-                        "name": "generic-project-file-slug",
+                        "name": "generic_project_file_slug",
                         "in": "path",
                         "description": "Generic project file slug",
                         "required": true,
@@ -4377,17 +4377,17 @@
                 ]
             }
         },
-        "/apps/{app-slug}/outgoing-webhooks": {
+        "/apps/{app_slug}/outgoing-webhooks": {
             "get": {
                 "tags": [
                     "outgoing-webhook"
                 ],
                 "summary": "List the outgoing webhooks of an app",
                 "description": "List all the outgoing webhooks registered for a specified Bitrise app. This returns all the relevant data of the webhook, including the slug of the webhook and its URL.",
-                "operationId": "outgoingWebhookList",
+                "operationId": "outgoing_webhook_list",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -4470,10 +4470,10 @@
                 ],
                 "summary": "Create an outgoing webhook for an app",
                 "description": "Create an outgoing webhook for a specified Bitrise app: this can be used to send build events to a specified URL with custom headers. Currently, only build events can trigger outgoing webhooks.",
-                "operationId": "outgoingWebhookCreate",
+                "operationId": "outgoing_webhook_create",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -4553,20 +4553,20 @@
                         "AddonAuthToken": []
                     }
                 ],
-                "x-codegen-request-body-name": "app-webhook-create-params"
+                "x-codegen-request-body-name": "app_webhook_create_params"
             }
         },
-        "/apps/{app-slug}/outgoing-webhooks/{app-webhook-slug}": {
+        "/apps/{app_slug}/outgoing-webhooks/{app_webhook_slug}": {
             "put": {
                 "tags": [
                     "outgoing-webhook"
                 ],
                 "summary": "Update an outgoing webhook of an app",
                 "description": "Update an existing outgoing webhook (URL, events, secrets and headers) for a specified Bitrise app. Even if you do not want to change one of the parameters, you still have to provide that parameter as well: simply use its existing value.",
-                "operationId": "outgoingWebhookUpdate",
+                "operationId": "outgoing_webhook_update",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -4575,7 +4575,7 @@
                         }
                     },
                     {
-                        "name": "app-webhook-slug",
+                        "name": "app_webhook_slug",
                         "in": "path",
                         "description": "App webhook slug",
                         "required": true,
@@ -4652,7 +4652,7 @@
                         "PersonalAccessToken": []
                     }
                 ],
-                "x-codegen-request-body-name": "app-webhook-update-params"
+                "x-codegen-request-body-name": "app_webhook_update_params"
             },
             "delete": {
                 "tags": [
@@ -4660,10 +4660,10 @@
                 ],
                 "summary": "Delete an outgoing webhook of an app",
                 "description": "Delete an existing outgoing webhook for a specified Bitrise app.",
-                "operationId": "outgoingWebhookDelete",
+                "operationId": "outgoing_webhook_delete",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -4672,7 +4672,7 @@
                         }
                     },
                     {
-                        "name": "app-webhook-slug",
+                        "name": "app_webhook_slug",
                         "in": "path",
                         "description": "App webhook slug",
                         "required": true,
@@ -4740,17 +4740,17 @@
                 ]
             }
         },
-        "/apps/{app-slug}/outgoing-webhooks/{app-webhook-slug}/delivery-items": {
+        "/apps/{app_slug}/outgoing-webhooks/{app_webhook_slug}/delivery-items": {
             "get": {
                 "tags": [
                     "webhook-delivery-item"
                 ],
                 "summary": "List the webhook delivery items of an app",
                 "description": "List all the delivery items of an outgoing webhook of a Bitrise application",
-                "operationId": "webhookDeliveryItemList",
+                "operationId": "webhook_delivery_item_list",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -4759,7 +4759,7 @@
                         }
                     },
                     {
-                        "name": "app-webhook-slug",
+                        "name": "app_webhook_slug",
                         "in": "path",
                         "description": "App webhook slug",
                         "required": true,
@@ -4834,17 +4834,17 @@
                 ]
             }
         },
-        "/apps/{app-slug}/outgoing-webhooks/{app-webhook-slug}/delivery-items/{webhook-delivery-item-slug}": {
+        "/apps/{app_slug}/outgoing-webhooks/{app_webhook_slug}/delivery-items/{webhook_delivery_item_slug}": {
             "get": {
                 "tags": [
                     "webhook-delivery-item"
                 ],
                 "summary": "Get a specific delivery item of a webhook",
                 "description": "Get the specified delivery item of an outgoing webhook of a Bitrise application",
-                "operationId": "webhookDeliveryItemShow",
+                "operationId": "webhook_delivery_item_show",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -4853,7 +4853,7 @@
                         }
                     },
                     {
-                        "name": "app-webhook-slug",
+                        "name": "app_webhook_slug",
                         "in": "path",
                         "description": "App webhook slug",
                         "required": true,
@@ -4862,7 +4862,7 @@
                         }
                     },
                     {
-                        "name": "webhook-delivery-item-slug",
+                        "name": "webhook_delivery_item_slug",
                         "in": "path",
                         "description": "Webhook delivery item slug",
                         "required": true,
@@ -4920,17 +4920,17 @@
                 ]
             }
         },
-        "/apps/{app-slug}/outgoing-webhooks/{app-webhook-slug}/delivery-items/{webhook-delivery-item-slug}/redeliver": {
+        "/apps/{app_slug}/outgoing-webhooks/{app_webhook_slug}/delivery-items/{webhook_delivery_item_slug}/redeliver": {
             "post": {
                 "tags": [
                     "webhook-delivery-item"
                 ],
                 "summary": "Re-deliver the webhook delivery items of an app",
                 "description": "Re-deliver the delivery item of a specified webhook of a Bitrise application",
-                "operationId": "webhookDeliveryItemRedeliver",
+                "operationId": "webhook_delivery_item_redeliver",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -4939,7 +4939,7 @@
                         }
                     },
                     {
-                        "name": "app-webhook-slug",
+                        "name": "app_webhook_slug",
                         "in": "path",
                         "description": "App webhook slug",
                         "required": true,
@@ -4948,7 +4948,7 @@
                         }
                     },
                     {
-                        "name": "webhook-delivery-item-slug",
+                        "name": "webhook_delivery_item_slug",
                         "in": "path",
                         "description": "Webhook delivery item slug",
                         "required": true,
@@ -5006,14 +5006,14 @@
                 ]
             }
         },
-        "/apps/{app-slug}/pipelines": {
+        "/apps/{app_slug}/pipelines": {
             "get": {
                 "tags": [
                     "pipelines"
                 ],
                 "summary": "List all pipelines and standalone builds of an app",
                 "description": "List all the pipelines and standalone builds of a specified Bitrise app. Set parameters to filter pipelines: for example, you can search for pipelines/standalone builds run with a given workflow name or all pipelines/standalone builds that were triggered by Pull Requests. It returns all the relevant data of the pipelines/standalone builds.",
-                "operationId": "pipelineList",
+                "operationId": "pipeline_list",
                 "parameters": [
                     {
                         "name": "after",
@@ -5024,7 +5024,7 @@
                         }
                     },
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -5175,17 +5175,17 @@
                 ]
             }
         },
-        "/apps/{app-slug}/pipelines/{pipeline-id}": {
+        "/apps/{app_slug}/pipelines/{pipeline_id}": {
             "get": {
                 "tags": [
                     "pipelines"
                 ],
                 "summary": "Get a pipeline of a given app",
                 "description": "Get the specified pipeline of a given Bitrise app. You need to provide both an app slug and a pipeline id. You can get the pipeline id either by calling the [/pipelines](https://api-docs.bitrise.io/#/pipelines/pipeline-list) endpoint or by clicking on the pipeline on bitrise.io and copying the id from the URL. The endpoint returns all the relevant data of the pipeline.",
-                "operationId": "pipelineShow",
+                "operationId": "pipeline_show",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -5194,7 +5194,7 @@
                         }
                     },
                     {
-                        "name": "pipeline-id",
+                        "name": "pipeline_id",
                         "in": "path",
                         "description": "Pipeline id",
                         "required": true,
@@ -5265,17 +5265,17 @@
                 ]
             }
         },
-        "/apps/{app-slug}/pipelines/{pipeline-id}/abort": {
+        "/apps/{app_slug}/pipelines/{pipeline_id}/abort": {
             "post": {
                 "tags": [
                     "pipelines"
                 ],
                 "summary": "Aborts a pipeline",
                 "description": "Aborts a pipeline. You need to provide the app slug and the id of the pipeline. You can add an abort reason, choose to skip notifications and make the abort with success state.",
-                "operationId": "pipelineAbort",
+                "operationId": "pipeline_abort",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -5284,7 +5284,7 @@
                         }
                     },
                     {
-                        "name": "pipeline-id",
+                        "name": "pipeline_id",
                         "in": "path",
                         "description": "Pipeline id",
                         "required": true,
@@ -5358,20 +5358,20 @@
                         "AddonAuthToken": []
                     }
                 ],
-                "x-codegen-request-body-name": "pipeline-abort-params"
+                "x-codegen-request-body-name": "pipeline_abort_params"
             }
         },
-        "/apps/{app-slug}/pipelines/{pipeline-id}/rebuild": {
+        "/apps/{app_slug}/pipelines/{pipeline_id}/rebuild": {
             "post": {
                 "tags": [
                     "pipelines"
                 ],
                 "summary": "Rebuilds a pipeline",
                 "description": "Rebuilds a pipeline. You can rebuild the whole pipeline or only the unsuccessful and subsequent workflows by setting the partial flag to true.",
-                "operationId": "pipelineRebuild",
+                "operationId": "pipeline_rebuild",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -5380,7 +5380,7 @@
                         }
                     },
                     {
-                        "name": "pipeline-id",
+                        "name": "pipeline_id",
                         "in": "path",
                         "description": "Pipeline id",
                         "required": true,
@@ -5461,20 +5461,20 @@
                         "PersonalAccessToken": []
                     }
                 ],
-                "x-codegen-request-body-name": "pipeline-rebuild-params"
+                "x-codegen-request-body-name": "pipeline_rebuild_params"
             }
         },
-        "/apps/{app-slug}/provisioning-profiles": {
+        "/apps/{app_slug}/provisioning-profiles": {
             "get": {
                 "tags": [
                     "provisioning-profile"
                 ],
                 "summary": "Get a list of the provisioning profiles",
                 "description": "List all the provisioning profiles that have been uploaded to a specific app. Read more in our [Listing the uploaded iOS code signing files of an app](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#listing-the-uploaded-ios-code-signing-files-of-an-app) guide.",
-                "operationId": "provisioningProfileList",
+                "operationId": "provisioning_profile_list",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -5566,11 +5566,11 @@
                     "provisioning-profile"
                 ],
                 "summary": "Create a provisioning profile",
-                "description": "Create a temporary pre-signed upload URL (expires in 10 minutes) for the provisioning profile and upload it to AWS with a simple `curl` request. To complete the upload process, continue with the [POST /apps/{app-slug}/provisioning-profiles/{provisioning-profile-slug}/uploaded](https://api-docs.bitrise.io/#/provisioning-profile/provisioning-profile-confirm) endpoint. Read more in our [Creating and uploading an iOS code signing file](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#creating--uploading-an-ios-code-signing-file) guide.",
-                "operationId": "provisioningProfileCreate",
+                "description": "Create a temporary pre-signed upload URL (expires in 10 minutes) for the provisioning profile and upload it to AWS with a simple `curl` request. To complete the upload process, continue with the [POST /apps/{app_slug}/provisioning-profiles/{provisioning_profile_slug}/uploaded](https://api-docs.bitrise.io/#/provisioning-profile/provisioning-profile-confirm) endpoint. Read more in our [Creating and uploading an iOS code signing file](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#creating--uploading-an-ios-code-signing-file) guide.",
+                "operationId": "provisioning_profile_create",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -5647,20 +5647,20 @@
                         "PersonalAccessToken": []
                     }
                 ],
-                "x-codegen-request-body-name": "provisioning-profile"
+                "x-codegen-request-body-name": "provisioning_profile"
             }
         },
-        "/apps/{app-slug}/provisioning-profiles/{provisioning-profile-slug}": {
+        "/apps/{app_slug}/provisioning-profiles/{provisioning_profile_slug}": {
             "get": {
                 "tags": [
                     "provisioning-profile"
                 ],
                 "summary": "Get a specific provisioning profile",
-                "description": "Retrieve data of a specific provisioning profile. You can fetch the provisioning profile's slug if you call the [GET /apps/{app-slug}/provisioning-profiles](https://api-docs.bitrise.io/#/provisioning-profile/provisioning-profile-list) endpoint. Read more in our [Getting a specific iOS code signing file's data](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#getting-a-specific-ios-code-signing-files-data) guide.",
-                "operationId": "provisioningProfileShow",
+                "description": "Retrieve data of a specific provisioning profile. You can fetch the provisioning profile's slug if you call the [GET /apps/{app_slug}/provisioning-profiles](https://api-docs.bitrise.io/#/provisioning-profile/provisioning-profile-list) endpoint. Read more in our [Getting a specific iOS code signing file's data](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#getting-a-specific-ios-code-signing-files-data) guide.",
+                "operationId": "provisioning_profile_show",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -5669,7 +5669,7 @@
                         }
                     },
                     {
-                        "name": "provisioning-profile-slug",
+                        "name": "provisioning_profile_slug",
                         "in": "path",
                         "description": "Provisioning profile slug",
                         "required": true,
@@ -5741,11 +5741,11 @@
                     "provisioning-profile"
                 ],
                 "summary": "Delete a provisioning profile",
-                "description": "Delete an app's provisioning profile. You can fetch the provisioning profile's slug if you call the [GET /apps/{app-slug}/provisioning-profiles](https://api-docs.bitrise.io/#/provisioning-profile/provisioning-profile-list) endpoint. Read more in our [Deleting an iOS code signing file](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#deleting-an-ios-code-signing-file) guide.",
-                "operationId": "provisioningProfileDelete",
+                "description": "Delete an app's provisioning profile. You can fetch the provisioning profile's slug if you call the [GET /apps/{app_slug}/provisioning-profiles](https://api-docs.bitrise.io/#/provisioning-profile/provisioning-profile-list) endpoint. Read more in our [Deleting an iOS code signing file](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#deleting-an-ios-code-signing-file) guide.",
+                "operationId": "provisioning_profile_delete",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -5754,7 +5754,7 @@
                         }
                     },
                     {
-                        "name": "provisioning-profile-slug",
+                        "name": "provisioning_profile_slug",
                         "in": "path",
                         "description": "Provisioning profile slug",
                         "required": true,
@@ -5826,11 +5826,11 @@
                     "provisioning-profile"
                 ],
                 "summary": "Update a provisioning profile",
-                "description": "Update an uploaded provisioning profile's attributes. You can fetch the provisioning profile's slug if you call the [GET /apps/{app-slug}/provisioning-profiles](https://api-docs.bitrise.io/#/provisioning-profile/provisioning-profile-list) endpoint. Read more in our [Updating an uploaded iOS code signing file](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#confirming-the-ios-code-signing-file-upload) guide.",
-                "operationId": "provisioningProfileUpdate",
+                "description": "Update an uploaded provisioning profile's attributes. You can fetch the provisioning profile's slug if you call the [GET /apps/{app_slug}/provisioning-profiles](https://api-docs.bitrise.io/#/provisioning-profile/provisioning-profile-list) endpoint. Read more in our [Updating an uploaded iOS code signing file](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#confirming-the-ios-code-signing-file-upload) guide.",
+                "operationId": "provisioning_profile_update",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -5839,7 +5839,7 @@
                         }
                     },
                     {
-                        "name": "provisioning-profile-slug",
+                        "name": "provisioning_profile_slug",
                         "in": "path",
                         "description": "Provisioning profile slug",
                         "required": true,
@@ -5916,20 +5916,20 @@
                         "PersonalAccessToken": []
                     }
                 ],
-                "x-codegen-request-body-name": "provisioning-profile"
+                "x-codegen-request-body-name": "provisioning_profile"
             }
         },
-        "/apps/{app-slug}/provisioning-profiles/{provisioning-profile-slug}/uploaded": {
+        "/apps/{app_slug}/provisioning-profiles/{provisioning_profile_slug}/uploaded": {
             "post": {
                 "tags": [
                     "provisioning-profile"
                 ],
                 "summary": "Confirm a provisioning profile upload",
                 "description": "This is the last step of the upload process. Confirm the provisioning profile upload and view the file on the Code Signing tab of a specific app. Read more in our [Confirming the iOS code signing file upload](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#confirming-the-ios-code-signing-file-upload) guide.",
-                "operationId": "provisioningProfileConfirm",
+                "operationId": "provisioning_profile_confirm",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -5938,7 +5938,7 @@
                         }
                     },
                     {
-                        "name": "provisioning-profile-slug",
+                        "name": "provisioning_profile_slug",
                         "in": "path",
                         "description": "Provisioning profile slug",
                         "required": true,
@@ -6006,17 +6006,17 @@
                 ]
             }
         },
-        "/apps/{app-slug}/register-ssh-key": {
+        "/apps/{app_slug}/register-ssh-key": {
             "post": {
                 "tags": [
                     "app-setup"
                 ],
                 "summary": "Add an SSH-key to a specific app",
                 "description": "Add an SSH-key to a specific app. After creating an app, you need to register the SSH key so that Bitrise will be able to access and clone your repository during the build process. This requires the app slug of your newly created app.",
-                "operationId": "sshKeyCreate",
+                "operationId": "ssh_key_create",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -6093,20 +6093,20 @@
                         "PersonalAccessToken": []
                     }
                 ],
-                "x-codegen-request-body-name": "ssh-key"
+                "x-codegen-request-body-name": "ssh_key"
             }
         },
-        "/apps/{app-slug}/register-webhook": {
+        "/apps/{app_slug}/register-webhook": {
             "post": {
                 "tags": [
                     "app-setup"
                 ],
                 "summary": "Register an incoming webhook for a specific application",
                 "description": "[Register an incoming webhook](https://devcenter.bitrise.io/api/incoming-and-outgoing-webhooks/#incoming-webhooks) for a specific application. You can do this during the app registration process or at any other time in an app's life. When calling this endpoint, a webhook is registered at your git provider: this is necessary to automatically trigger builds on Bitrise.",
-                "operationId": "appWebhookCreate",
+                "operationId": "app_webhook_create",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -6174,17 +6174,17 @@
                 ]
             }
         },
-        "/apps/{app-slug}/releases/app-store": {
+        "/apps/{app_slug}/releases/app-store": {
             "post": {
                 "tags": [
                     "releases"
                 ],
                 "summary": "Create a new Apple App Store release for the app.",
                 "description": "Create a new iOS release for the specified app. If the release candidate parameters (`release_branch` and `workflow`) are specified then the latest successful build is automatically picked up as release candidate and if `automatic_testflight_upload` is also turned on, then an upload to TestFlight is started immediately. You can use this endpoint to set up a fully automated release flow.",
-                "operationId": "releaseCreateAppStore",
+                "operationId": "release_create_app_store",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -6274,17 +6274,17 @@
                 "x-codegen-request-body-name": "app"
             }
         },
-        "/apps/{app-slug}/releases/google-play": {
+        "/apps/{app_slug}/releases/google-play": {
             "post": {
                 "tags": [
                     "releases"
                 ],
                 "summary": "Create a new Google Play Store release for the app.",
                 "description": "Create a new android release for the specified app. If the release candidate parameters (`release_branch` and `workflow`) are specified then the latest successful build is automatically picked up as release candidate and if `automatic_play_console_upload` is also turned on, then an upload to Google Play Console is started immediately. You can use this endpoint to set up a fully automated release flow.",
-                "operationId": "releaseCreateGooglePlay",
+                "operationId": "release_create_google_play",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -6374,16 +6374,16 @@
                 "x-codegen-request-body-name": "app"
             }
         },
-        "/apps/{app-slug}/roles/{role-name}": {
+        "/apps/{app_slug}/roles/{role_name}": {
             "get": {
                 "tags": [
                     "application"
                 ],
                 "summary": "Lists group roles for an app",
-                "operationId": "appRolesQuery",
+                "operationId": "app_roles_query",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "Slug of the app",
                         "required": true,
@@ -6392,7 +6392,7 @@
                         }
                     },
                     {
-                        "name": "role-name",
+                        "name": "role_name",
                         "in": "path",
                         "description": "Name of the role being queried, supported values are: admin, manager (equals developer), and member (equals tester/qa)",
                         "required": true,
@@ -6455,10 +6455,10 @@
                 ],
                 "summary": "Replaces group roles for an app",
                 "description": "Replaces the groups for a given role on an app. Only the given groups will be present for a role on the app after this call.",
-                "operationId": "appRolesUpdate",
+                "operationId": "app_roles_update",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "Slug of the app",
                         "required": true,
@@ -6467,7 +6467,7 @@
                         }
                     },
                     {
-                        "name": "role-name",
+                        "name": "role_name",
                         "in": "path",
                         "description": "Name of the role being modified, supported values are: admin, manager (equals developer), and member (equals tester/qa)",
                         "required": true,
@@ -6552,17 +6552,17 @@
                 "x-codegen-request-body-name": "groups"
             }
         },
-        "/apps/{app-slug}/secrets": {
+        "/apps/{app_slug}/secrets": {
             "get": {
                 "tags": [
                     "secrets"
                 ],
                 "summary": "List the application secrets (with no values)",
                 "description": "List the application secrets (with no values). Requires administrator level privileges to the app.",
-                "operationId": "secretList",
+                "operationId": "secret_list",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -6643,10 +6643,10 @@
                 ],
                 "summary": "Create a new app secret",
                 "description": "Create a new app secret",
-                "operationId": "appSecretCreate",
+                "operationId": "app_secret_create",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "app slug",
                         "required": true,
@@ -6737,17 +6737,17 @@
                 "x-codegen-request-body-name": "secret"
             }
         },
-        "/apps/{app-slug}/secrets/{secret-name}": {
+        "/apps/{app_slug}/secrets/{secret_name}": {
             "get": {
                 "tags": [
                     "secrets"
                 ],
                 "summary": "Get a single app secret by name",
                 "description": "Get a single app secret by name, including the value if not protected",
-                "operationId": "appSecretsShow",
+                "operationId": "app_secrets_show",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "app slug",
                         "required": true,
@@ -6756,7 +6756,7 @@
                         }
                     },
                     {
-                        "name": "secret-name",
+                        "name": "secret_name",
                         "in": "path",
                         "description": "secret name",
                         "required": true,
@@ -6831,10 +6831,10 @@
                 ],
                 "summary": "Upsert an application secret",
                 "description": "Upsert an application secret. Requires administrator level privileges to the app.",
-                "operationId": "secretUpsert",
+                "operationId": "secret_upsert",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -6843,7 +6843,7 @@
                         }
                     },
                     {
-                        "name": "secret-name",
+                        "name": "secret_name",
                         "in": "path",
                         "description": "Secret name",
                         "required": true,
@@ -6945,10 +6945,10 @@
                 ],
                 "summary": "Delete an application secret",
                 "description": "Delete an application secret. Requires administrator level privileges to the app.",
-                "operationId": "secretDelete",
+                "operationId": "secret_delete",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -6957,7 +6957,7 @@
                         }
                     },
                     {
-                        "name": "secret-name",
+                        "name": "secret_name",
                         "in": "path",
                         "description": "Secret name",
                         "required": true,
@@ -7024,10 +7024,10 @@
                 ],
                 "summary": "Update an existing app secret",
                 "description": "Update an existing app secret. If the secret is protected, only its value can be overridden.",
-                "operationId": "appSecretUpdate",
+                "operationId": "app_secret_update",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "app slug",
                         "required": true,
@@ -7036,7 +7036,7 @@
                         }
                     },
                     {
-                        "name": "secret-name",
+                        "name": "secret_name",
                         "in": "path",
                         "description": "secret name",
                         "required": true,
@@ -7132,17 +7132,17 @@
                 "x-codegen-request-body-name": "secret"
             }
         },
-        "/apps/{app-slug}/secrets/{secret-name}/value": {
+        "/apps/{app_slug}/secrets/{secret_name}/value": {
             "get": {
                 "tags": [
                     "secrets"
                 ],
                 "summary": "Get the value of an (unprotected) application secrets",
                 "description": "Get the value of an (unprotected) application secrets. Requires administrator level privileges to the app.",
-                "operationId": "secretValueGet",
+                "operationId": "secret_value_get",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -7151,7 +7151,7 @@
                         }
                     },
                     {
-                        "name": "secret-name",
+                        "name": "secret_name",
                         "in": "path",
                         "description": "Secret name",
                         "required": true,
@@ -7225,17 +7225,17 @@
                 ]
             }
         },
-        "/apps/{app-slug}/test-devices": {
+        "/apps/{app_slug}/test-devices": {
             "get": {
                 "tags": [
                     "test-devices"
                 ],
                 "summary": "List the test devices for an app",
                 "description": "List registered test devices of all members of a specified Bitrise app",
-                "operationId": "testDeviceList",
+                "operationId": "test_device_list",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -7306,17 +7306,17 @@
                 ]
             }
         },
-        "/apps/{app-slug}/update-email-notifications": {
+        "/apps/{app_slug}/update-email-notifications": {
             "patch": {
                 "tags": [
                     "application"
                 ],
                 "summary": "Updates the app's notification settings",
                 "description": "Updates the app's email notification settings with parameters",
-                "operationId": "appNotifications",
+                "operationId": "app_notifications",
                 "parameters": [
                     {
-                        "name": "app-slug",
+                        "name": "app_slug",
                         "in": "path",
                         "description": "App slug",
                         "required": true,
@@ -7403,7 +7403,7 @@
                 ],
                 "summary": "List all builds",
                 "description": "List all the Bitrise builds that can be accessed with the authenticated account. Filter builds based on their owner, using the owner slug, or the status of the build.",
-                "operationId": "buildListAll",
+                "operationId": "build_list_all",
                 "parameters": [
                     {
                         "name": "owner_slug",
@@ -7507,17 +7507,17 @@
                 ]
             }
         },
-        "/groups/{group-slug}/add_member": {
+        "/groups/{group_slug}/add_member": {
             "post": {
                 "tags": [
                     "groups"
                 ],
                 "summary": "Add a member to a group",
                 "description": "Add a member to a group",
-                "operationId": "groupMemberAdd",
+                "operationId": "group_member_add",
                 "parameters": [
                     {
-                        "name": "group-slug",
+                        "name": "group_slug",
                         "in": "path",
                         "description": "group slug",
                         "required": true,
@@ -7564,7 +7564,7 @@
                 ],
                 "summary": "Get your profile info",
                 "description": "Shows the authenticated users profile info",
-                "operationId": "userProfile",
+                "operationId": "user_profile",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -7621,7 +7621,7 @@
                 ],
                 "summary": "Get list of Bitrise activity events",
                 "description": "List all the Bitrise activity events",
-                "operationId": "activityList",
+                "operationId": "activity_list",
                 "parameters": [
                     {
                         "name": "next",
@@ -7707,7 +7707,7 @@
                 ],
                 "summary": "The subscription plan of the user",
                 "description": "Get the subscription of the user: the current plan, any pending plans, and the duration of a trial period if applicable",
-                "operationId": "userPlan",
+                "operationId": "user_plan",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -7774,7 +7774,7 @@
                 ],
                 "summary": "List the organizations that the user is part of",
                 "description": "List all Bitrise organizations that the user is part of",
-                "operationId": "orgList",
+                "operationId": "org_list",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -7834,17 +7834,17 @@
                 ]
             }
         },
-        "/organizations/{org-slug}": {
+        "/organizations/{org_slug}": {
             "get": {
                 "tags": [
                     "organizations"
                 ],
                 "summary": "Get a specified organization.",
                 "description": "Get a specified Bitrise organization that the user is part of.",
-                "operationId": "orgShow",
+                "operationId": "org_show",
                 "parameters": [
                     {
-                        "name": "org-slug",
+                        "name": "org_slug",
                         "in": "path",
                         "description": "The organization slug",
                         "required": true,
@@ -7912,17 +7912,17 @@
                 ]
             }
         },
-        "/organizations/{org-slug}/apps": {
+        "/organizations/{org_slug}/apps": {
             "get": {
                 "tags": [
                     "application"
                 ],
                 "summary": "Get list of the apps for an organization",
                 "description": "List all the available apps owned by a given organization. [Find the organization URL](https://devcenter.bitrise.io/team-management/organizations/org-url/) of the organisations you are part of; be aware that the endpoint will not return any apps if the authenticated account is not a member of the given organisation.",
-                "operationId": "appListByOrganization",
+                "operationId": "app_list_by_organization",
                 "parameters": [
                     {
-                        "name": "org-slug",
+                        "name": "org_slug",
                         "in": "path",
                         "description": "Organization slug",
                         "required": true,
@@ -8035,17 +8035,17 @@
                 ]
             }
         },
-        "/organizations/{org-slug}/apps/machine_types": {
+        "/organizations/{org_slug}/apps/machine_types": {
             "patch": {
                 "tags": [
                     "organizations"
                 ],
                 "summary": "Migrate machine types",
                 "description": "Migrates all apps' machine types of an organization from one machine type to another",
-                "operationId": "organizationMachineTypeUpdate",
+                "operationId": "organization_machine_type_update",
                 "parameters": [
                     {
-                        "name": "org-slug",
+                        "name": "org_slug",
                         "in": "path",
                         "description": "Organization slug",
                         "required": true,
@@ -8125,17 +8125,17 @@
                 "x-codegen-request-body-name": "types"
             }
         },
-        "/organizations/{org-slug}/groups": {
+        "/organizations/{org_slug}/groups": {
             "get": {
                 "tags": [
                     "organizations"
                 ],
                 "summary": "List organizations groups",
                 "description": "Lists the groups of an organization",
-                "operationId": "organizationGroupList",
+                "operationId": "organization_group_list",
                 "parameters": [
                     {
-                        "name": "org-slug",
+                        "name": "org_slug",
                         "in": "path",
                         "description": "organization slug",
                         "required": true,
@@ -8201,10 +8201,10 @@
                 ],
                 "summary": "Adds a group to the organization",
                 "description": "Adds a group to the organization",
-                "operationId": "organizationGroupAdd",
+                "operationId": "organization_group_add",
                 "parameters": [
                     {
-                        "name": "org-slug",
+                        "name": "org_slug",
                         "in": "path",
                         "description": "organization slug",
                         "required": true,
@@ -8279,17 +8279,17 @@
                 "x-codegen-request-body-name": "member"
             }
         },
-        "/organizations/{org-slug}/members": {
+        "/organizations/{org_slug}/members": {
             "get": {
                 "tags": [
                     "organizations"
                 ],
                 "summary": "List the members of the organization",
                 "description": "List the members of the organization",
-                "operationId": "memberList",
+                "operationId": "member_list",
                 "parameters": [
                     {
-                        "name": "org-slug",
+                        "name": "org_slug",
                         "in": "path",
                         "description": "organization slug",
                         "required": true,
@@ -8345,10 +8345,10 @@
                 ],
                 "summary": "Adds a member to the organization",
                 "description": "Adds a member to the organization",
-                "operationId": "memberAdd",
+                "operationId": "member_add",
                 "parameters": [
                     {
-                        "name": "org-slug",
+                        "name": "org_slug",
                         "in": "path",
                         "description": "organization slug",
                         "required": true,
@@ -8423,17 +8423,17 @@
                 "x-codegen-request-body-name": "member"
             }
         },
-        "/organizations/{org-slug}/secrets": {
+        "/organizations/{org_slug}/secrets": {
             "get": {
                 "tags": [
                     "secrets"
                 ],
                 "summary": "Get the secrets of an organization",
                 "description": "Get the secrets of an organization",
-                "operationId": "organizationSecretsList",
+                "operationId": "organization_secrets_list",
                 "parameters": [
                     {
-                        "name": "org-slug",
+                        "name": "org_slug",
                         "in": "path",
                         "description": "organization slug",
                         "required": true,
@@ -8504,10 +8504,10 @@
                 ],
                 "summary": "Create a new organization secret",
                 "description": "Create a new organization secret",
-                "operationId": "organizationSecretCreate",
+                "operationId": "organization_secret_create",
                 "parameters": [
                     {
-                        "name": "org-slug",
+                        "name": "org_slug",
                         "in": "path",
                         "description": "organization slug",
                         "required": true,
@@ -8601,17 +8601,17 @@
                 "x-codegen-request-body-name": "secret"
             }
         },
-        "/organizations/{org-slug}/secrets/{secret-name}": {
+        "/organizations/{org_slug}/secrets/{secret_name}": {
             "get": {
                 "tags": [
                     "secrets"
                 ],
                 "summary": "Get a single secret by name",
                 "description": "Get a single secret by name, including the value if not protected",
-                "operationId": "organizationSecretsShow",
+                "operationId": "organization_secrets_show",
                 "parameters": [
                     {
-                        "name": "org-slug",
+                        "name": "org_slug",
                         "in": "path",
                         "description": "organization slug",
                         "required": true,
@@ -8620,7 +8620,7 @@
                         }
                     },
                     {
-                        "name": "secret-name",
+                        "name": "secret_name",
                         "in": "path",
                         "description": "secret name",
                         "required": true,
@@ -8695,10 +8695,10 @@
                 ],
                 "summary": "Delete a secret by name",
                 "description": "Delete a secret by name",
-                "operationId": "organizationSecretDelete",
+                "operationId": "organization_secret_delete",
                 "parameters": [
                     {
-                        "name": "org-slug",
+                        "name": "org_slug",
                         "in": "path",
                         "description": "organization slug",
                         "required": true,
@@ -8707,7 +8707,7 @@
                         }
                     },
                     {
-                        "name": "secret-name",
+                        "name": "secret_name",
                         "in": "path",
                         "description": "secret name",
                         "required": true,
@@ -8764,10 +8764,10 @@
                 ],
                 "summary": "Update an existing secret",
                 "description": "Update an existing secret. If the secret is protected, only its value can be overridden.",
-                "operationId": "organizationSecretUpdate",
+                "operationId": "organization_secret_update",
                 "parameters": [
                     {
-                        "name": "org-slug",
+                        "name": "org_slug",
                         "in": "path",
                         "description": "organization slug",
                         "required": true,
@@ -8776,7 +8776,7 @@
                         }
                     },
                     {
-                        "name": "secret-name",
+                        "name": "secret_name",
                         "in": "path",
                         "description": "secret name",
                         "required": true,
@@ -8872,17 +8872,17 @@
                 "x-codegen-request-body-name": "secret"
             }
         },
-        "/organizations/{organization-slug}/addons": {
+        "/organizations/{organization_slug}/addons": {
             "get": {
                 "tags": [
                     "addons"
                 ],
                 "summary": "Get list of the addons for organization",
                 "description": "List all the provisioned addons for organization",
-                "operationId": "addonListByOrganization",
+                "operationId": "addon_list_by_organization",
                 "parameters": [
                     {
-                        "name": "organization-slug",
+                        "name": "organization_slug",
                         "in": "path",
                         "description": "Organization slug",
                         "required": true,
@@ -8957,7 +8957,7 @@
                 ],
                 "summary": "List all pipelines/standalone builds",
                 "description": "List all the Bitrise pipelines/standalone builds that can be accessed with the authenticated account. Filter pipelines/standalone builds based on their owner, using the owner slug, or the status of the pipeline/standalone build.",
-                "operationId": "pipelineListAll",
+                "operationId": "pipeline_list_all",
                 "parameters": [
                     {
                         "name": "owner_slug",
@@ -9051,17 +9051,17 @@
                 ]
             }
         },
-        "/user/{user-slug}/apps/machine_types": {
+        "/user/{user_slug}/apps/machine_types": {
             "patch": {
                 "tags": [
                     "user"
                 ],
                 "summary": "Migrate machine types",
                 "description": "Migrates all apps' machine types of a user from one machine type to another",
-                "operationId": "userMachineTypeUpdate",
+                "operationId": "user_machine_type_update",
                 "parameters": [
                     {
-                        "name": "user-slug",
+                        "name": "user_slug",
                         "in": "path",
                         "description": "User slug",
                         "required": true,
@@ -9141,17 +9141,17 @@
                 "x-codegen-request-body-name": "types"
             }
         },
-        "/users/{user-slug}": {
+        "/users/{user_slug}": {
             "get": {
                 "tags": [
                     "user"
                 ],
                 "summary": "Get a specific user",
                 "description": "Show information about a specific user",
-                "operationId": "userShow",
+                "operationId": "user_show",
                 "parameters": [
                     {
-                        "name": "user-slug",
+                        "name": "user_slug",
                         "in": "path",
                         "description": "User slug",
                         "required": true,
@@ -9219,17 +9219,17 @@
                 ]
             }
         },
-        "/users/{user-slug}/addons": {
+        "/users/{user_slug}/addons": {
             "get": {
                 "tags": [
                     "addons"
                 ],
                 "summary": "Get list of the addons for user",
                 "description": "List all the provisioned addons for the authenticated user",
-                "operationId": "addonListByUser",
+                "operationId": "addon_list_by_user",
                 "parameters": [
                     {
-                        "name": "user-slug",
+                        "name": "user_slug",
                         "in": "path",
                         "description": "User slug",
                         "required": true,
@@ -9297,17 +9297,17 @@
                 ]
             }
         },
-        "/users/{user-slug}/apple-api-credentials": {
+        "/users/{user_slug}/apple-api-credentials": {
             "get": {
                 "tags": [
                     "apple-api-credentials"
                 ],
                 "summary": "List Apple API credentials for a specific user",
                 "description": "List Apple API credentials for a specific Bitrise user",
-                "operationId": "appleApiCredentialList",
+                "operationId": "apple_api_credential_list",
                 "parameters": [
                     {
-                        "name": "user-slug",
+                        "name": "user_slug",
                         "in": "path",
                         "description": "User slug",
                         "required": true,
@@ -9375,17 +9375,17 @@
                 ]
             }
         },
-        "/users/{user-slug}/apps": {
+        "/users/{user_slug}/apps": {
             "get": {
                 "tags": [
                     "application"
                 ],
                 "summary": "Get list of the apps for a user",
                 "description": "List all the available apps for the given user.  It needs the user slug that you can get from the [GET /me](https://api-docs.bitrise.io/#/user/user-profile) endpoint.",
-                "operationId": "appListByUser",
+                "operationId": "app_list_by_user",
                 "parameters": [
                     {
-                        "name": "user-slug",
+                        "name": "user_slug",
                         "in": "path",
                         "description": "User slug",
                         "required": true,
