@@ -20,7 +20,7 @@ final class BitriseAPITests: XCTestCase {
 
         let client = try Client(
             serverURL: Servers.server1(),
-            transport: ClientTransportMock(response: transportResponse)
+            transport: StaticResponseTransport(response: transportResponse)
         )
 
         let response = try await client.appList()
@@ -68,7 +68,7 @@ final class BitriseAPITests: XCTestCase {
 
         let client = try Client(
             serverURL: Servers.server1(),
-            transport: ClientTransportMock(response: transportResponse)
+            transport: StaticResponseTransport(response: transportResponse)
         )
 
         let response = try await client.appList()
@@ -82,7 +82,7 @@ final class BitriseAPITests: XCTestCase {
     }
 }
 
-struct ClientTransportMock: ClientTransport {
+private struct StaticResponseTransport: ClientTransport {
     let response: (HTTPTypes.HTTPResponse, OpenAPIRuntime.HTTPBody?)
 
     func send(
