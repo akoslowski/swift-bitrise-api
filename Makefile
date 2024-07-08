@@ -17,8 +17,8 @@ download:
 	@echo "Download completed. $(FILE)"
 
 rename-operations:
-	@swift run operation-renamer
-	@echo "Operation renamed."
+	@swift run renamer
+	@echo "Everything renamed."
 
 convert-to-openapi:
 	@curl -s -X 'POST' 'https://converter.swagger.io/api/convert' \

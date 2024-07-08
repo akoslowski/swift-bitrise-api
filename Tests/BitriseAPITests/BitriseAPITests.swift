@@ -4,7 +4,7 @@ import OpenAPIRuntime
 import XCTest
 
 final class BitriseAPITests: XCTestCase {
-    func testEmptyResponse() async throws {
+    func testAppsEmptyResponse() async throws {
         let transportResponse: (HTTPTypes.HTTPResponse, OpenAPIRuntime.HTTPBody?) = (
             .init(status: .ok),
             """
@@ -18,12 +18,12 @@ final class BitriseAPITests: XCTestCase {
             """
         )
 
-        let client = try Client(
+        let client = try await Client(
             serverURL: Servers.server1(),
             transport: StaticResponseTransport(response: transportResponse)
         )
 
-        let response = try await client.appList()
+        let response = try await client.app_list()
 
         let apps = try XCTUnwrap(response.ok.body.json.data)
         XCTAssertTrue(apps.isEmpty)
@@ -32,7 +32,7 @@ final class BitriseAPITests: XCTestCase {
         XCTAssertEqual(paging.value1.total_item_count, 0)
     }
 
-    func testAppResponse() async throws {
+    func testAppsResponse() async throws {
         let transportResponse: (HTTPTypes.HTTPResponse, OpenAPIRuntime.HTTPBody?) = (
             .init(status: .ok),
             """
@@ -66,12 +66,12 @@ final class BitriseAPITests: XCTestCase {
             """
         )
 
-        let client = try Client(
+        let client = try await Client(
             serverURL: Servers.server1(),
             transport: StaticResponseTransport(response: transportResponse)
         )
 
-        let response = try await client.appList()
+        let response = try await client.app_list()
 
         let app = try XCTUnwrap(response.ok.body.json.data?.first)
         XCTAssertEqual(app.title, "some-app-title")
@@ -80,17 +80,61 @@ final class BitriseAPITests: XCTestCase {
         let paging = try XCTUnwrap(response.ok.body.json.paging)
         XCTAssertEqual(paging.value1.total_item_count, 1)
     }
+
+    func testBuildsResponse() async throws {
+        let transportResponse: (HTTPTypes.HTTPResponse, OpenAPIRuntime.HTTPBody?) = (
+            .init(status: .ok),
+            """
+            {
+              "data": [],
+              "paging": {
+                "total_item_count": 0,
+                "page_item_limit": 50
+              }
+            }
+            """
+        )
+
+        let transport = await StaticResponseTransport(response: transportResponse)
+        let client = Client(
+            serverURL: try Servers.server1(),
+            transport: transport
+        )
+
+        let response = try await client.build_list(path: .init(app_slug: "some-app-slug"))
+
+        let input = await transport.input
+        XCTAssertEqual(input?.request.path, "/apps/some-app-slug/builds")
+        XCTAssertEqual(input?.operationID, "build_list")
+
+        let apps = try XCTUnwrap(response.ok.body.json.data)
+        XCTAssertTrue(apps.isEmpty)
+    }
 }
 
-private struct StaticResponseTransport: ClientTransport {
+// MARK: -
+
+@MainActor
+private final class StaticResponseTransport: ClientTransport {
     let response: (HTTPTypes.HTTPResponse, OpenAPIRuntime.HTTPBody?)
+    private(set) var input: (
+        request: HTTPTypes.HTTPRequest,
+        body: OpenAPIRuntime.HTTPBody?,
+        baseURL: URL,
+        operationID: String
+    )?
+
+    init(response: (HTTPResponse, HTTPBody?)) {
+        self.response = response
+    }
 
     func send(
-        _: HTTPTypes.HTTPRequest,
-        body _: OpenAPIRuntime.HTTPBody?,
-        baseURL _: URL,
-        operationID _: String
+        _ request: HTTPTypes.HTTPRequest,
+        body: OpenAPIRuntime.HTTPBody?,
+        baseURL: URL,
+        operationID: String
     ) async throws -> (HTTPTypes.HTTPResponse, OpenAPIRuntime.HTTPBody?) {
-        response
+        input = (request, body, baseURL, operationID)
+        return response
     }
 }

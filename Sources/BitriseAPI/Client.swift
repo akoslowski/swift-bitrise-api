@@ -43,11 +43,11 @@ public struct Client: APIProtocol {
     /// List all the available Bitrise addons
     ///
     /// - Remark: HTTP `GET /addons`.
-    /// - Remark: Generated from `#/paths//addons/get(addonsList)`.
-    public func addonsList(_ input: Operations.addonsList.Input) async throws -> Operations.addonsList.Output {
+    /// - Remark: Generated from `#/paths//addons/get(addons_list)`.
+    public func addons_list(_ input: Operations.addons_list.Input) async throws -> Operations.addons_list.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.addonsList.id,
+            forOperation: Operations.addons_list.id,
             serializer: { input in
                 let path = try converter.renderedPath(
                     template: "/addons",
@@ -68,7 +68,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.addonsList.Output.Ok.Body
+                    let body: Operations.addons_list.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -90,7 +90,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.addonsList.Output.BadRequest.Body
+                    let body: Operations.addons_list.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -112,7 +112,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.addonsList.Output.Unauthorized.Body
+                    let body: Operations.addons_list.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -134,7 +134,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.addonsList.Output.NotFound.Body
+                    let body: Operations.addons_list.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -156,7 +156,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.addonsList.Output.InternalServerError.Body
+                    let body: Operations.addons_list.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -192,16 +192,18 @@ public struct Client: APIProtocol {
     ///
     /// Show details of a specific Bitrise addon
     ///
-    /// - Remark: HTTP `GET /addons/{addon-id}`.
-    /// - Remark: Generated from `#/paths//addons/{addon-id}/get(addonsShow)`.
-    public func addonsShow(_ input: Operations.addonsShow.Input) async throws -> Operations.addonsShow.Output {
+    /// - Remark: HTTP `GET /addons/{addon_id}`.
+    /// - Remark: Generated from `#/paths//addons/{addon_id}/get(addons_show)`.
+    public func addons_show(_ input: Operations.addons_show.Input) async throws -> Operations.addons_show.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.addonsShow.id,
+            forOperation: Operations.addons_show.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/addons/addon-id",
-                    parameters: []
+                    template: "/addons/{}",
+                    parameters: [
+                        input.path.addon_id
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -218,7 +220,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.addonsShow.Output.Ok.Body
+                    let body: Operations.addons_show.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -240,7 +242,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.addonsShow.Output.BadRequest.Body
+                    let body: Operations.addons_show.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -262,7 +264,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.addonsShow.Output.Unauthorized.Body
+                    let body: Operations.addons_show.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -284,7 +286,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.addonsShow.Output.NotFound.Body
+                    let body: Operations.addons_show.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -306,7 +308,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.addonsShow.Output.InternalServerError.Body
+                    let body: Operations.addons_show.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -343,11 +345,11 @@ public struct Client: APIProtocol {
     /// List all the apps available for the authenticated account, including those that are owned by other users or Organizations.
     ///
     /// - Remark: HTTP `GET /apps`.
-    /// - Remark: Generated from `#/paths//apps/get(appList)`.
-    public func appList(_ input: Operations.appList.Input) async throws -> Operations.appList.Output {
+    /// - Remark: Generated from `#/paths//apps/get(app_list)`.
+    public func app_list(_ input: Operations.app_list.Input) async throws -> Operations.app_list.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.appList.id,
+            forOperation: Operations.app_list.id,
             serializer: { input in
                 let path = try converter.renderedPath(
                     template: "/apps",
@@ -403,7 +405,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appList.Output.Ok.Body
+                    let body: Operations.app_list.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -425,7 +427,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appList.Output.BadRequest.Body
+                    let body: Operations.app_list.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -447,7 +449,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appList.Output.Unauthorized.Body
+                    let body: Operations.app_list.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -469,7 +471,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appList.Output.NotFound.Body
+                    let body: Operations.app_list.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -491,7 +493,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appList.Output.InternalServerError.Body
+                    let body: Operations.app_list.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -528,11 +530,11 @@ public struct Client: APIProtocol {
     /// Add a new app to Bitrise. This is the first step of the app registration process. To successfully set it up, you need to provide the required app parameters: the repository URL and the isPublic field. Read more about the app creation process in our [detailed guide](https://devcenter.bitrise.io/api/adding-and-managing-apps/#adding-a-new-app).
     ///
     /// - Remark: HTTP `POST /apps/register`.
-    /// - Remark: Generated from `#/paths//apps/register/post(appCreate)`.
-    public func appCreate(_ input: Operations.appCreate.Input) async throws -> Operations.appCreate.Output {
+    /// - Remark: Generated from `#/paths//apps/register/post(app_create)`.
+    public func app_create(_ input: Operations.app_create.Input) async throws -> Operations.app_create.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.appCreate.id,
+            forOperation: Operations.app_create.id,
             serializer: { input in
                 let path = try converter.renderedPath(
                     template: "/apps/register",
@@ -562,7 +564,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appCreate.Output.Ok.Body
+                    let body: Operations.app_create.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -584,7 +586,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appCreate.Output.BadRequest.Body
+                    let body: Operations.app_create.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -606,7 +608,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appCreate.Output.Unauthorized.Body
+                    let body: Operations.app_create.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -628,7 +630,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appCreate.Output.NotFound.Body
+                    let body: Operations.app_create.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -650,7 +652,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appCreate.Output.InternalServerError.Body
+                    let body: Operations.app_create.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -686,16 +688,18 @@ public struct Client: APIProtocol {
     ///
     /// Get the details of a specific app by providing the app slug. You can get the app slug by calling the [/apps](https://api-docs.bitrise.io/#/application/app-list) endpoint or by opening the app on bitrise.io and copying the slug from the URL.
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/get(appShow)`.
-    public func appShow(_ input: Operations.appShow.Input) async throws -> Operations.appShow.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/get(app_show)`.
+    public func app_show(_ input: Operations.app_show.Input) async throws -> Operations.app_show.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.appShow.id,
+            forOperation: Operations.app_show.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug",
-                    parameters: []
+                    template: "/apps/{}",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -712,7 +716,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appShow.Output.Ok.Body
+                    let body: Operations.app_show.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -734,7 +738,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appShow.Output.BadRequest.Body
+                    let body: Operations.app_show.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -756,7 +760,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appShow.Output.Unauthorized.Body
+                    let body: Operations.app_show.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -778,7 +782,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appShow.Output.NotFound.Body
+                    let body: Operations.app_show.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -800,7 +804,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appShow.Output.InternalServerError.Body
+                    let body: Operations.app_show.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -836,16 +840,18 @@ public struct Client: APIProtocol {
     ///
     /// Updates an app by slug. Only updates the fields specified in the body.
     ///
-    /// - Remark: HTTP `PATCH /apps/{app-slug}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/patch(appUpdate)`.
-    public func appUpdate(_ input: Operations.appUpdate.Input) async throws -> Operations.appUpdate.Output {
+    /// - Remark: HTTP `PATCH /apps/{app_slug}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/patch(app_update)`.
+    public func app_update(_ input: Operations.app_update.Input) async throws -> Operations.app_update.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.appUpdate.id,
+            forOperation: Operations.app_update.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug",
-                    parameters: []
+                    template: "/apps/{}",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -871,7 +877,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appUpdate.Output.Ok.Body
+                    let body: Operations.app_update.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -893,7 +899,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appUpdate.Output.BadRequest.Body
+                    let body: Operations.app_update.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -915,7 +921,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appUpdate.Output.Unauthorized.Body
+                    let body: Operations.app_update.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -937,7 +943,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appUpdate.Output.NotFound.Body
+                    let body: Operations.app_update.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -959,7 +965,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appUpdate.Output.InternalServerError.Body
+                    let body: Operations.app_update.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -995,16 +1001,18 @@ public struct Client: APIProtocol {
     ///
     /// Deletes an app by slug. Use with care, make sure you really want to delete the app. This action cannot be undone.
     ///
-    /// - Remark: HTTP `DELETE /apps/{app-slug}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/delete(appDelete)`.
-    public func appDelete(_ input: Operations.appDelete.Input) async throws -> Operations.appDelete.Output {
+    /// - Remark: HTTP `DELETE /apps/{app_slug}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/delete(app_delete)`.
+    public func app_delete(_ input: Operations.app_delete.Input) async throws -> Operations.app_delete.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.appDelete.id,
+            forOperation: Operations.app_delete.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug",
-                    parameters: []
+                    template: "/apps/{}",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -1021,7 +1029,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appDelete.Output.Ok.Body
+                    let body: Operations.app_delete.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1043,7 +1051,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appDelete.Output.BadRequest.Body
+                    let body: Operations.app_delete.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1065,7 +1073,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appDelete.Output.Unauthorized.Body
+                    let body: Operations.app_delete.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1087,7 +1095,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appDelete.Output.NotFound.Body
+                    let body: Operations.app_delete.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1109,7 +1117,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appDelete.Output.InternalServerError.Body
+                    let body: Operations.app_delete.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1145,16 +1153,18 @@ public struct Client: APIProtocol {
     ///
     /// List all the provisioned addons for the authorized apps
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/addons`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/addons/get(addonListByApp)`.
-    public func addonListByApp(_ input: Operations.addonListByApp.Input) async throws -> Operations.addonListByApp.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/addons`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/addons/get(addon_list_by_app)`.
+    public func addon_list_by_app(_ input: Operations.addon_list_by_app.Input) async throws -> Operations.addon_list_by_app.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.addonListByApp.id,
+            forOperation: Operations.addon_list_by_app.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/addons",
-                    parameters: []
+                    template: "/apps/{}/addons",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -1171,7 +1181,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.addonListByApp.Output.Ok.Body
+                    let body: Operations.addon_list_by_app.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1193,7 +1203,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.addonListByApp.Output.BadRequest.Body
+                    let body: Operations.addon_list_by_app.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1215,7 +1225,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.addonListByApp.Output.Unauthorized.Body
+                    let body: Operations.addon_list_by_app.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1237,7 +1247,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.addonListByApp.Output.NotFound.Body
+                    let body: Operations.addon_list_by_app.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1259,7 +1269,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.addonListByApp.Output.InternalServerError.Body
+                    let body: Operations.addon_list_by_app.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1295,16 +1305,18 @@ public struct Client: APIProtocol {
     ///
     /// List all the android keystore files that have been uploaded to a specific app.
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/android-keystore-files`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/android-keystore-files/get(androidKeystoreFileList)`.
-    public func androidKeystoreFileList(_ input: Operations.androidKeystoreFileList.Input) async throws -> Operations.androidKeystoreFileList.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/android-keystore-files`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/android-keystore-files/get(android_keystore_file_list)`.
+    public func android_keystore_file_list(_ input: Operations.android_keystore_file_list.Input) async throws -> Operations.android_keystore_file_list.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.androidKeystoreFileList.id,
+            forOperation: Operations.android_keystore_file_list.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/android-keystore-files",
-                    parameters: []
+                    template: "/apps/{}/android-keystore-files",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -1335,7 +1347,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.androidKeystoreFileList.Output.Ok.Body
+                    let body: Operations.android_keystore_file_list.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1357,7 +1369,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.androidKeystoreFileList.Output.BadRequest.Body
+                    let body: Operations.android_keystore_file_list.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1379,7 +1391,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.androidKeystoreFileList.Output.Unauthorized.Body
+                    let body: Operations.android_keystore_file_list.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1401,7 +1413,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.androidKeystoreFileList.Output.NotFound.Body
+                    let body: Operations.android_keystore_file_list.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1423,7 +1435,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.androidKeystoreFileList.Output.InternalServerError.Body
+                    let body: Operations.android_keystore_file_list.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1459,16 +1471,18 @@ public struct Client: APIProtocol {
     ///
     /// Add a new Android keystore file to an app. `keystore_file_name` is required if there is already an existing keystore file for the app. It will determine the environment variable key to be used to refer to the keystore file in builds. E.g. `BITRISE_ANDROID_KEYSTORE_<keystore_file_name>_URL`. The `keystore_file_name` can only contain letters, numbers, and underscores.
     ///
-    /// - Remark: HTTP `POST /apps/{app-slug}/android-keystore-files`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/android-keystore-files/post(androidKeystoreFileCreate)`.
-    public func androidKeystoreFileCreate(_ input: Operations.androidKeystoreFileCreate.Input) async throws -> Operations.androidKeystoreFileCreate.Output {
+    /// - Remark: HTTP `POST /apps/{app_slug}/android-keystore-files`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/android-keystore-files/post(android_keystore_file_create)`.
+    public func android_keystore_file_create(_ input: Operations.android_keystore_file_create.Input) async throws -> Operations.android_keystore_file_create.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.androidKeystoreFileCreate.id,
+            forOperation: Operations.android_keystore_file_create.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/android-keystore-files",
-                    parameters: []
+                    template: "/apps/{}/android-keystore-files",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -1494,7 +1508,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 201:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.androidKeystoreFileCreate.Output.Created.Body
+                    let body: Operations.android_keystore_file_create.Output.Created.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1516,7 +1530,7 @@ public struct Client: APIProtocol {
                     return .created(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.androidKeystoreFileCreate.Output.BadRequest.Body
+                    let body: Operations.android_keystore_file_create.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1538,7 +1552,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.androidKeystoreFileCreate.Output.Unauthorized.Body
+                    let body: Operations.android_keystore_file_create.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1560,7 +1574,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.androidKeystoreFileCreate.Output.NotFound.Body
+                    let body: Operations.android_keystore_file_create.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1582,7 +1596,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.androidKeystoreFileCreate.Output.InternalServerError.Body
+                    let body: Operations.android_keystore_file_create.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1616,18 +1630,21 @@ public struct Client: APIProtocol {
     }
     /// Delete an android keystore file
     ///
-    /// Delete an app's android keystore file. You can fetch an app's android keystore file slug if you first list all the uploaded files with the [GET /apps/{app-slug}/android-keystore-files](https://api-docs.bitrise.io/#/android-keystore-file/android-keystore-file-list) endpoint. Read more in our [Deleting a file](https://devcenter.bitrise.io/api/managing-android-keystore-files.html) guide.
+    /// Delete an app's android keystore file. You can fetch an app's android keystore file slug if you first list all the uploaded files with the [GET /apps/{app_slug}/android-keystore-files](https://api-docs.bitrise.io/#/android-keystore-file/android-keystore-file-list) endpoint. Read more in our [Deleting a file](https://devcenter.bitrise.io/api/managing-android-keystore-files.html) guide.
     ///
-    /// - Remark: HTTP `DELETE /apps/{app-slug}/android-keystore-files/{android-keystore-file-slug}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/android-keystore-files/{android-keystore-file-slug}/delete(androidKeystoreFileDelete)`.
-    public func androidKeystoreFileDelete(_ input: Operations.androidKeystoreFileDelete.Input) async throws -> Operations.androidKeystoreFileDelete.Output {
+    /// - Remark: HTTP `DELETE /apps/{app_slug}/android-keystore-files/{android_keystore_file_slug}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/android-keystore-files/{android_keystore_file_slug}/delete(android_keystore_file_delete)`.
+    public func android_keystore_file_delete(_ input: Operations.android_keystore_file_delete.Input) async throws -> Operations.android_keystore_file_delete.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.androidKeystoreFileDelete.id,
+            forOperation: Operations.android_keystore_file_delete.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/android-keystore-files/android-keystore-file-slug",
-                    parameters: []
+                    template: "/apps/{}/android-keystore-files/{}",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.android_keystore_file_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -1644,7 +1661,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.androidKeystoreFileDelete.Output.Ok.Body
+                    let body: Operations.android_keystore_file_delete.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1666,7 +1683,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.androidKeystoreFileDelete.Output.BadRequest.Body
+                    let body: Operations.android_keystore_file_delete.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1688,7 +1705,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.androidKeystoreFileDelete.Output.Unauthorized.Body
+                    let body: Operations.android_keystore_file_delete.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1710,7 +1727,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.androidKeystoreFileDelete.Output.NotFound.Body
+                    let body: Operations.android_keystore_file_delete.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1732,7 +1749,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.androidKeystoreFileDelete.Output.InternalServerError.Body
+                    let body: Operations.android_keystore_file_delete.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1768,16 +1785,19 @@ public struct Client: APIProtocol {
     ///
     /// This is the last step of uploading an android keystore file to Bitrise. Confirm the android keystore file upload and view the file on the Code Signing tab of a specific app. Read more in our [Confirming the upload](https://devcenter.bitrise.io/api/managing-files-in-generic-file-storage/#confirming-the-file-upload) guide.
     ///
-    /// - Remark: HTTP `POST /apps/{app-slug}/android-keystore-files/{android-keystore-file-slug}/uploaded`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/android-keystore-files/{android-keystore-file-slug}/uploaded/post(androidKeystoreFileConfirm)`.
-    public func androidKeystoreFileConfirm(_ input: Operations.androidKeystoreFileConfirm.Input) async throws -> Operations.androidKeystoreFileConfirm.Output {
+    /// - Remark: HTTP `POST /apps/{app_slug}/android-keystore-files/{android_keystore_file_slug}/uploaded`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/android-keystore-files/{android_keystore_file_slug}/uploaded/post(android_keystore_file_confirm)`.
+    public func android_keystore_file_confirm(_ input: Operations.android_keystore_file_confirm.Input) async throws -> Operations.android_keystore_file_confirm.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.androidKeystoreFileConfirm.id,
+            forOperation: Operations.android_keystore_file_confirm.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/android-keystore-files/android-keystore-file-slug/uploaded",
-                    parameters: []
+                    template: "/apps/{}/android-keystore-files/{}/uploaded",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.android_keystore_file_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -1794,7 +1814,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.androidKeystoreFileConfirm.Output.Ok.Body
+                    let body: Operations.android_keystore_file_confirm.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1816,7 +1836,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.androidKeystoreFileConfirm.Output.BadRequest.Body
+                    let body: Operations.android_keystore_file_confirm.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1838,7 +1858,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.androidKeystoreFileConfirm.Output.Unauthorized.Body
+                    let body: Operations.android_keystore_file_confirm.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1860,7 +1880,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.androidKeystoreFileConfirm.Output.NotFound.Body
+                    let body: Operations.android_keystore_file_confirm.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1882,7 +1902,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.androidKeystoreFileConfirm.Output.InternalServerError.Body
+                    let body: Operations.android_keystore_file_confirm.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1918,16 +1938,18 @@ public struct Client: APIProtocol {
     ///
     /// List the first 1000 archived builds of a specified Bitrise app. Set parameters to filter builds:
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/archived-builds`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/archived-builds/get(archivedBuildsList)`.
-    public func archivedBuildsList(_ input: Operations.archivedBuildsList.Input) async throws -> Operations.archivedBuildsList.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/archived-builds`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/archived-builds/get(archived_builds_list)`.
+    public func archived_builds_list(_ input: Operations.archived_builds_list.Input) async throws -> Operations.archived_builds_list.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.archivedBuildsList.id,
+            forOperation: Operations.archived_builds_list.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/archived-builds",
-                    parameters: []
+                    template: "/apps/{}/archived-builds",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -1958,7 +1980,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.archivedBuildsList.Output.Ok.Body
+                    let body: Operations.archived_builds_list.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -1980,7 +2002,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.archivedBuildsList.Output.BadRequest.Body
+                    let body: Operations.archived_builds_list.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2002,7 +2024,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.archivedBuildsList.Output.Unauthorized.Body
+                    let body: Operations.archived_builds_list.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2024,7 +2046,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.archivedBuildsList.Output.NotFound.Body
+                    let body: Operations.archived_builds_list.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2046,7 +2068,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.archivedBuildsList.Output.InternalServerError.Body
+                    let body: Operations.archived_builds_list.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2082,16 +2104,18 @@ public struct Client: APIProtocol {
     ///
     /// Get the full `bitrise.yml` configuration of an application, by providing the app slug. It returns the current `bitrise.yml` that is stored on bitrise.io in full, including the trigger map, the different workflows and the Steps.
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/bitrise.yml`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/bitrise.yml/get(appConfigDatastoreShow)`.
-    public func appConfigDatastoreShow(_ input: Operations.appConfigDatastoreShow.Input) async throws -> Operations.appConfigDatastoreShow.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/bitrise.yml`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/bitrise.yml/get(app_config_datastore_show)`.
+    public func app_config_datastore_show(_ input: Operations.app_config_datastore_show.Input) async throws -> Operations.app_config_datastore_show.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.appConfigDatastoreShow.id,
+            forOperation: Operations.app_config_datastore_show.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/bitrise.yml",
-                    parameters: []
+                    template: "/apps/{}/bitrise.yml",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -2108,7 +2132,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appConfigDatastoreShow.Output.Ok.Body
+                    let body: Operations.app_config_datastore_show.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2130,7 +2154,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appConfigDatastoreShow.Output.BadRequest.Body
+                    let body: Operations.app_config_datastore_show.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2152,7 +2176,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appConfigDatastoreShow.Output.Unauthorized.Body
+                    let body: Operations.app_config_datastore_show.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2174,7 +2198,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appConfigDatastoreShow.Output.NotFound.Body
+                    let body: Operations.app_config_datastore_show.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2196,7 +2220,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appConfigDatastoreShow.Output.InternalServerError.Body
+                    let body: Operations.app_config_datastore_show.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2232,16 +2256,18 @@ public struct Client: APIProtocol {
     ///
     /// Upload a new bitrise.yml for your application.
     ///
-    /// - Remark: HTTP `POST /apps/{app-slug}/bitrise.yml`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/bitrise.yml/post(appConfigCreate)`.
-    public func appConfigCreate(_ input: Operations.appConfigCreate.Input) async throws -> Operations.appConfigCreate.Output {
+    /// - Remark: HTTP `POST /apps/{app_slug}/bitrise.yml`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/bitrise.yml/post(app_config_create)`.
+    public func app_config_create(_ input: Operations.app_config_create.Input) async throws -> Operations.app_config_create.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.appConfigCreate.id,
+            forOperation: Operations.app_config_create.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/bitrise.yml",
-                    parameters: []
+                    template: "/apps/{}/bitrise.yml",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -2267,7 +2293,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appConfigCreate.Output.Ok.Body
+                    let body: Operations.app_config_create.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2289,7 +2315,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appConfigCreate.Output.BadRequest.Body
+                    let body: Operations.app_config_create.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2311,7 +2337,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appConfigCreate.Output.Unauthorized.Body
+                    let body: Operations.app_config_create.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2333,7 +2359,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appConfigCreate.Output.NotFound.Body
+                    let body: Operations.app_config_create.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2355,7 +2381,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appConfigCreate.Output.InternalServerError.Body
+                    let body: Operations.app_config_create.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2391,16 +2417,18 @@ public struct Client: APIProtocol {
     ///
     /// Getting the location of the application's bitrise.yaml. Requires administrator level privileges to the app.
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/bitrise.yml/config`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/bitrise.yml/config/get(appSetupBitriseYmlConfigGet)`.
-    public func appSetupBitriseYmlConfigGet(_ input: Operations.appSetupBitriseYmlConfigGet.Input) async throws -> Operations.appSetupBitriseYmlConfigGet.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/bitrise.yml/config`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/bitrise.yml/config/get(app_setup_bitrise_yml_config_get)`.
+    public func app_setup_bitrise_yml_config_get(_ input: Operations.app_setup_bitrise_yml_config_get.Input) async throws -> Operations.app_setup_bitrise_yml_config_get.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.appSetupBitriseYmlConfigGet.id,
+            forOperation: Operations.app_setup_bitrise_yml_config_get.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/bitrise.yml/config",
-                    parameters: []
+                    template: "/apps/{}/bitrise.yml/config",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -2417,7 +2445,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appSetupBitriseYmlConfigGet.Output.Ok.Body
+                    let body: Operations.app_setup_bitrise_yml_config_get.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2439,7 +2467,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appSetupBitriseYmlConfigGet.Output.BadRequest.Body
+                    let body: Operations.app_setup_bitrise_yml_config_get.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2461,7 +2489,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appSetupBitriseYmlConfigGet.Output.Unauthorized.Body
+                    let body: Operations.app_setup_bitrise_yml_config_get.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2483,7 +2511,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appSetupBitriseYmlConfigGet.Output.NotFound.Body
+                    let body: Operations.app_setup_bitrise_yml_config_get.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2505,7 +2533,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appSetupBitriseYmlConfigGet.Output.InternalServerError.Body
+                    let body: Operations.app_setup_bitrise_yml_config_get.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2541,16 +2569,18 @@ public struct Client: APIProtocol {
     ///
     /// Changing the location of the application's bitrise.yaml. Requires administrator level privileges to the app.
     ///
-    /// - Remark: HTTP `PUT /apps/{app-slug}/bitrise.yml/config`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/bitrise.yml/config/put(appSetupBitriseYmlConfigUpdate)`.
-    public func appSetupBitriseYmlConfigUpdate(_ input: Operations.appSetupBitriseYmlConfigUpdate.Input) async throws -> Operations.appSetupBitriseYmlConfigUpdate.Output {
+    /// - Remark: HTTP `PUT /apps/{app_slug}/bitrise.yml/config`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/bitrise.yml/config/put(app_setup_bitrise_yml_config_update)`.
+    public func app_setup_bitrise_yml_config_update(_ input: Operations.app_setup_bitrise_yml_config_update.Input) async throws -> Operations.app_setup_bitrise_yml_config_update.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.appSetupBitriseYmlConfigUpdate.id,
+            forOperation: Operations.app_setup_bitrise_yml_config_update.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/bitrise.yml/config",
-                    parameters: []
+                    template: "/apps/{}/bitrise.yml/config",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -2578,7 +2608,7 @@ public struct Client: APIProtocol {
                     return .noContent(.init())
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appSetupBitriseYmlConfigUpdate.Output.BadRequest.Body
+                    let body: Operations.app_setup_bitrise_yml_config_update.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2600,7 +2630,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appSetupBitriseYmlConfigUpdate.Output.Unauthorized.Body
+                    let body: Operations.app_setup_bitrise_yml_config_update.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2622,7 +2652,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appSetupBitriseYmlConfigUpdate.Output.NotFound.Body
+                    let body: Operations.app_setup_bitrise_yml_config_update.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2644,7 +2674,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appSetupBitriseYmlConfigUpdate.Output.InternalServerError.Body
+                    let body: Operations.app_setup_bitrise_yml_config_update.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2680,16 +2710,18 @@ public struct Client: APIProtocol {
     ///
     /// Lists only those branches of a specified Bitrise app that have existing builds.
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/branches`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/branches/get(branchList)`.
-    public func branchList(_ input: Operations.branchList.Input) async throws -> Operations.branchList.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/branches`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/branches/get(branch_list)`.
+    public func branch_list(_ input: Operations.branch_list.Input) async throws -> Operations.branch_list.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.branchList.id,
+            forOperation: Operations.branch_list.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/branches",
-                    parameters: []
+                    template: "/apps/{}/branches",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -2706,7 +2738,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.branchList.Output.Ok.Body
+                    let body: Operations.branch_list.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2728,7 +2760,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.branchList.Output.BadRequest.Body
+                    let body: Operations.branch_list.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2750,7 +2782,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.branchList.Output.Unauthorized.Body
+                    let body: Operations.branch_list.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2772,7 +2804,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.branchList.Output.NotFound.Body
+                    let body: Operations.branch_list.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2794,7 +2826,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.branchList.Output.InternalServerError.Body
+                    let body: Operations.branch_list.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2830,16 +2862,18 @@ public struct Client: APIProtocol {
     ///
     /// List all the build certificates that have been uploaded to a specific app. Read more in our [Listing the uploaded iOS code signing files of an app](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#listing-the-uploaded-ios-code-signing-files-of-an-app) guide.
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/build-certificates`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/build-certificates/get(buildCertificateList)`.
-    public func buildCertificateList(_ input: Operations.buildCertificateList.Input) async throws -> Operations.buildCertificateList.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/build-certificates`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/build-certificates/get(build_certificate_list)`.
+    public func build_certificate_list(_ input: Operations.build_certificate_list.Input) async throws -> Operations.build_certificate_list.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.buildCertificateList.id,
+            forOperation: Operations.build_certificate_list.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/build-certificates",
-                    parameters: []
+                    template: "/apps/{}/build-certificates",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -2870,7 +2904,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateList.Output.Ok.Body
+                    let body: Operations.build_certificate_list.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2892,7 +2926,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateList.Output.BadRequest.Body
+                    let body: Operations.build_certificate_list.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2914,7 +2948,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateList.Output.Unauthorized.Body
+                    let body: Operations.build_certificate_list.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2936,7 +2970,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateList.Output.NotFound.Body
+                    let body: Operations.build_certificate_list.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2958,7 +2992,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateList.Output.InternalServerError.Body
+                    let body: Operations.build_certificate_list.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -2992,18 +3026,20 @@ public struct Client: APIProtocol {
     }
     /// Create a build certificate
     ///
-    /// Create a temporary pre-signed upload URL for the build certificate and upload the file to AWS with a simple `curl` request. To complete the uploading process and view your files on the Code Signing tab of your app, continue with the [POST /apps/{app-slug}/build-certificates/{build-certificate-slug}/uploaded](https://api-docs.bitrise.io/#/build-certificate/build-certificate-confirm) endpoint. Read more in our [Creating and uploading an iOS code signing file](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#creating--uploading-an-ios-code-signing-file) guide.
+    /// Create a temporary pre-signed upload URL for the build certificate and upload the file to AWS with a simple `curl` request. To complete the uploading process and view your files on the Code Signing tab of your app, continue with the [POST /apps/{app_slug}/build-certificates/{build_certificate_slug}/uploaded](https://api-docs.bitrise.io/#/build-certificate/build-certificate-confirm) endpoint. Read more in our [Creating and uploading an iOS code signing file](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#creating--uploading-an-ios-code-signing-file) guide.
     ///
-    /// - Remark: HTTP `POST /apps/{app-slug}/build-certificates`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/build-certificates/post(buildCertificateCreate)`.
-    public func buildCertificateCreate(_ input: Operations.buildCertificateCreate.Input) async throws -> Operations.buildCertificateCreate.Output {
+    /// - Remark: HTTP `POST /apps/{app_slug}/build-certificates`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/build-certificates/post(build_certificate_create)`.
+    public func build_certificate_create(_ input: Operations.build_certificate_create.Input) async throws -> Operations.build_certificate_create.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.buildCertificateCreate.id,
+            forOperation: Operations.build_certificate_create.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/build-certificates",
-                    parameters: []
+                    template: "/apps/{}/build-certificates",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -3029,7 +3065,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 201:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateCreate.Output.Created.Body
+                    let body: Operations.build_certificate_create.Output.Created.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3051,7 +3087,7 @@ public struct Client: APIProtocol {
                     return .created(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateCreate.Output.BadRequest.Body
+                    let body: Operations.build_certificate_create.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3073,7 +3109,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateCreate.Output.Unauthorized.Body
+                    let body: Operations.build_certificate_create.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3095,7 +3131,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateCreate.Output.NotFound.Body
+                    let body: Operations.build_certificate_create.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3117,7 +3153,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateCreate.Output.InternalServerError.Body
+                    let body: Operations.build_certificate_create.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3151,18 +3187,21 @@ public struct Client: APIProtocol {
     }
     /// Get a specific build certificate
     ///
-    /// Retrieve data of a specific build certificate. You can fetch the build certificate slug for this endpoint if you first call the [GET /apps/{app-slug}/build-certificates](https://api-docs.bitrise.io/#/build-certificate/build-certificate-list) endpoint to list all available build certificates of an app. Read more in our [Getting a specific iOS code signing file's data](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#getting-a-specific-ios-code-signing-files-data) guide.
+    /// Retrieve data of a specific build certificate. You can fetch the build certificate slug for this endpoint if you first call the [GET /apps/{app_slug}/build-certificates](https://api-docs.bitrise.io/#/build-certificate/build-certificate-list) endpoint to list all available build certificates of an app. Read more in our [Getting a specific iOS code signing file's data](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#getting-a-specific-ios-code-signing-files-data) guide.
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/build-certificates/{build-certificate-slug}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/build-certificates/{build-certificate-slug}/get(buildCertificateShow)`.
-    public func buildCertificateShow(_ input: Operations.buildCertificateShow.Input) async throws -> Operations.buildCertificateShow.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/build-certificates/{build_certificate_slug}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/build-certificates/{build_certificate_slug}/get(build_certificate_show)`.
+    public func build_certificate_show(_ input: Operations.build_certificate_show.Input) async throws -> Operations.build_certificate_show.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.buildCertificateShow.id,
+            forOperation: Operations.build_certificate_show.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/build-certificates/build-certificate-slug",
-                    parameters: []
+                    template: "/apps/{}/build-certificates/{}",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.build_certificate_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -3179,7 +3218,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateShow.Output.Ok.Body
+                    let body: Operations.build_certificate_show.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3201,7 +3240,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateShow.Output.BadRequest.Body
+                    let body: Operations.build_certificate_show.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3223,7 +3262,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateShow.Output.Unauthorized.Body
+                    let body: Operations.build_certificate_show.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3245,7 +3284,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateShow.Output.NotFound.Body
+                    let body: Operations.build_certificate_show.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3267,7 +3306,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateShow.Output.InternalServerError.Body
+                    let body: Operations.build_certificate_show.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3301,18 +3340,21 @@ public struct Client: APIProtocol {
     }
     /// Update a build certificate
     ///
-    /// Update an uploaded build certificate's attributes. You can fetch the build certificate slug for this endpoint if you first call the [GET /apps/{app-slug}/build-certificates](https://api-docs.bitrise.io/#/build-certificate/build-certificate-list) endpoint. Read more in our [Updating an uploaded iOS code signing file](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#confirming-the-ios-code-signing-file-upload) guide.
+    /// Update an uploaded build certificate's attributes. You can fetch the build certificate slug for this endpoint if you first call the [GET /apps/{app_slug}/build-certificates](https://api-docs.bitrise.io/#/build-certificate/build-certificate-list) endpoint. Read more in our [Updating an uploaded iOS code signing file](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#confirming-the-ios-code-signing-file-upload) guide.
     ///
-    /// - Remark: HTTP `PATCH /apps/{app-slug}/build-certificates/{build-certificate-slug}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/build-certificates/{build-certificate-slug}/patch(buildCertificateUpdate)`.
-    public func buildCertificateUpdate(_ input: Operations.buildCertificateUpdate.Input) async throws -> Operations.buildCertificateUpdate.Output {
+    /// - Remark: HTTP `PATCH /apps/{app_slug}/build-certificates/{build_certificate_slug}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/build-certificates/{build_certificate_slug}/patch(build_certificate_update)`.
+    public func build_certificate_update(_ input: Operations.build_certificate_update.Input) async throws -> Operations.build_certificate_update.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.buildCertificateUpdate.id,
+            forOperation: Operations.build_certificate_update.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/build-certificates/build-certificate-slug",
-                    parameters: []
+                    template: "/apps/{}/build-certificates/{}",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.build_certificate_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -3338,7 +3380,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateUpdate.Output.Ok.Body
+                    let body: Operations.build_certificate_update.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3360,7 +3402,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateUpdate.Output.BadRequest.Body
+                    let body: Operations.build_certificate_update.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3382,7 +3424,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateUpdate.Output.Unauthorized.Body
+                    let body: Operations.build_certificate_update.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3404,7 +3446,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateUpdate.Output.NotFound.Body
+                    let body: Operations.build_certificate_update.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3426,7 +3468,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateUpdate.Output.InternalServerError.Body
+                    let body: Operations.build_certificate_update.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3460,18 +3502,21 @@ public struct Client: APIProtocol {
     }
     /// Delete a build certificate
     ///
-    /// Delete an app's build certificate. You can fetch the build certificate slug for this endpoint if you first call the [GET /apps/{app-slug}/build-certificates](https://api-docs.bitrise.io/#/build-certificate/build-certificate-list) endpoint to list all available build certificates of an app. Read more in our [Deleting an iOS code signing file](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#deleting-an-ios-code-signing-file) guide.
+    /// Delete an app's build certificate. You can fetch the build certificate slug for this endpoint if you first call the [GET /apps/{app_slug}/build-certificates](https://api-docs.bitrise.io/#/build-certificate/build-certificate-list) endpoint to list all available build certificates of an app. Read more in our [Deleting an iOS code signing file](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#deleting-an-ios-code-signing-file) guide.
     ///
-    /// - Remark: HTTP `DELETE /apps/{app-slug}/build-certificates/{build-certificate-slug}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/build-certificates/{build-certificate-slug}/delete(buildCertificateDelete)`.
-    public func buildCertificateDelete(_ input: Operations.buildCertificateDelete.Input) async throws -> Operations.buildCertificateDelete.Output {
+    /// - Remark: HTTP `DELETE /apps/{app_slug}/build-certificates/{build_certificate_slug}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/build-certificates/{build_certificate_slug}/delete(build_certificate_delete)`.
+    public func build_certificate_delete(_ input: Operations.build_certificate_delete.Input) async throws -> Operations.build_certificate_delete.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.buildCertificateDelete.id,
+            forOperation: Operations.build_certificate_delete.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/build-certificates/build-certificate-slug",
-                    parameters: []
+                    template: "/apps/{}/build-certificates/{}",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.build_certificate_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -3488,7 +3533,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateDelete.Output.Ok.Body
+                    let body: Operations.build_certificate_delete.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3510,7 +3555,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateDelete.Output.BadRequest.Body
+                    let body: Operations.build_certificate_delete.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3532,7 +3577,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateDelete.Output.Unauthorized.Body
+                    let body: Operations.build_certificate_delete.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3554,7 +3599,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateDelete.Output.NotFound.Body
+                    let body: Operations.build_certificate_delete.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3576,7 +3621,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateDelete.Output.InternalServerError.Body
+                    let body: Operations.build_certificate_delete.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3612,16 +3657,19 @@ public struct Client: APIProtocol {
     ///
     /// This is the last step of uploading a build certificate to Bitrise. Confirm the build certificate upload and view the file on the Code Signing tab of a specific app. Read more in our [Confirming the iOS code signing file upload](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#confirming-the-ios-code-signing-file-upload) guide.
     ///
-    /// - Remark: HTTP `POST /apps/{app-slug}/build-certificates/{build-certificate-slug}/uploaded`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/build-certificates/{build-certificate-slug}/uploaded/post(buildCertificateConfirm)`.
-    public func buildCertificateConfirm(_ input: Operations.buildCertificateConfirm.Input) async throws -> Operations.buildCertificateConfirm.Output {
+    /// - Remark: HTTP `POST /apps/{app_slug}/build-certificates/{build_certificate_slug}/uploaded`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/build-certificates/{build_certificate_slug}/uploaded/post(build_certificate_confirm)`.
+    public func build_certificate_confirm(_ input: Operations.build_certificate_confirm.Input) async throws -> Operations.build_certificate_confirm.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.buildCertificateConfirm.id,
+            forOperation: Operations.build_certificate_confirm.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/build-certificates/build-certificate-slug/uploaded",
-                    parameters: []
+                    template: "/apps/{}/build-certificates/{}/uploaded",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.build_certificate_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -3638,7 +3686,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateConfirm.Output.Ok.Body
+                    let body: Operations.build_certificate_confirm.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3660,7 +3708,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateConfirm.Output.BadRequest.Body
+                    let body: Operations.build_certificate_confirm.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3682,7 +3730,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateConfirm.Output.Unauthorized.Body
+                    let body: Operations.build_certificate_confirm.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3704,7 +3752,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateConfirm.Output.NotFound.Body
+                    let body: Operations.build_certificate_confirm.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3726,7 +3774,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildCertificateConfirm.Output.InternalServerError.Body
+                    let body: Operations.build_certificate_confirm.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3762,16 +3810,18 @@ public struct Client: APIProtocol {
     ///
     /// List the existing open build requests of a specified Bitrise app
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/build-requests`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/build-requests/get(buildRequestList)`.
-    public func buildRequestList(_ input: Operations.buildRequestList.Input) async throws -> Operations.buildRequestList.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/build-requests`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/build-requests/get(build_request_list)`.
+    public func build_request_list(_ input: Operations.build_request_list.Input) async throws -> Operations.build_request_list.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.buildRequestList.id,
+            forOperation: Operations.build_request_list.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/build-requests",
-                    parameters: []
+                    template: "/apps/{}/build-requests",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -3788,7 +3838,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildRequestList.Output.Ok.Body
+                    let body: Operations.build_request_list.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3810,7 +3860,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildRequestList.Output.BadRequest.Body
+                    let body: Operations.build_request_list.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3832,7 +3882,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildRequestList.Output.Unauthorized.Body
+                    let body: Operations.build_request_list.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3854,7 +3904,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildRequestList.Output.NotFound.Body
+                    let body: Operations.build_request_list.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3876,7 +3926,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildRequestList.Output.InternalServerError.Body
+                    let body: Operations.build_request_list.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3912,16 +3962,19 @@ public struct Client: APIProtocol {
     ///
     /// Update a specific build request of a specific app
     ///
-    /// - Remark: HTTP `PATCH /apps/{app-slug}/build-requests/{build-request-slug}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/build-requests/{build-request-slug}/patch(buildRequestUpdate)`.
-    public func buildRequestUpdate(_ input: Operations.buildRequestUpdate.Input) async throws -> Operations.buildRequestUpdate.Output {
+    /// - Remark: HTTP `PATCH /apps/{app_slug}/build-requests/{build_request_slug}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/build-requests/{build_request_slug}/patch(build_request_update)`.
+    public func build_request_update(_ input: Operations.build_request_update.Input) async throws -> Operations.build_request_update.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.buildRequestUpdate.id,
+            forOperation: Operations.build_request_update.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/build-requests/build-request-slug",
-                    parameters: []
+                    template: "/apps/{}/build-requests/{}",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.build_request_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -3947,7 +4000,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildRequestUpdate.Output.Ok.Body
+                    let body: Operations.build_request_update.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3969,7 +4022,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildRequestUpdate.Output.BadRequest.Body
+                    let body: Operations.build_request_update.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -3991,7 +4044,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildRequestUpdate.Output.Unauthorized.Body
+                    let body: Operations.build_request_update.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4013,7 +4066,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildRequestUpdate.Output.NotFound.Body
+                    let body: Operations.build_request_update.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4035,7 +4088,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildRequestUpdate.Output.InternalServerError.Body
+                    let body: Operations.build_request_update.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4071,16 +4124,18 @@ public struct Client: APIProtocol {
     ///
     /// List the workflows that were triggered at any time for a given Bitrise app. Note that it might list workflows that are currently not defined in the app's `bitrise.yml` configuration - and conversely, workflows that were never triggered will not be listed even if they are defined in the `bitrise.yml` file.
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/build-workflows`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/build-workflows/get(buildWorkflowList)`.
-    public func buildWorkflowList(_ input: Operations.buildWorkflowList.Input) async throws -> Operations.buildWorkflowList.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/build-workflows`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/build-workflows/get(build_workflow_list)`.
+    public func build_workflow_list(_ input: Operations.build_workflow_list.Input) async throws -> Operations.build_workflow_list.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.buildWorkflowList.id,
+            forOperation: Operations.build_workflow_list.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/build-workflows",
-                    parameters: []
+                    template: "/apps/{}/build-workflows",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -4097,7 +4152,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildWorkflowList.Output.Ok.Body
+                    let body: Operations.build_workflow_list.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4119,7 +4174,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildWorkflowList.Output.BadRequest.Body
+                    let body: Operations.build_workflow_list.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4141,7 +4196,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildWorkflowList.Output.Unauthorized.Body
+                    let body: Operations.build_workflow_list.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4163,7 +4218,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildWorkflowList.Output.NotFound.Body
+                    let body: Operations.build_workflow_list.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4185,7 +4240,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildWorkflowList.Output.InternalServerError.Body
+                    let body: Operations.build_workflow_list.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4221,16 +4276,18 @@ public struct Client: APIProtocol {
     ///
     /// List all the builds of a specified Bitrise app. Set parameters to filter builds: for example, you can search for builds run with a given workflow or all builds that were triggered by Pull Requests. It returns all the relevant data of the build.
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/builds`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/builds/get(buildList)`.
-    public func buildList(_ input: Operations.buildList.Input) async throws -> Operations.buildList.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/builds`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/builds/get(build_list)`.
+    public func build_list(_ input: Operations.build_list.Input) async throws -> Operations.build_list.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.buildList.id,
+            forOperation: Operations.build_list.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/builds",
-                    parameters: []
+                    template: "/apps/{}/builds",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -4338,7 +4395,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildList.Output.Ok.Body
+                    let body: Operations.build_list.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4360,7 +4417,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildList.Output.BadRequest.Body
+                    let body: Operations.build_list.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4382,7 +4439,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildList.Output.Unauthorized.Body
+                    let body: Operations.build_list.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4404,7 +4461,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildList.Output.NotFound.Body
+                    let body: Operations.build_list.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4426,7 +4483,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildList.Output.InternalServerError.Body
+                    let body: Operations.build_list.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4462,16 +4519,18 @@ public struct Client: APIProtocol {
     ///
     /// Trigger a new build/pipeline. Specify an app slug and at least one parameter out of three: a git tag or git commit hash, a branch, or a workflow/pipeline ID. You can also set specific parameters for Pull Request builds/pipelines and define additional environment variables for your build/pipeline. [Check out our detailed guide](https://devcenter.bitrise.io/api/build-trigger/).
     ///
-    /// - Remark: HTTP `POST /apps/{app-slug}/builds`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/builds/post(buildTrigger)`.
-    public func buildTrigger(_ input: Operations.buildTrigger.Input) async throws -> Operations.buildTrigger.Output {
+    /// - Remark: HTTP `POST /apps/{app_slug}/builds`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/builds/post(build_trigger)`.
+    public func build_trigger(_ input: Operations.build_trigger.Input) async throws -> Operations.build_trigger.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.buildTrigger.id,
+            forOperation: Operations.build_trigger.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/builds",
-                    parameters: []
+                    template: "/apps/{}/builds",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -4497,7 +4556,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 201:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildTrigger.Output.Created.Body
+                    let body: Operations.build_trigger.Output.Created.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4519,7 +4578,7 @@ public struct Client: APIProtocol {
                     return .created(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildTrigger.Output.BadRequest.Body
+                    let body: Operations.build_trigger.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4541,7 +4600,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildTrigger.Output.Unauthorized.Body
+                    let body: Operations.build_trigger.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4563,7 +4622,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildTrigger.Output.NotFound.Body
+                    let body: Operations.build_trigger.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4585,7 +4644,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildTrigger.Output.InternalServerError.Body
+                    let body: Operations.build_trigger.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4621,16 +4680,19 @@ public struct Client: APIProtocol {
     ///
     /// Get the specified build of a given Bitrise app. You need to provide both an app slug and a build slug. You can get the build slug either by calling the [/builds](https://api-docs.bitrise.io/#/builds/build-list) endpoint or by clicking on the build on bitrise.io and copying the slug from the URL. The endpoint returns all the relevant data of the build.
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/builds/{build-slug}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/builds/{build-slug}/get(buildShow)`.
-    public func buildShow(_ input: Operations.buildShow.Input) async throws -> Operations.buildShow.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/builds/{build_slug}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/builds/{build_slug}/get(build_show)`.
+    public func build_show(_ input: Operations.build_show.Input) async throws -> Operations.build_show.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.buildShow.id,
+            forOperation: Operations.build_show.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/builds/build-slug",
-                    parameters: []
+                    template: "/apps/{}/builds/{}",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.build_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -4647,7 +4709,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildShow.Output.Ok.Body
+                    let body: Operations.build_show.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4669,7 +4731,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildShow.Output.BadRequest.Body
+                    let body: Operations.build_show.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4691,7 +4753,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildShow.Output.Unauthorized.Body
+                    let body: Operations.build_show.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4713,7 +4775,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildShow.Output.NotFound.Body
+                    let body: Operations.build_show.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4735,7 +4797,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildShow.Output.InternalServerError.Body
+                    let body: Operations.build_show.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4771,16 +4833,19 @@ public struct Client: APIProtocol {
     ///
     /// Abort a specific build. Set an abort reason with the `abort_reason` parameter. Use the `abort_with_success` parameter to abort a build but still count it as a successful one.
     ///
-    /// - Remark: HTTP `POST /apps/{app-slug}/builds/{build-slug}/abort`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/builds/{build-slug}/abort/post(buildAbort)`.
-    public func buildAbort(_ input: Operations.buildAbort.Input) async throws -> Operations.buildAbort.Output {
+    /// - Remark: HTTP `POST /apps/{app_slug}/builds/{build_slug}/abort`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/builds/{build_slug}/abort/post(build_abort)`.
+    public func build_abort(_ input: Operations.build_abort.Input) async throws -> Operations.build_abort.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.buildAbort.id,
+            forOperation: Operations.build_abort.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/builds/build-slug/abort",
-                    parameters: []
+                    template: "/apps/{}/builds/{}/abort",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.build_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -4806,7 +4871,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildAbort.Output.Ok.Body
+                    let body: Operations.build_abort.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4828,7 +4893,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildAbort.Output.BadRequest.Body
+                    let body: Operations.build_abort.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4850,7 +4915,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildAbort.Output.Unauthorized.Body
+                    let body: Operations.build_abort.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4872,7 +4937,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildAbort.Output.NotFound.Body
+                    let body: Operations.build_abort.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4894,7 +4959,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 429:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildAbort.Output.TooManyRequests.Body
+                    let body: Operations.build_abort.Output.TooManyRequests.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4916,7 +4981,7 @@ public struct Client: APIProtocol {
                     return .tooManyRequests(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildAbort.Output.InternalServerError.Body
+                    let body: Operations.build_abort.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -4952,16 +5017,19 @@ public struct Client: APIProtocol {
     ///
     /// List all build artifacts that have been generated for an app's build. This endpoint can retrieve artifacts from the archive as well. You can use the created build artifact slugs from the response output to retrieve data of a specific build artifact with the [GET/apps/](https://api-docs.bitrise.io/#/build-artifact/artifact-show) endpoint or update a build artifact with the [PATCH/apps](https://api-docs.bitrise.io/#/build-artifact/artifact-update) endpoint.
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/builds/{build-slug}/artifacts`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/builds/{build-slug}/artifacts/get(artifactList)`.
-    public func artifactList(_ input: Operations.artifactList.Input) async throws -> Operations.artifactList.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/builds/{build_slug}/artifacts`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/builds/{build_slug}/artifacts/get(artifact_list)`.
+    public func artifact_list(_ input: Operations.artifact_list.Input) async throws -> Operations.artifact_list.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.artifactList.id,
+            forOperation: Operations.artifact_list.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/builds/build-slug/artifacts",
-                    parameters: []
+                    template: "/apps/{}/builds/{}/artifacts",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.build_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -4992,7 +5060,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.artifactList.Output.Ok.Body
+                    let body: Operations.artifact_list.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5014,7 +5082,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.artifactList.Output.BadRequest.Body
+                    let body: Operations.artifact_list.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5036,7 +5104,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.artifactList.Output.Unauthorized.Body
+                    let body: Operations.artifact_list.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5058,7 +5126,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.artifactList.Output.NotFound.Body
+                    let body: Operations.artifact_list.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5080,7 +5148,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.artifactList.Output.InternalServerError.Body
+                    let body: Operations.artifact_list.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5116,16 +5184,20 @@ public struct Client: APIProtocol {
     ///
     /// Retrieve data of a specific build artifact. The endpoint can retrieve archived artifacts as well. The response output contains a time-limited download url (expires in 10 minutes) and a public install-page URL. You can view the build artifact with both URLs, but the public install-page url will not work unless you [enable it](https://devcenter.bitrise.io/tutorials/deploy/bitrise-app-deployment/#enabling-public-page-for-the-app).
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/builds/{build-slug}/artifacts/{artifact-slug}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/builds/{build-slug}/artifacts/{artifact-slug}/get(artifactShow)`.
-    public func artifactShow(_ input: Operations.artifactShow.Input) async throws -> Operations.artifactShow.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/builds/{build_slug}/artifacts/{artifact_slug}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/builds/{build_slug}/artifacts/{artifact_slug}/get(artifact_show)`.
+    public func artifact_show(_ input: Operations.artifact_show.Input) async throws -> Operations.artifact_show.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.artifactShow.id,
+            forOperation: Operations.artifact_show.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/builds/build-slug/artifacts/artifact-slug",
-                    parameters: []
+                    template: "/apps/{}/builds/{}/artifacts/{}",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.build_slug,
+                        input.path.artifact_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -5149,7 +5221,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.artifactShow.Output.Ok.Body
+                    let body: Operations.artifact_show.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5171,7 +5243,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.artifactShow.Output.BadRequest.Body
+                    let body: Operations.artifact_show.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5193,7 +5265,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.artifactShow.Output.Unauthorized.Body
+                    let body: Operations.artifact_show.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5215,7 +5287,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.artifactShow.Output.NotFound.Body
+                    let body: Operations.artifact_show.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5237,7 +5309,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.artifactShow.Output.InternalServerError.Body
+                    let body: Operations.artifact_show.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5273,16 +5345,20 @@ public struct Client: APIProtocol {
     ///
     /// Update the `is_public_page_enabled` attribute of your app's build. The required parameters are app slug, build slug and artifact slug. You can fetch the build artifact slug if you first list all build artifacts of an app with the [GET /apps/](https://api-docs.bitrise.io/#/build-artifact/artifact-list) endpoint.
     ///
-    /// - Remark: HTTP `PATCH /apps/{app-slug}/builds/{build-slug}/artifacts/{artifact-slug}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/builds/{build-slug}/artifacts/{artifact-slug}/patch(artifactUpdate)`.
-    public func artifactUpdate(_ input: Operations.artifactUpdate.Input) async throws -> Operations.artifactUpdate.Output {
+    /// - Remark: HTTP `PATCH /apps/{app_slug}/builds/{build_slug}/artifacts/{artifact_slug}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/builds/{build_slug}/artifacts/{artifact_slug}/patch(artifact_update)`.
+    public func artifact_update(_ input: Operations.artifact_update.Input) async throws -> Operations.artifact_update.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.artifactUpdate.id,
+            forOperation: Operations.artifact_update.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/builds/build-slug/artifacts/artifact-slug",
-                    parameters: []
+                    template: "/apps/{}/builds/{}/artifacts/{}",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.build_slug,
+                        input.path.artifact_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -5308,7 +5384,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.artifactUpdate.Output.Ok.Body
+                    let body: Operations.artifact_update.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5330,7 +5406,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.artifactUpdate.Output.BadRequest.Body
+                    let body: Operations.artifact_update.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5352,7 +5428,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.artifactUpdate.Output.Unauthorized.Body
+                    let body: Operations.artifact_update.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5374,7 +5450,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.artifactUpdate.Output.NotFound.Body
+                    let body: Operations.artifact_update.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5396,7 +5472,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.artifactUpdate.Output.InternalServerError.Body
+                    let body: Operations.artifact_update.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5432,16 +5508,20 @@ public struct Client: APIProtocol {
     ///
     /// Delete a build artifact of an app's build. The required parameters are app slug, build slug and artifact slug. You can fetch the build artifact slug if you first list all build artifacts of an app with the [/apps/](https://api-docs.bitrise.io/#/build-artifact/artifact-list) endpoint.
     ///
-    /// - Remark: HTTP `DELETE /apps/{app-slug}/builds/{build-slug}/artifacts/{artifact-slug}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/builds/{build-slug}/artifacts/{artifact-slug}/delete(artifactDelete)`.
-    public func artifactDelete(_ input: Operations.artifactDelete.Input) async throws -> Operations.artifactDelete.Output {
+    /// - Remark: HTTP `DELETE /apps/{app_slug}/builds/{build_slug}/artifacts/{artifact_slug}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/builds/{build_slug}/artifacts/{artifact_slug}/delete(artifact_delete)`.
+    public func artifact_delete(_ input: Operations.artifact_delete.Input) async throws -> Operations.artifact_delete.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.artifactDelete.id,
+            forOperation: Operations.artifact_delete.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/builds/build-slug/artifacts/artifact-slug",
-                    parameters: []
+                    template: "/apps/{}/builds/{}/artifacts/{}",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.build_slug,
+                        input.path.artifact_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -5458,7 +5538,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.artifactDelete.Output.Ok.Body
+                    let body: Operations.artifact_delete.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5480,7 +5560,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.artifactDelete.Output.BadRequest.Body
+                    let body: Operations.artifact_delete.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5502,7 +5582,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.artifactDelete.Output.Unauthorized.Body
+                    let body: Operations.artifact_delete.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5524,7 +5604,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.artifactDelete.Output.NotFound.Body
+                    let body: Operations.artifact_delete.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5546,7 +5626,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.artifactDelete.Output.InternalServerError.Body
+                    let body: Operations.artifact_delete.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5582,16 +5662,19 @@ public struct Client: APIProtocol {
     ///
     /// Get the bitrise.yml file of one of the builds of a given app. This will return the `bitrise.yml` configuration with which the build ran. You can compare it to [the current bitrise.yml configuration](https://api-docs.bitrise.io/#/application/app-config-datastore-show) of the app.
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/builds/{build-slug}/bitrise.yml`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/builds/{build-slug}/bitrise.yml/get(buildBitriseYmlShow)`.
-    public func buildBitriseYmlShow(_ input: Operations.buildBitriseYmlShow.Input) async throws -> Operations.buildBitriseYmlShow.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/builds/{build_slug}/bitrise.yml`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/builds/{build_slug}/bitrise.yml/get(build_bitrise_yml_show)`.
+    public func build_bitrise_yml_show(_ input: Operations.build_bitrise_yml_show.Input) async throws -> Operations.build_bitrise_yml_show.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.buildBitriseYmlShow.id,
+            forOperation: Operations.build_bitrise_yml_show.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/builds/build-slug/bitrise.yml",
-                    parameters: []
+                    template: "/apps/{}/builds/{}/bitrise.yml",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.build_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -5608,7 +5691,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildBitriseYmlShow.Output.Ok.Body
+                    let body: Operations.build_bitrise_yml_show.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5630,7 +5713,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildBitriseYmlShow.Output.BadRequest.Body
+                    let body: Operations.build_bitrise_yml_show.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5652,7 +5735,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildBitriseYmlShow.Output.Unauthorized.Body
+                    let body: Operations.build_bitrise_yml_show.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5674,7 +5757,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildBitriseYmlShow.Output.NotFound.Body
+                    let body: Operations.build_bitrise_yml_show.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5696,7 +5779,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildBitriseYmlShow.Output.InternalServerError.Body
+                    let body: Operations.build_bitrise_yml_show.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5732,16 +5815,19 @@ public struct Client: APIProtocol {
     ///
     /// Get the build log of a specified build of a Bitrise app. You can get the build slug either by calling the [/builds](https://api-docs.bitrise.io/#/builds/build-list) endpoint or by clicking on the build on bitrise.io and copying the slug from the URL. Preview of the log is returned in `log_chunks` field in JSON format. You can download the full raw log in txt by using the signed url returned in `expiring_raw_log_url`. Be aware that this url is expiring in 10 minutes!
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/builds/{build-slug}/log`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/builds/{build-slug}/log/get(buildLog)`.
-    public func buildLog(_ input: Operations.buildLog.Input) async throws -> Operations.buildLog.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/builds/{build_slug}/log`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/builds/{build_slug}/log/get(build_log)`.
+    public func build_log(_ input: Operations.build_log.Input) async throws -> Operations.build_log.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.buildLog.id,
+            forOperation: Operations.build_log.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/builds/build-slug/log",
-                    parameters: []
+                    template: "/apps/{}/builds/{}/log",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.build_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -5758,7 +5844,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildLog.Output.BadRequest.Body
+                    let body: Operations.build_log.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5780,7 +5866,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildLog.Output.Unauthorized.Body
+                    let body: Operations.build_log.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5802,7 +5888,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildLog.Output.NotFound.Body
+                    let body: Operations.build_log.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5824,7 +5910,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildLog.Output.InternalServerError.Body
+                    let body: Operations.build_log.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5860,16 +5946,18 @@ public struct Client: APIProtocol {
     ///
     /// List all the available cache items that the builds of the app created via the save-cache step.
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/cache-items`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/cache-items/get(cacheList)`.
-    public func cacheList(_ input: Operations.cacheList.Input) async throws -> Operations.cacheList.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/cache-items`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/cache-items/get(cache_list)`.
+    public func cache_list(_ input: Operations.cache_list.Input) async throws -> Operations.cache_list.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.cacheList.id,
+            forOperation: Operations.cache_list.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/cache-items",
-                    parameters: []
+                    template: "/apps/{}/cache-items",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -5900,7 +5988,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.cacheList.Output.Ok.Body
+                    let body: Operations.cache_list.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5922,7 +6010,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.cacheList.Output.BadRequest.Body
+                    let body: Operations.cache_list.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5944,7 +6032,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.cacheList.Output.Unauthorized.Body
+                    let body: Operations.cache_list.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5966,7 +6054,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.cacheList.Output.NotFound.Body
+                    let body: Operations.cache_list.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -5988,7 +6076,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.cacheList.Output.InternalServerError.Body
+                    let body: Operations.cache_list.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6024,16 +6112,18 @@ public struct Client: APIProtocol {
     ///
     /// Deletes all key-value cache items created by the builds of an app. Deleted cache items are no longer accessible and cannot be restored.
     ///
-    /// - Remark: HTTP `DELETE /apps/{app-slug}/cache-items`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/cache-items/delete(cacheItemDeleteAll)`.
-    public func cacheItemDeleteAll(_ input: Operations.cacheItemDeleteAll.Input) async throws -> Operations.cacheItemDeleteAll.Output {
+    /// - Remark: HTTP `DELETE /apps/{app_slug}/cache-items`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/cache-items/delete(cache_item_delete_all)`.
+    public func cache_item_delete_all(_ input: Operations.cache_item_delete_all.Input) async throws -> Operations.cache_item_delete_all.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.cacheItemDeleteAll.id,
+            forOperation: Operations.cache_item_delete_all.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/cache-items",
-                    parameters: []
+                    template: "/apps/{}/cache-items",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -6052,7 +6142,7 @@ public struct Client: APIProtocol {
                     return .ok(.init())
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.cacheItemDeleteAll.Output.BadRequest.Body
+                    let body: Operations.cache_item_delete_all.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6074,7 +6164,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.cacheItemDeleteAll.Output.Unauthorized.Body
+                    let body: Operations.cache_item_delete_all.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6096,7 +6186,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.cacheItemDeleteAll.Output.NotFound.Body
+                    let body: Operations.cache_item_delete_all.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6118,7 +6208,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.cacheItemDeleteAll.Output.InternalServerError.Body
+                    let body: Operations.cache_item_delete_all.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6154,16 +6244,19 @@ public struct Client: APIProtocol {
     ///
     /// Deletes a key-value cache item. Deleted cache items are no longer accessible and cannot be restored.
     ///
-    /// - Remark: HTTP `DELETE /apps/{app-slug}/cache-items/{cache-item-id}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/cache-items/{cache-item-id}/delete(cacheItemDelete)`.
-    public func cacheItemDelete(_ input: Operations.cacheItemDelete.Input) async throws -> Operations.cacheItemDelete.Output {
+    /// - Remark: HTTP `DELETE /apps/{app_slug}/cache-items/{cache_item_id}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/cache-items/{cache_item_id}/delete(cache_item_delete)`.
+    public func cache_item_delete(_ input: Operations.cache_item_delete.Input) async throws -> Operations.cache_item_delete.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.cacheItemDelete.id,
+            forOperation: Operations.cache_item_delete.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/cache-items/cache-item-id",
-                    parameters: []
+                    template: "/apps/{}/cache-items/{}",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.cache_item_id
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -6182,7 +6275,7 @@ public struct Client: APIProtocol {
                     return .ok(.init())
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.cacheItemDelete.Output.BadRequest.Body
+                    let body: Operations.cache_item_delete.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6204,7 +6297,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.cacheItemDelete.Output.Unauthorized.Body
+                    let body: Operations.cache_item_delete.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6226,7 +6319,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.cacheItemDelete.Output.NotFound.Body
+                    let body: Operations.cache_item_delete.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6248,7 +6341,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.cacheItemDelete.Output.InternalServerError.Body
+                    let body: Operations.cache_item_delete.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6284,16 +6377,19 @@ public struct Client: APIProtocol {
     ///
     /// Gets a download URL of a cache item.
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/cache-items/{cache-item-id}/download`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/cache-items/{cache-item-id}/download/get(cacheItemDownload)`.
-    public func cacheItemDownload(_ input: Operations.cacheItemDownload.Input) async throws -> Operations.cacheItemDownload.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/cache-items/{cache_item_id}/download`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/cache-items/{cache_item_id}/download/get(cache_item_download)`.
+    public func cache_item_download(_ input: Operations.cache_item_download.Input) async throws -> Operations.cache_item_download.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.cacheItemDownload.id,
+            forOperation: Operations.cache_item_download.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/cache-items/cache-item-id/download",
-                    parameters: []
+                    template: "/apps/{}/cache-items/{}/download",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.cache_item_id
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -6310,7 +6406,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.cacheItemDownload.Output.Ok.Body
+                    let body: Operations.cache_item_download.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6332,7 +6428,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.cacheItemDownload.Output.BadRequest.Body
+                    let body: Operations.cache_item_download.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6354,7 +6450,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.cacheItemDownload.Output.Unauthorized.Body
+                    let body: Operations.cache_item_download.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6376,7 +6472,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.cacheItemDownload.Output.NotFound.Body
+                    let body: Operations.cache_item_download.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6398,7 +6494,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.cacheItemDownload.Output.InternalServerError.Body
+                    let body: Operations.cache_item_download.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6434,16 +6530,18 @@ public struct Client: APIProtocol {
     ///
     /// Save the application after registering it on Bitrise and registering an SSH key (and, optionally, adding a webhook). With this endpoint you can define the initial configuration, define application-level environment variables, determine the project type, and set an Organization to be the owner of the app. Read more about the app registration process in our [detailed guide](https://devcenter.bitrise.io/api/adding-and-managing-apps/#adding-a-new-app).
     ///
-    /// - Remark: HTTP `POST /apps/{app-slug}/finish`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/finish/post(appFinish)`.
-    public func appFinish(_ input: Operations.appFinish.Input) async throws -> Operations.appFinish.Output {
+    /// - Remark: HTTP `POST /apps/{app_slug}/finish`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/finish/post(app_finish)`.
+    public func app_finish(_ input: Operations.app_finish.Input) async throws -> Operations.app_finish.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.appFinish.id,
+            forOperation: Operations.app_finish.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/finish",
-                    parameters: []
+                    template: "/apps/{}/finish",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -6469,7 +6567,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appFinish.Output.Ok.Body
+                    let body: Operations.app_finish.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6491,7 +6589,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appFinish.Output.BadRequest.Body
+                    let body: Operations.app_finish.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6513,7 +6611,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appFinish.Output.Unauthorized.Body
+                    let body: Operations.app_finish.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6535,7 +6633,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appFinish.Output.NotFound.Body
+                    let body: Operations.app_finish.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6557,7 +6655,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appFinish.Output.InternalServerError.Body
+                    let body: Operations.app_finish.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6593,16 +6691,18 @@ public struct Client: APIProtocol {
     ///
     /// List all the generic project files that have been uploaded to a specific app. Read more in our [Listing the uploaded files of an app](https://devcenter.bitrise.io/api/managing-files-in-generic-file-storage/#listing-the-uploaded-files-of-an-app) guide.
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/generic-project-files`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/generic-project-files/get(genericProjectFileList)`.
-    public func genericProjectFileList(_ input: Operations.genericProjectFileList.Input) async throws -> Operations.genericProjectFileList.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/generic-project-files`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/generic-project-files/get(generic_project_file_list)`.
+    public func generic_project_file_list(_ input: Operations.generic_project_file_list.Input) async throws -> Operations.generic_project_file_list.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.genericProjectFileList.id,
+            forOperation: Operations.generic_project_file_list.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/generic-project-files",
-                    parameters: []
+                    template: "/apps/{}/generic-project-files",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -6633,7 +6733,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFileList.Output.Ok.Body
+                    let body: Operations.generic_project_file_list.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6655,7 +6755,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFileList.Output.BadRequest.Body
+                    let body: Operations.generic_project_file_list.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6677,7 +6777,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFileList.Output.Unauthorized.Body
+                    let body: Operations.generic_project_file_list.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6699,7 +6799,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFileList.Output.NotFound.Body
+                    let body: Operations.generic_project_file_list.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6721,7 +6821,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFileList.Output.InternalServerError.Body
+                    let body: Operations.generic_project_file_list.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6755,18 +6855,20 @@ public struct Client: APIProtocol {
     }
     /// Create a generic project file
     ///
-    /// Create a temporary pre-signed upload URL (expires in 10 minutes) for the generic project file and upload it to AWS with a simple `curl` request. To complete the uploading process and view your files on the Code Signing tab of your app, continue with the [POST /apps/{app-slug}/generic-project-files/{generic-project-file-slug}/uploaded](https://api-docs.bitrise.io/#/generic-project-file/generic-project-file-confirm) endpoint. Read more in our [Creating and uploading files to Generic File Storage](https://devcenter.bitrise.io/api/managing-files-in-generic-file-storage/#creating-and-uploading-files-to-generic-file-storage) guide.
+    /// Create a temporary pre-signed upload URL (expires in 10 minutes) for the generic project file and upload it to AWS with a simple `curl` request. To complete the uploading process and view your files on the Code Signing tab of your app, continue with the [POST /apps/{app_slug}/generic-project-files/{generic_project_file_slug}/uploaded](https://api-docs.bitrise.io/#/generic-project-file/generic-project-file-confirm) endpoint. Read more in our [Creating and uploading files to Generic File Storage](https://devcenter.bitrise.io/api/managing-files-in-generic-file-storage/#creating-and-uploading-files-to-generic-file-storage) guide.
     ///
-    /// - Remark: HTTP `POST /apps/{app-slug}/generic-project-files`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/generic-project-files/post(genericProjectFilesCreate)`.
-    public func genericProjectFilesCreate(_ input: Operations.genericProjectFilesCreate.Input) async throws -> Operations.genericProjectFilesCreate.Output {
+    /// - Remark: HTTP `POST /apps/{app_slug}/generic-project-files`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/generic-project-files/post(generic_project_files_create)`.
+    public func generic_project_files_create(_ input: Operations.generic_project_files_create.Input) async throws -> Operations.generic_project_files_create.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.genericProjectFilesCreate.id,
+            forOperation: Operations.generic_project_files_create.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/generic-project-files",
-                    parameters: []
+                    template: "/apps/{}/generic-project-files",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -6792,7 +6894,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 201:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFilesCreate.Output.Created.Body
+                    let body: Operations.generic_project_files_create.Output.Created.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6814,7 +6916,7 @@ public struct Client: APIProtocol {
                     return .created(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFilesCreate.Output.BadRequest.Body
+                    let body: Operations.generic_project_files_create.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6836,7 +6938,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFilesCreate.Output.Unauthorized.Body
+                    let body: Operations.generic_project_files_create.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6858,7 +6960,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFilesCreate.Output.NotFound.Body
+                    let body: Operations.generic_project_files_create.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6880,7 +6982,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFilesCreate.Output.InternalServerError.Body
+                    let body: Operations.generic_project_files_create.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6916,16 +7018,19 @@ public struct Client: APIProtocol {
     ///
     /// Retrieve data of a specific generic project file to check its attributes and optionally modify them with the [PATCH /apps/](https://api-docs.bitrise.io/#/generic-project-file/generic-project-file-update) endpoint. Read more in our [Retrieving a specific file's data](https://devcenter.bitrise.io/api/managing-files-in-generic-file-storage/#retrieving-a-specific-files-data) guide.
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/generic-project-files/{generic-project-file-slug}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/generic-project-files/{generic-project-file-slug}/get(genericProjectFileShow)`.
-    public func genericProjectFileShow(_ input: Operations.genericProjectFileShow.Input) async throws -> Operations.genericProjectFileShow.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/generic-project-files/{generic_project_file_slug}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/generic-project-files/{generic_project_file_slug}/get(generic_project_file_show)`.
+    public func generic_project_file_show(_ input: Operations.generic_project_file_show.Input) async throws -> Operations.generic_project_file_show.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.genericProjectFileShow.id,
+            forOperation: Operations.generic_project_file_show.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/generic-project-files/generic-project-file-slug",
-                    parameters: []
+                    template: "/apps/{}/generic-project-files/{}",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.generic_project_file_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -6942,7 +7047,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFileShow.Output.Ok.Body
+                    let body: Operations.generic_project_file_show.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6964,7 +7069,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFileShow.Output.BadRequest.Body
+                    let body: Operations.generic_project_file_show.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -6986,7 +7091,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFileShow.Output.Unauthorized.Body
+                    let body: Operations.generic_project_file_show.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7008,7 +7113,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFileShow.Output.NotFound.Body
+                    let body: Operations.generic_project_file_show.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7030,7 +7135,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFileShow.Output.InternalServerError.Body
+                    let body: Operations.generic_project_file_show.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7064,18 +7169,21 @@ public struct Client: APIProtocol {
     }
     /// Update a generic project file
     ///
-    /// Update a generic project file's attributes. You can fetch an app's generic project file slug if you first list all the uploaded files with the [GET /apps/{app-slug}/generic-project-files](https://api-docs.bitrise.io/#/generic-project-file/generic-project-file-list) endpoint. Read more in our [Updating an uploaded file](https://devcenter.bitrise.io/api/managing-files-in-generic-file-storage/#updating-an-uploaded-file) guide.
+    /// Update a generic project file's attributes. You can fetch an app's generic project file slug if you first list all the uploaded files with the [GET /apps/{app_slug}/generic-project-files](https://api-docs.bitrise.io/#/generic-project-file/generic-project-file-list) endpoint. Read more in our [Updating an uploaded file](https://devcenter.bitrise.io/api/managing-files-in-generic-file-storage/#updating-an-uploaded-file) guide.
     ///
-    /// - Remark: HTTP `PATCH /apps/{app-slug}/generic-project-files/{generic-project-file-slug}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/generic-project-files/{generic-project-file-slug}/patch(genericProjectFileUpdate)`.
-    public func genericProjectFileUpdate(_ input: Operations.genericProjectFileUpdate.Input) async throws -> Operations.genericProjectFileUpdate.Output {
+    /// - Remark: HTTP `PATCH /apps/{app_slug}/generic-project-files/{generic_project_file_slug}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/generic-project-files/{generic_project_file_slug}/patch(generic_project_file_update)`.
+    public func generic_project_file_update(_ input: Operations.generic_project_file_update.Input) async throws -> Operations.generic_project_file_update.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.genericProjectFileUpdate.id,
+            forOperation: Operations.generic_project_file_update.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/generic-project-files/generic-project-file-slug",
-                    parameters: []
+                    template: "/apps/{}/generic-project-files/{}",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.generic_project_file_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -7101,7 +7209,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFileUpdate.Output.Ok.Body
+                    let body: Operations.generic_project_file_update.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7123,7 +7231,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFileUpdate.Output.BadRequest.Body
+                    let body: Operations.generic_project_file_update.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7145,7 +7253,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFileUpdate.Output.Unauthorized.Body
+                    let body: Operations.generic_project_file_update.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7167,7 +7275,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFileUpdate.Output.NotFound.Body
+                    let body: Operations.generic_project_file_update.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7189,7 +7297,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFileUpdate.Output.InternalServerError.Body
+                    let body: Operations.generic_project_file_update.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7223,18 +7331,21 @@ public struct Client: APIProtocol {
     }
     /// Delete a generic project file
     ///
-    /// Delete an app's generic project file. You can fetch an app's generic project file slug if you first list all the uploaded files with the [GET /apps/{app-slug}/generic-project-files](https://api-docs.bitrise.io/#/generic-project-file/generic-project-file-list) endpoint. Read more in our [Deleting a file](https://devcenter.bitrise.io/api/managing-files-in-generic-file-storage/#deleting-a-file) guide.
+    /// Delete an app's generic project file. You can fetch an app's generic project file slug if you first list all the uploaded files with the [GET /apps/{app_slug}/generic-project-files](https://api-docs.bitrise.io/#/generic-project-file/generic-project-file-list) endpoint. Read more in our [Deleting a file](https://devcenter.bitrise.io/api/managing-files-in-generic-file-storage/#deleting-a-file) guide.
     ///
-    /// - Remark: HTTP `DELETE /apps/{app-slug}/generic-project-files/{generic-project-file-slug}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/generic-project-files/{generic-project-file-slug}/delete(genericProjectFileDelete)`.
-    public func genericProjectFileDelete(_ input: Operations.genericProjectFileDelete.Input) async throws -> Operations.genericProjectFileDelete.Output {
+    /// - Remark: HTTP `DELETE /apps/{app_slug}/generic-project-files/{generic_project_file_slug}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/generic-project-files/{generic_project_file_slug}/delete(generic_project_file_delete)`.
+    public func generic_project_file_delete(_ input: Operations.generic_project_file_delete.Input) async throws -> Operations.generic_project_file_delete.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.genericProjectFileDelete.id,
+            forOperation: Operations.generic_project_file_delete.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/generic-project-files/generic-project-file-slug",
-                    parameters: []
+                    template: "/apps/{}/generic-project-files/{}",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.generic_project_file_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -7251,7 +7362,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFileDelete.Output.Ok.Body
+                    let body: Operations.generic_project_file_delete.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7273,7 +7384,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFileDelete.Output.BadRequest.Body
+                    let body: Operations.generic_project_file_delete.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7295,7 +7406,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFileDelete.Output.Unauthorized.Body
+                    let body: Operations.generic_project_file_delete.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7317,7 +7428,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFileDelete.Output.NotFound.Body
+                    let body: Operations.generic_project_file_delete.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7339,7 +7450,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFileDelete.Output.InternalServerError.Body
+                    let body: Operations.generic_project_file_delete.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7375,16 +7486,19 @@ public struct Client: APIProtocol {
     ///
     /// This is the last step of uploading a generic project file to Bitrise. Confirm the generic project file upload and view the file on the Code Signing tab of a specific app. Read more in our [Confirming the upload](https://devcenter.bitrise.io/api/managing-files-in-generic-file-storage/#confirming-the-file-upload) guide.
     ///
-    /// - Remark: HTTP `POST /apps/{app-slug}/generic-project-files/{generic-project-file-slug}/uploaded`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/generic-project-files/{generic-project-file-slug}/uploaded/post(genericProjectFileConfirm)`.
-    public func genericProjectFileConfirm(_ input: Operations.genericProjectFileConfirm.Input) async throws -> Operations.genericProjectFileConfirm.Output {
+    /// - Remark: HTTP `POST /apps/{app_slug}/generic-project-files/{generic_project_file_slug}/uploaded`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/generic-project-files/{generic_project_file_slug}/uploaded/post(generic_project_file_confirm)`.
+    public func generic_project_file_confirm(_ input: Operations.generic_project_file_confirm.Input) async throws -> Operations.generic_project_file_confirm.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.genericProjectFileConfirm.id,
+            forOperation: Operations.generic_project_file_confirm.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/generic-project-files/generic-project-file-slug/uploaded",
-                    parameters: []
+                    template: "/apps/{}/generic-project-files/{}/uploaded",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.generic_project_file_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -7401,7 +7515,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFileConfirm.Output.Ok.Body
+                    let body: Operations.generic_project_file_confirm.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7423,7 +7537,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFileConfirm.Output.BadRequest.Body
+                    let body: Operations.generic_project_file_confirm.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7445,7 +7559,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFileConfirm.Output.Unauthorized.Body
+                    let body: Operations.generic_project_file_confirm.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7467,7 +7581,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFileConfirm.Output.NotFound.Body
+                    let body: Operations.generic_project_file_confirm.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7489,7 +7603,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.genericProjectFileConfirm.Output.InternalServerError.Body
+                    let body: Operations.generic_project_file_confirm.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7525,16 +7639,18 @@ public struct Client: APIProtocol {
     ///
     /// List all the outgoing webhooks registered for a specified Bitrise app. This returns all the relevant data of the webhook, including the slug of the webhook and its URL.
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/outgoing-webhooks`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/outgoing-webhooks/get(outgoingWebhookList)`.
-    public func outgoingWebhookList(_ input: Operations.outgoingWebhookList.Input) async throws -> Operations.outgoingWebhookList.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/outgoing-webhooks`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/outgoing-webhooks/get(outgoing_webhook_list)`.
+    public func outgoing_webhook_list(_ input: Operations.outgoing_webhook_list.Input) async throws -> Operations.outgoing_webhook_list.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.outgoingWebhookList.id,
+            forOperation: Operations.outgoing_webhook_list.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/outgoing-webhooks",
-                    parameters: []
+                    template: "/apps/{}/outgoing-webhooks",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -7565,7 +7681,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.outgoingWebhookList.Output.Ok.Body
+                    let body: Operations.outgoing_webhook_list.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7587,7 +7703,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.outgoingWebhookList.Output.BadRequest.Body
+                    let body: Operations.outgoing_webhook_list.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7609,7 +7725,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.outgoingWebhookList.Output.Unauthorized.Body
+                    let body: Operations.outgoing_webhook_list.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7631,7 +7747,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.outgoingWebhookList.Output.InternalServerError.Body
+                    let body: Operations.outgoing_webhook_list.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7667,16 +7783,18 @@ public struct Client: APIProtocol {
     ///
     /// Create an outgoing webhook for a specified Bitrise app: this can be used to send build events to a specified URL with custom headers. Currently, only build events can trigger outgoing webhooks.
     ///
-    /// - Remark: HTTP `POST /apps/{app-slug}/outgoing-webhooks`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/outgoing-webhooks/post(outgoingWebhookCreate)`.
-    public func outgoingWebhookCreate(_ input: Operations.outgoingWebhookCreate.Input) async throws -> Operations.outgoingWebhookCreate.Output {
+    /// - Remark: HTTP `POST /apps/{app_slug}/outgoing-webhooks`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/outgoing-webhooks/post(outgoing_webhook_create)`.
+    public func outgoing_webhook_create(_ input: Operations.outgoing_webhook_create.Input) async throws -> Operations.outgoing_webhook_create.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.outgoingWebhookCreate.id,
+            forOperation: Operations.outgoing_webhook_create.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/outgoing-webhooks",
-                    parameters: []
+                    template: "/apps/{}/outgoing-webhooks",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -7702,7 +7820,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.outgoingWebhookCreate.Output.Ok.Body
+                    let body: Operations.outgoing_webhook_create.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7724,7 +7842,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.outgoingWebhookCreate.Output.BadRequest.Body
+                    let body: Operations.outgoing_webhook_create.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7746,7 +7864,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.outgoingWebhookCreate.Output.Unauthorized.Body
+                    let body: Operations.outgoing_webhook_create.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7768,7 +7886,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.outgoingWebhookCreate.Output.NotFound.Body
+                    let body: Operations.outgoing_webhook_create.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7790,7 +7908,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.outgoingWebhookCreate.Output.InternalServerError.Body
+                    let body: Operations.outgoing_webhook_create.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7826,16 +7944,19 @@ public struct Client: APIProtocol {
     ///
     /// Update an existing outgoing webhook (URL, events, secrets and headers) for a specified Bitrise app. Even if you do not want to change one of the parameters, you still have to provide that parameter as well: simply use its existing value.
     ///
-    /// - Remark: HTTP `PUT /apps/{app-slug}/outgoing-webhooks/{app-webhook-slug}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/outgoing-webhooks/{app-webhook-slug}/put(outgoingWebhookUpdate)`.
-    public func outgoingWebhookUpdate(_ input: Operations.outgoingWebhookUpdate.Input) async throws -> Operations.outgoingWebhookUpdate.Output {
+    /// - Remark: HTTP `PUT /apps/{app_slug}/outgoing-webhooks/{app_webhook_slug}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/outgoing-webhooks/{app_webhook_slug}/put(outgoing_webhook_update)`.
+    public func outgoing_webhook_update(_ input: Operations.outgoing_webhook_update.Input) async throws -> Operations.outgoing_webhook_update.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.outgoingWebhookUpdate.id,
+            forOperation: Operations.outgoing_webhook_update.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/outgoing-webhooks/app-webhook-slug",
-                    parameters: []
+                    template: "/apps/{}/outgoing-webhooks/{}",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.app_webhook_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -7861,7 +7982,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.outgoingWebhookUpdate.Output.Ok.Body
+                    let body: Operations.outgoing_webhook_update.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7883,7 +8004,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.outgoingWebhookUpdate.Output.BadRequest.Body
+                    let body: Operations.outgoing_webhook_update.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7905,7 +8026,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.outgoingWebhookUpdate.Output.Unauthorized.Body
+                    let body: Operations.outgoing_webhook_update.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7927,7 +8048,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.outgoingWebhookUpdate.Output.NotFound.Body
+                    let body: Operations.outgoing_webhook_update.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7949,7 +8070,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.outgoingWebhookUpdate.Output.InternalServerError.Body
+                    let body: Operations.outgoing_webhook_update.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -7985,16 +8106,19 @@ public struct Client: APIProtocol {
     ///
     /// Delete an existing outgoing webhook for a specified Bitrise app.
     ///
-    /// - Remark: HTTP `DELETE /apps/{app-slug}/outgoing-webhooks/{app-webhook-slug}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/outgoing-webhooks/{app-webhook-slug}/delete(outgoingWebhookDelete)`.
-    public func outgoingWebhookDelete(_ input: Operations.outgoingWebhookDelete.Input) async throws -> Operations.outgoingWebhookDelete.Output {
+    /// - Remark: HTTP `DELETE /apps/{app_slug}/outgoing-webhooks/{app_webhook_slug}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/outgoing-webhooks/{app_webhook_slug}/delete(outgoing_webhook_delete)`.
+    public func outgoing_webhook_delete(_ input: Operations.outgoing_webhook_delete.Input) async throws -> Operations.outgoing_webhook_delete.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.outgoingWebhookDelete.id,
+            forOperation: Operations.outgoing_webhook_delete.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/outgoing-webhooks/app-webhook-slug",
-                    parameters: []
+                    template: "/apps/{}/outgoing-webhooks/{}",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.app_webhook_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -8011,7 +8135,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.outgoingWebhookDelete.Output.Ok.Body
+                    let body: Operations.outgoing_webhook_delete.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8033,7 +8157,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.outgoingWebhookDelete.Output.BadRequest.Body
+                    let body: Operations.outgoing_webhook_delete.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8055,7 +8179,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.outgoingWebhookDelete.Output.Unauthorized.Body
+                    let body: Operations.outgoing_webhook_delete.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8077,7 +8201,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.outgoingWebhookDelete.Output.NotFound.Body
+                    let body: Operations.outgoing_webhook_delete.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8099,7 +8223,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.outgoingWebhookDelete.Output.InternalServerError.Body
+                    let body: Operations.outgoing_webhook_delete.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8135,16 +8259,19 @@ public struct Client: APIProtocol {
     ///
     /// List all the delivery items of an outgoing webhook of a Bitrise application
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/outgoing-webhooks/{app-webhook-slug}/delivery-items`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/outgoing-webhooks/{app-webhook-slug}/delivery-items/get(webhookDeliveryItemList)`.
-    public func webhookDeliveryItemList(_ input: Operations.webhookDeliveryItemList.Input) async throws -> Operations.webhookDeliveryItemList.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/outgoing-webhooks/{app_webhook_slug}/delivery-items`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/outgoing-webhooks/{app_webhook_slug}/delivery-items/get(webhook_delivery_item_list)`.
+    public func webhook_delivery_item_list(_ input: Operations.webhook_delivery_item_list.Input) async throws -> Operations.webhook_delivery_item_list.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.webhookDeliveryItemList.id,
+            forOperation: Operations.webhook_delivery_item_list.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/outgoing-webhooks/app-webhook-slug/delivery-items",
-                    parameters: []
+                    template: "/apps/{}/outgoing-webhooks/{}/delivery-items",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.app_webhook_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -8175,7 +8302,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.webhookDeliveryItemList.Output.Ok.Body
+                    let body: Operations.webhook_delivery_item_list.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8197,7 +8324,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.webhookDeliveryItemList.Output.BadRequest.Body
+                    let body: Operations.webhook_delivery_item_list.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8219,7 +8346,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.webhookDeliveryItemList.Output.Unauthorized.Body
+                    let body: Operations.webhook_delivery_item_list.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8241,7 +8368,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.webhookDeliveryItemList.Output.InternalServerError.Body
+                    let body: Operations.webhook_delivery_item_list.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8277,16 +8404,20 @@ public struct Client: APIProtocol {
     ///
     /// Get the specified delivery item of an outgoing webhook of a Bitrise application
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/outgoing-webhooks/{app-webhook-slug}/delivery-items/{webhook-delivery-item-slug}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/outgoing-webhooks/{app-webhook-slug}/delivery-items/{webhook-delivery-item-slug}/get(webhookDeliveryItemShow)`.
-    public func webhookDeliveryItemShow(_ input: Operations.webhookDeliveryItemShow.Input) async throws -> Operations.webhookDeliveryItemShow.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/outgoing-webhooks/{app_webhook_slug}/delivery-items/{webhook_delivery_item_slug}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/outgoing-webhooks/{app_webhook_slug}/delivery-items/{webhook_delivery_item_slug}/get(webhook_delivery_item_show)`.
+    public func webhook_delivery_item_show(_ input: Operations.webhook_delivery_item_show.Input) async throws -> Operations.webhook_delivery_item_show.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.webhookDeliveryItemShow.id,
+            forOperation: Operations.webhook_delivery_item_show.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/outgoing-webhooks/app-webhook-slug/delivery-items/webhook-delivery-item-slug",
-                    parameters: []
+                    template: "/apps/{}/outgoing-webhooks/{}/delivery-items/{}",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.app_webhook_slug,
+                        input.path.webhook_delivery_item_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -8303,7 +8434,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.webhookDeliveryItemShow.Output.Ok.Body
+                    let body: Operations.webhook_delivery_item_show.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8325,7 +8456,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.webhookDeliveryItemShow.Output.BadRequest.Body
+                    let body: Operations.webhook_delivery_item_show.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8347,7 +8478,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.webhookDeliveryItemShow.Output.Unauthorized.Body
+                    let body: Operations.webhook_delivery_item_show.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8369,7 +8500,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.webhookDeliveryItemShow.Output.InternalServerError.Body
+                    let body: Operations.webhook_delivery_item_show.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8405,16 +8536,20 @@ public struct Client: APIProtocol {
     ///
     /// Re-deliver the delivery item of a specified webhook of a Bitrise application
     ///
-    /// - Remark: HTTP `POST /apps/{app-slug}/outgoing-webhooks/{app-webhook-slug}/delivery-items/{webhook-delivery-item-slug}/redeliver`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/outgoing-webhooks/{app-webhook-slug}/delivery-items/{webhook-delivery-item-slug}/redeliver/post(webhookDeliveryItemRedeliver)`.
-    public func webhookDeliveryItemRedeliver(_ input: Operations.webhookDeliveryItemRedeliver.Input) async throws -> Operations.webhookDeliveryItemRedeliver.Output {
+    /// - Remark: HTTP `POST /apps/{app_slug}/outgoing-webhooks/{app_webhook_slug}/delivery-items/{webhook_delivery_item_slug}/redeliver`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/outgoing-webhooks/{app_webhook_slug}/delivery-items/{webhook_delivery_item_slug}/redeliver/post(webhook_delivery_item_redeliver)`.
+    public func webhook_delivery_item_redeliver(_ input: Operations.webhook_delivery_item_redeliver.Input) async throws -> Operations.webhook_delivery_item_redeliver.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.webhookDeliveryItemRedeliver.id,
+            forOperation: Operations.webhook_delivery_item_redeliver.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/outgoing-webhooks/app-webhook-slug/delivery-items/webhook-delivery-item-slug/redeliver",
-                    parameters: []
+                    template: "/apps/{}/outgoing-webhooks/{}/delivery-items/{}/redeliver",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.app_webhook_slug,
+                        input.path.webhook_delivery_item_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -8431,7 +8566,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.webhookDeliveryItemRedeliver.Output.Ok.Body
+                    let body: Operations.webhook_delivery_item_redeliver.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8453,7 +8588,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.webhookDeliveryItemRedeliver.Output.BadRequest.Body
+                    let body: Operations.webhook_delivery_item_redeliver.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8475,7 +8610,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.webhookDeliveryItemRedeliver.Output.Unauthorized.Body
+                    let body: Operations.webhook_delivery_item_redeliver.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8497,7 +8632,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.webhookDeliveryItemRedeliver.Output.InternalServerError.Body
+                    let body: Operations.webhook_delivery_item_redeliver.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8533,16 +8668,18 @@ public struct Client: APIProtocol {
     ///
     /// List all the pipelines and standalone builds of a specified Bitrise app. Set parameters to filter pipelines: for example, you can search for pipelines/standalone builds run with a given workflow name or all pipelines/standalone builds that were triggered by Pull Requests. It returns all the relevant data of the pipelines/standalone builds.
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/pipelines`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/pipelines/get(pipelineList)`.
-    public func pipelineList(_ input: Operations.pipelineList.Input) async throws -> Operations.pipelineList.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/pipelines`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/pipelines/get(pipeline_list)`.
+    public func pipeline_list(_ input: Operations.pipeline_list.Input) async throws -> Operations.pipeline_list.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.pipelineList.id,
+            forOperation: Operations.pipeline_list.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/pipelines",
-                    parameters: []
+                    template: "/apps/{}/pipelines",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -8636,7 +8773,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.pipelineList.Output.Ok.Body
+                    let body: Operations.pipeline_list.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8658,7 +8795,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.pipelineList.Output.BadRequest.Body
+                    let body: Operations.pipeline_list.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8680,7 +8817,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.pipelineList.Output.Unauthorized.Body
+                    let body: Operations.pipeline_list.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8702,7 +8839,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.pipelineList.Output.NotFound.Body
+                    let body: Operations.pipeline_list.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8724,7 +8861,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.pipelineList.Output.InternalServerError.Body
+                    let body: Operations.pipeline_list.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8760,16 +8897,19 @@ public struct Client: APIProtocol {
     ///
     /// Get the specified pipeline of a given Bitrise app. You need to provide both an app slug and a pipeline id. You can get the pipeline id either by calling the [/pipelines](https://api-docs.bitrise.io/#/pipelines/pipeline-list) endpoint or by clicking on the pipeline on bitrise.io and copying the id from the URL. The endpoint returns all the relevant data of the pipeline.
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/pipelines/{pipeline-id}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/pipelines/{pipeline-id}/get(pipelineShow)`.
-    public func pipelineShow(_ input: Operations.pipelineShow.Input) async throws -> Operations.pipelineShow.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/pipelines/{pipeline_id}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/pipelines/{pipeline_id}/get(pipeline_show)`.
+    public func pipeline_show(_ input: Operations.pipeline_show.Input) async throws -> Operations.pipeline_show.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.pipelineShow.id,
+            forOperation: Operations.pipeline_show.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/pipelines/pipeline-id",
-                    parameters: []
+                    template: "/apps/{}/pipelines/{}",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.pipeline_id
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -8786,7 +8926,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.pipelineShow.Output.Ok.Body
+                    let body: Operations.pipeline_show.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8808,7 +8948,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.pipelineShow.Output.BadRequest.Body
+                    let body: Operations.pipeline_show.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8830,7 +8970,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.pipelineShow.Output.Unauthorized.Body
+                    let body: Operations.pipeline_show.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8852,7 +8992,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.pipelineShow.Output.NotFound.Body
+                    let body: Operations.pipeline_show.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8874,7 +9014,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.pipelineShow.Output.InternalServerError.Body
+                    let body: Operations.pipeline_show.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8910,16 +9050,19 @@ public struct Client: APIProtocol {
     ///
     /// Aborts a pipeline. You need to provide the app slug and the id of the pipeline. You can add an abort reason, choose to skip notifications and make the abort with success state.
     ///
-    /// - Remark: HTTP `POST /apps/{app-slug}/pipelines/{pipeline-id}/abort`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/pipelines/{pipeline-id}/abort/post(pipelineAbort)`.
-    public func pipelineAbort(_ input: Operations.pipelineAbort.Input) async throws -> Operations.pipelineAbort.Output {
+    /// - Remark: HTTP `POST /apps/{app_slug}/pipelines/{pipeline_id}/abort`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/pipelines/{pipeline_id}/abort/post(pipeline_abort)`.
+    public func pipeline_abort(_ input: Operations.pipeline_abort.Input) async throws -> Operations.pipeline_abort.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.pipelineAbort.id,
+            forOperation: Operations.pipeline_abort.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/pipelines/pipeline-id/abort",
-                    parameters: []
+                    template: "/apps/{}/pipelines/{}/abort",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.pipeline_id
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -8947,7 +9090,7 @@ public struct Client: APIProtocol {
                     return .ok(.init())
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.pipelineAbort.Output.BadRequest.Body
+                    let body: Operations.pipeline_abort.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8969,7 +9112,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.pipelineAbort.Output.Unauthorized.Body
+                    let body: Operations.pipeline_abort.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -8991,7 +9134,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.pipelineAbort.Output.NotFound.Body
+                    let body: Operations.pipeline_abort.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9013,7 +9156,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.pipelineAbort.Output.InternalServerError.Body
+                    let body: Operations.pipeline_abort.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9049,16 +9192,19 @@ public struct Client: APIProtocol {
     ///
     /// Rebuilds a pipeline. You can rebuild the whole pipeline or only the unsuccessful and subsequent workflows by setting the partial flag to true.
     ///
-    /// - Remark: HTTP `POST /apps/{app-slug}/pipelines/{pipeline-id}/rebuild`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/pipelines/{pipeline-id}/rebuild/post(pipelineRebuild)`.
-    public func pipelineRebuild(_ input: Operations.pipelineRebuild.Input) async throws -> Operations.pipelineRebuild.Output {
+    /// - Remark: HTTP `POST /apps/{app_slug}/pipelines/{pipeline_id}/rebuild`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/pipelines/{pipeline_id}/rebuild/post(pipeline_rebuild)`.
+    public func pipeline_rebuild(_ input: Operations.pipeline_rebuild.Input) async throws -> Operations.pipeline_rebuild.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.pipelineRebuild.id,
+            forOperation: Operations.pipeline_rebuild.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/pipelines/pipeline-id/rebuild",
-                    parameters: []
+                    template: "/apps/{}/pipelines/{}/rebuild",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.pipeline_id
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -9086,7 +9232,7 @@ public struct Client: APIProtocol {
                     return .created(.init())
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.pipelineRebuild.Output.BadRequest.Body
+                    let body: Operations.pipeline_rebuild.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9108,7 +9254,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.pipelineRebuild.Output.Unauthorized.Body
+                    let body: Operations.pipeline_rebuild.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9130,7 +9276,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.pipelineRebuild.Output.NotFound.Body
+                    let body: Operations.pipeline_rebuild.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9152,7 +9298,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 412:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.pipelineRebuild.Output.PreconditionFailed.Body
+                    let body: Operations.pipeline_rebuild.Output.PreconditionFailed.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9174,7 +9320,7 @@ public struct Client: APIProtocol {
                     return .preconditionFailed(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.pipelineRebuild.Output.InternalServerError.Body
+                    let body: Operations.pipeline_rebuild.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9210,16 +9356,18 @@ public struct Client: APIProtocol {
     ///
     /// List all the provisioning profiles that have been uploaded to a specific app. Read more in our [Listing the uploaded iOS code signing files of an app](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#listing-the-uploaded-ios-code-signing-files-of-an-app) guide.
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/provisioning-profiles`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/provisioning-profiles/get(provisioningProfileList)`.
-    public func provisioningProfileList(_ input: Operations.provisioningProfileList.Input) async throws -> Operations.provisioningProfileList.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/provisioning-profiles`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/provisioning-profiles/get(provisioning_profile_list)`.
+    public func provisioning_profile_list(_ input: Operations.provisioning_profile_list.Input) async throws -> Operations.provisioning_profile_list.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.provisioningProfileList.id,
+            forOperation: Operations.provisioning_profile_list.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/provisioning-profiles",
-                    parameters: []
+                    template: "/apps/{}/provisioning-profiles",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -9250,7 +9398,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileList.Output.Ok.Body
+                    let body: Operations.provisioning_profile_list.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9272,7 +9420,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileList.Output.BadRequest.Body
+                    let body: Operations.provisioning_profile_list.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9294,7 +9442,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileList.Output.Unauthorized.Body
+                    let body: Operations.provisioning_profile_list.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9316,7 +9464,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileList.Output.NotFound.Body
+                    let body: Operations.provisioning_profile_list.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9338,7 +9486,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileList.Output.InternalServerError.Body
+                    let body: Operations.provisioning_profile_list.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9372,18 +9520,20 @@ public struct Client: APIProtocol {
     }
     /// Create a provisioning profile
     ///
-    /// Create a temporary pre-signed upload URL (expires in 10 minutes) for the provisioning profile and upload it to AWS with a simple `curl` request. To complete the upload process, continue with the [POST /apps/{app-slug}/provisioning-profiles/{provisioning-profile-slug}/uploaded](https://api-docs.bitrise.io/#/provisioning-profile/provisioning-profile-confirm) endpoint. Read more in our [Creating and uploading an iOS code signing file](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#creating--uploading-an-ios-code-signing-file) guide.
+    /// Create a temporary pre-signed upload URL (expires in 10 minutes) for the provisioning profile and upload it to AWS with a simple `curl` request. To complete the upload process, continue with the [POST /apps/{app_slug}/provisioning-profiles/{provisioning_profile_slug}/uploaded](https://api-docs.bitrise.io/#/provisioning-profile/provisioning-profile-confirm) endpoint. Read more in our [Creating and uploading an iOS code signing file](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#creating--uploading-an-ios-code-signing-file) guide.
     ///
-    /// - Remark: HTTP `POST /apps/{app-slug}/provisioning-profiles`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/provisioning-profiles/post(provisioningProfileCreate)`.
-    public func provisioningProfileCreate(_ input: Operations.provisioningProfileCreate.Input) async throws -> Operations.provisioningProfileCreate.Output {
+    /// - Remark: HTTP `POST /apps/{app_slug}/provisioning-profiles`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/provisioning-profiles/post(provisioning_profile_create)`.
+    public func provisioning_profile_create(_ input: Operations.provisioning_profile_create.Input) async throws -> Operations.provisioning_profile_create.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.provisioningProfileCreate.id,
+            forOperation: Operations.provisioning_profile_create.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/provisioning-profiles",
-                    parameters: []
+                    template: "/apps/{}/provisioning-profiles",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -9409,7 +9559,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 201:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileCreate.Output.Created.Body
+                    let body: Operations.provisioning_profile_create.Output.Created.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9431,7 +9581,7 @@ public struct Client: APIProtocol {
                     return .created(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileCreate.Output.BadRequest.Body
+                    let body: Operations.provisioning_profile_create.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9453,7 +9603,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileCreate.Output.Unauthorized.Body
+                    let body: Operations.provisioning_profile_create.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9475,7 +9625,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileCreate.Output.NotFound.Body
+                    let body: Operations.provisioning_profile_create.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9497,7 +9647,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileCreate.Output.InternalServerError.Body
+                    let body: Operations.provisioning_profile_create.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9531,18 +9681,21 @@ public struct Client: APIProtocol {
     }
     /// Get a specific provisioning profile
     ///
-    /// Retrieve data of a specific provisioning profile. You can fetch the provisioning profile's slug if you call the [GET /apps/{app-slug}/provisioning-profiles](https://api-docs.bitrise.io/#/provisioning-profile/provisioning-profile-list) endpoint. Read more in our [Getting a specific iOS code signing file's data](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#getting-a-specific-ios-code-signing-files-data) guide.
+    /// Retrieve data of a specific provisioning profile. You can fetch the provisioning profile's slug if you call the [GET /apps/{app_slug}/provisioning-profiles](https://api-docs.bitrise.io/#/provisioning-profile/provisioning-profile-list) endpoint. Read more in our [Getting a specific iOS code signing file's data](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#getting-a-specific-ios-code-signing-files-data) guide.
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/provisioning-profiles/{provisioning-profile-slug}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/provisioning-profiles/{provisioning-profile-slug}/get(provisioningProfileShow)`.
-    public func provisioningProfileShow(_ input: Operations.provisioningProfileShow.Input) async throws -> Operations.provisioningProfileShow.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/provisioning-profiles/{provisioning_profile_slug}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/provisioning-profiles/{provisioning_profile_slug}/get(provisioning_profile_show)`.
+    public func provisioning_profile_show(_ input: Operations.provisioning_profile_show.Input) async throws -> Operations.provisioning_profile_show.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.provisioningProfileShow.id,
+            forOperation: Operations.provisioning_profile_show.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/provisioning-profiles/provisioning-profile-slug",
-                    parameters: []
+                    template: "/apps/{}/provisioning-profiles/{}",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.provisioning_profile_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -9559,7 +9712,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileShow.Output.Ok.Body
+                    let body: Operations.provisioning_profile_show.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9581,7 +9734,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileShow.Output.BadRequest.Body
+                    let body: Operations.provisioning_profile_show.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9603,7 +9756,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileShow.Output.Unauthorized.Body
+                    let body: Operations.provisioning_profile_show.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9625,7 +9778,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileShow.Output.NotFound.Body
+                    let body: Operations.provisioning_profile_show.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9647,7 +9800,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileShow.Output.InternalServerError.Body
+                    let body: Operations.provisioning_profile_show.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9681,18 +9834,21 @@ public struct Client: APIProtocol {
     }
     /// Update a provisioning profile
     ///
-    /// Update an uploaded provisioning profile's attributes. You can fetch the provisioning profile's slug if you call the [GET /apps/{app-slug}/provisioning-profiles](https://api-docs.bitrise.io/#/provisioning-profile/provisioning-profile-list) endpoint. Read more in our [Updating an uploaded iOS code signing file](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#confirming-the-ios-code-signing-file-upload) guide.
+    /// Update an uploaded provisioning profile's attributes. You can fetch the provisioning profile's slug if you call the [GET /apps/{app_slug}/provisioning-profiles](https://api-docs.bitrise.io/#/provisioning-profile/provisioning-profile-list) endpoint. Read more in our [Updating an uploaded iOS code signing file](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#confirming-the-ios-code-signing-file-upload) guide.
     ///
-    /// - Remark: HTTP `PATCH /apps/{app-slug}/provisioning-profiles/{provisioning-profile-slug}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/provisioning-profiles/{provisioning-profile-slug}/patch(provisioningProfileUpdate)`.
-    public func provisioningProfileUpdate(_ input: Operations.provisioningProfileUpdate.Input) async throws -> Operations.provisioningProfileUpdate.Output {
+    /// - Remark: HTTP `PATCH /apps/{app_slug}/provisioning-profiles/{provisioning_profile_slug}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/provisioning-profiles/{provisioning_profile_slug}/patch(provisioning_profile_update)`.
+    public func provisioning_profile_update(_ input: Operations.provisioning_profile_update.Input) async throws -> Operations.provisioning_profile_update.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.provisioningProfileUpdate.id,
+            forOperation: Operations.provisioning_profile_update.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/provisioning-profiles/provisioning-profile-slug",
-                    parameters: []
+                    template: "/apps/{}/provisioning-profiles/{}",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.provisioning_profile_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -9718,7 +9874,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileUpdate.Output.Ok.Body
+                    let body: Operations.provisioning_profile_update.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9740,7 +9896,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileUpdate.Output.BadRequest.Body
+                    let body: Operations.provisioning_profile_update.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9762,7 +9918,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileUpdate.Output.Unauthorized.Body
+                    let body: Operations.provisioning_profile_update.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9784,7 +9940,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileUpdate.Output.NotFound.Body
+                    let body: Operations.provisioning_profile_update.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9806,7 +9962,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileUpdate.Output.InternalServerError.Body
+                    let body: Operations.provisioning_profile_update.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9840,18 +9996,21 @@ public struct Client: APIProtocol {
     }
     /// Delete a provisioning profile
     ///
-    /// Delete an app's provisioning profile. You can fetch the provisioning profile's slug if you call the [GET /apps/{app-slug}/provisioning-profiles](https://api-docs.bitrise.io/#/provisioning-profile/provisioning-profile-list) endpoint. Read more in our [Deleting an iOS code signing file](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#deleting-an-ios-code-signing-file) guide.
+    /// Delete an app's provisioning profile. You can fetch the provisioning profile's slug if you call the [GET /apps/{app_slug}/provisioning-profiles](https://api-docs.bitrise.io/#/provisioning-profile/provisioning-profile-list) endpoint. Read more in our [Deleting an iOS code signing file](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#deleting-an-ios-code-signing-file) guide.
     ///
-    /// - Remark: HTTP `DELETE /apps/{app-slug}/provisioning-profiles/{provisioning-profile-slug}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/provisioning-profiles/{provisioning-profile-slug}/delete(provisioningProfileDelete)`.
-    public func provisioningProfileDelete(_ input: Operations.provisioningProfileDelete.Input) async throws -> Operations.provisioningProfileDelete.Output {
+    /// - Remark: HTTP `DELETE /apps/{app_slug}/provisioning-profiles/{provisioning_profile_slug}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/provisioning-profiles/{provisioning_profile_slug}/delete(provisioning_profile_delete)`.
+    public func provisioning_profile_delete(_ input: Operations.provisioning_profile_delete.Input) async throws -> Operations.provisioning_profile_delete.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.provisioningProfileDelete.id,
+            forOperation: Operations.provisioning_profile_delete.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/provisioning-profiles/provisioning-profile-slug",
-                    parameters: []
+                    template: "/apps/{}/provisioning-profiles/{}",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.provisioning_profile_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -9868,7 +10027,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileDelete.Output.Ok.Body
+                    let body: Operations.provisioning_profile_delete.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9890,7 +10049,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileDelete.Output.BadRequest.Body
+                    let body: Operations.provisioning_profile_delete.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9912,7 +10071,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileDelete.Output.Unauthorized.Body
+                    let body: Operations.provisioning_profile_delete.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9934,7 +10093,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileDelete.Output.NotFound.Body
+                    let body: Operations.provisioning_profile_delete.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9956,7 +10115,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileDelete.Output.InternalServerError.Body
+                    let body: Operations.provisioning_profile_delete.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -9992,16 +10151,19 @@ public struct Client: APIProtocol {
     ///
     /// This is the last step of the upload process. Confirm the provisioning profile upload and view the file on the Code Signing tab of a specific app. Read more in our [Confirming the iOS code signing file upload](https://devcenter.bitrise.io/api/managing-ios-code-signing-files/#confirming-the-ios-code-signing-file-upload) guide.
     ///
-    /// - Remark: HTTP `POST /apps/{app-slug}/provisioning-profiles/{provisioning-profile-slug}/uploaded`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/provisioning-profiles/{provisioning-profile-slug}/uploaded/post(provisioningProfileConfirm)`.
-    public func provisioningProfileConfirm(_ input: Operations.provisioningProfileConfirm.Input) async throws -> Operations.provisioningProfileConfirm.Output {
+    /// - Remark: HTTP `POST /apps/{app_slug}/provisioning-profiles/{provisioning_profile_slug}/uploaded`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/provisioning-profiles/{provisioning_profile_slug}/uploaded/post(provisioning_profile_confirm)`.
+    public func provisioning_profile_confirm(_ input: Operations.provisioning_profile_confirm.Input) async throws -> Operations.provisioning_profile_confirm.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.provisioningProfileConfirm.id,
+            forOperation: Operations.provisioning_profile_confirm.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/provisioning-profiles/provisioning-profile-slug/uploaded",
-                    parameters: []
+                    template: "/apps/{}/provisioning-profiles/{}/uploaded",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.provisioning_profile_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -10018,7 +10180,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileConfirm.Output.Ok.Body
+                    let body: Operations.provisioning_profile_confirm.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10040,7 +10202,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileConfirm.Output.BadRequest.Body
+                    let body: Operations.provisioning_profile_confirm.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10062,7 +10224,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileConfirm.Output.Unauthorized.Body
+                    let body: Operations.provisioning_profile_confirm.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10084,7 +10246,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileConfirm.Output.NotFound.Body
+                    let body: Operations.provisioning_profile_confirm.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10106,7 +10268,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.provisioningProfileConfirm.Output.InternalServerError.Body
+                    let body: Operations.provisioning_profile_confirm.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10142,16 +10304,18 @@ public struct Client: APIProtocol {
     ///
     /// Add an SSH-key to a specific app. After creating an app, you need to register the SSH key so that Bitrise will be able to access and clone your repository during the build process. This requires the app slug of your newly created app.
     ///
-    /// - Remark: HTTP `POST /apps/{app-slug}/register-ssh-key`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/register-ssh-key/post(sshKeyCreate)`.
-    public func sshKeyCreate(_ input: Operations.sshKeyCreate.Input) async throws -> Operations.sshKeyCreate.Output {
+    /// - Remark: HTTP `POST /apps/{app_slug}/register-ssh-key`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/register-ssh-key/post(ssh_key_create)`.
+    public func ssh_key_create(_ input: Operations.ssh_key_create.Input) async throws -> Operations.ssh_key_create.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.sshKeyCreate.id,
+            forOperation: Operations.ssh_key_create.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/register-ssh-key",
-                    parameters: []
+                    template: "/apps/{}/register-ssh-key",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -10177,7 +10341,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.sshKeyCreate.Output.Ok.Body
+                    let body: Operations.ssh_key_create.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10199,7 +10363,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.sshKeyCreate.Output.BadRequest.Body
+                    let body: Operations.ssh_key_create.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10221,7 +10385,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.sshKeyCreate.Output.Unauthorized.Body
+                    let body: Operations.ssh_key_create.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10243,7 +10407,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.sshKeyCreate.Output.NotFound.Body
+                    let body: Operations.ssh_key_create.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10265,7 +10429,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.sshKeyCreate.Output.InternalServerError.Body
+                    let body: Operations.ssh_key_create.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10301,16 +10465,18 @@ public struct Client: APIProtocol {
     ///
     /// [Register an incoming webhook](https://devcenter.bitrise.io/api/incoming-and-outgoing-webhooks/#incoming-webhooks) for a specific application. You can do this during the app registration process or at any other time in an app's life. When calling this endpoint, a webhook is registered at your git provider: this is necessary to automatically trigger builds on Bitrise.
     ///
-    /// - Remark: HTTP `POST /apps/{app-slug}/register-webhook`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/register-webhook/post(appWebhookCreate)`.
-    public func appWebhookCreate(_ input: Operations.appWebhookCreate.Input) async throws -> Operations.appWebhookCreate.Output {
+    /// - Remark: HTTP `POST /apps/{app_slug}/register-webhook`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/register-webhook/post(app_webhook_create)`.
+    public func app_webhook_create(_ input: Operations.app_webhook_create.Input) async throws -> Operations.app_webhook_create.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.appWebhookCreate.id,
+            forOperation: Operations.app_webhook_create.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/register-webhook",
-                    parameters: []
+                    template: "/apps/{}/register-webhook",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -10327,7 +10493,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appWebhookCreate.Output.Ok.Body
+                    let body: Operations.app_webhook_create.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10349,7 +10515,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appWebhookCreate.Output.BadRequest.Body
+                    let body: Operations.app_webhook_create.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10371,7 +10537,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appWebhookCreate.Output.Unauthorized.Body
+                    let body: Operations.app_webhook_create.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10393,7 +10559,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appWebhookCreate.Output.NotFound.Body
+                    let body: Operations.app_webhook_create.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10415,7 +10581,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appWebhookCreate.Output.InternalServerError.Body
+                    let body: Operations.app_webhook_create.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10451,16 +10617,18 @@ public struct Client: APIProtocol {
     ///
     /// Create a new iOS release for the specified app. If the release candidate parameters (`release_branch` and `workflow`) are specified then the latest successful build is automatically picked up as release candidate and if `automatic_testflight_upload` is also turned on, then an upload to TestFlight is started immediately. You can use this endpoint to set up a fully automated release flow.
     ///
-    /// - Remark: HTTP `POST /apps/{app-slug}/releases/app-store`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/releases/app-store/post(releaseCreateAppStore)`.
-    public func releaseCreateAppStore(_ input: Operations.releaseCreateAppStore.Input) async throws -> Operations.releaseCreateAppStore.Output {
+    /// - Remark: HTTP `POST /apps/{app_slug}/releases/app-store`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/releases/app-store/post(release_create_app_store)`.
+    public func release_create_app_store(_ input: Operations.release_create_app_store.Input) async throws -> Operations.release_create_app_store.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.releaseCreateAppStore.id,
+            forOperation: Operations.release_create_app_store.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/releases/app-store",
-                    parameters: []
+                    template: "/apps/{}/releases/app-store",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -10486,7 +10654,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 201:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.releaseCreateAppStore.Output.Created.Body
+                    let body: Operations.release_create_app_store.Output.Created.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10508,7 +10676,7 @@ public struct Client: APIProtocol {
                     return .created(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.releaseCreateAppStore.Output.BadRequest.Body
+                    let body: Operations.release_create_app_store.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10530,7 +10698,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.releaseCreateAppStore.Output.Unauthorized.Body
+                    let body: Operations.release_create_app_store.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10552,7 +10720,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 403:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.releaseCreateAppStore.Output.Forbidden.Body
+                    let body: Operations.release_create_app_store.Output.Forbidden.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10574,7 +10742,7 @@ public struct Client: APIProtocol {
                     return .forbidden(.init(body: body))
                 case 422:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.releaseCreateAppStore.Output.UnprocessableContent.Body
+                    let body: Operations.release_create_app_store.Output.UnprocessableContent.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10596,7 +10764,7 @@ public struct Client: APIProtocol {
                     return .unprocessableContent(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.releaseCreateAppStore.Output.InternalServerError.Body
+                    let body: Operations.release_create_app_store.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10632,16 +10800,18 @@ public struct Client: APIProtocol {
     ///
     /// Create a new android release for the specified app. If the release candidate parameters (`release_branch` and `workflow`) are specified then the latest successful build is automatically picked up as release candidate and if `automatic_play_console_upload` is also turned on, then an upload to Google Play Console is started immediately. You can use this endpoint to set up a fully automated release flow.
     ///
-    /// - Remark: HTTP `POST /apps/{app-slug}/releases/google-play`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/releases/google-play/post(releaseCreateGooglePlay)`.
-    public func releaseCreateGooglePlay(_ input: Operations.releaseCreateGooglePlay.Input) async throws -> Operations.releaseCreateGooglePlay.Output {
+    /// - Remark: HTTP `POST /apps/{app_slug}/releases/google-play`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/releases/google-play/post(release_create_google_play)`.
+    public func release_create_google_play(_ input: Operations.release_create_google_play.Input) async throws -> Operations.release_create_google_play.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.releaseCreateGooglePlay.id,
+            forOperation: Operations.release_create_google_play.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/releases/google-play",
-                    parameters: []
+                    template: "/apps/{}/releases/google-play",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -10667,7 +10837,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 201:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.releaseCreateGooglePlay.Output.Created.Body
+                    let body: Operations.release_create_google_play.Output.Created.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10689,7 +10859,7 @@ public struct Client: APIProtocol {
                     return .created(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.releaseCreateGooglePlay.Output.BadRequest.Body
+                    let body: Operations.release_create_google_play.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10711,7 +10881,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.releaseCreateGooglePlay.Output.Unauthorized.Body
+                    let body: Operations.release_create_google_play.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10733,7 +10903,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 403:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.releaseCreateGooglePlay.Output.Forbidden.Body
+                    let body: Operations.release_create_google_play.Output.Forbidden.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10755,7 +10925,7 @@ public struct Client: APIProtocol {
                     return .forbidden(.init(body: body))
                 case 422:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.releaseCreateGooglePlay.Output.UnprocessableContent.Body
+                    let body: Operations.release_create_google_play.Output.UnprocessableContent.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10777,7 +10947,7 @@ public struct Client: APIProtocol {
                     return .unprocessableContent(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.releaseCreateGooglePlay.Output.InternalServerError.Body
+                    let body: Operations.release_create_google_play.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10811,16 +10981,19 @@ public struct Client: APIProtocol {
     }
     /// Lists group roles for an app
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/roles/{role-name}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/roles/{role-name}/get(appRolesQuery)`.
-    public func appRolesQuery(_ input: Operations.appRolesQuery.Input) async throws -> Operations.appRolesQuery.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/roles/{role_name}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/roles/{role_name}/get(app_roles_query)`.
+    public func app_roles_query(_ input: Operations.app_roles_query.Input) async throws -> Operations.app_roles_query.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.appRolesQuery.id,
+            forOperation: Operations.app_roles_query.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/roles/role-name",
-                    parameters: []
+                    template: "/apps/{}/roles/{}",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.role_name
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -10837,7 +11010,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appRolesQuery.Output.Ok.Body
+                    let body: Operations.app_roles_query.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10847,7 +11020,7 @@ public struct Client: APIProtocol {
                     switch chosenContentType {
                     case "application/json":
                         body = try await converter.getResponseBodyAsJSON(
-                            Operations.appRolesQuery.Output.Ok.Body.jsonPayload.self,
+                            Operations.app_roles_query.Output.Ok.Body.jsonPayload.self,
                             from: responseBody,
                             transforming: { value in
                                 .json(value)
@@ -10859,7 +11032,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appRolesQuery.Output.NotFound.Body
+                    let body: Operations.app_roles_query.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10895,16 +11068,19 @@ public struct Client: APIProtocol {
     ///
     /// Replaces the groups for a given role on an app. Only the given groups will be present for a role on the app after this call.
     ///
-    /// - Remark: HTTP `PUT /apps/{app-slug}/roles/{role-name}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/roles/{role-name}/put(appRolesUpdate)`.
-    public func appRolesUpdate(_ input: Operations.appRolesUpdate.Input) async throws -> Operations.appRolesUpdate.Output {
+    /// - Remark: HTTP `PUT /apps/{app_slug}/roles/{role_name}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/roles/{role_name}/put(app_roles_update)`.
+    public func app_roles_update(_ input: Operations.app_roles_update.Input) async throws -> Operations.app_roles_update.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.appRolesUpdate.id,
+            forOperation: Operations.app_roles_update.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/roles/role-name",
-                    parameters: []
+                    template: "/apps/{}/roles/{}",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.role_name
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -10930,7 +11106,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appRolesUpdate.Output.Ok.Body
+                    let body: Operations.app_roles_update.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10940,7 +11116,7 @@ public struct Client: APIProtocol {
                     switch chosenContentType {
                     case "application/json":
                         body = try await converter.getResponseBodyAsJSON(
-                            Operations.appRolesUpdate.Output.Ok.Body.jsonPayload.self,
+                            Operations.app_roles_update.Output.Ok.Body.jsonPayload.self,
                             from: responseBody,
                             transforming: { value in
                                 .json(value)
@@ -10952,7 +11128,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 422:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appRolesUpdate.Output.UnprocessableContent.Body
+                    let body: Operations.app_roles_update.Output.UnprocessableContent.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -10988,16 +11164,18 @@ public struct Client: APIProtocol {
     ///
     /// List the application secrets (with no values). Requires administrator level privileges to the app.
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/secrets`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/get(secretList)`.
-    public func secretList(_ input: Operations.secretList.Input) async throws -> Operations.secretList.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/secrets`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/secrets/get(secret_list)`.
+    public func secret_list(_ input: Operations.secret_list.Input) async throws -> Operations.secret_list.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.secretList.id,
+            forOperation: Operations.secret_list.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/secrets",
-                    parameters: []
+                    template: "/apps/{}/secrets",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -11014,7 +11192,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretList.Output.Ok.Body
+                    let body: Operations.secret_list.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11024,7 +11202,7 @@ public struct Client: APIProtocol {
                     switch chosenContentType {
                     case "application/json":
                         body = try await converter.getResponseBodyAsJSON(
-                            Operations.secretList.Output.Ok.Body.jsonPayload.self,
+                            Operations.secret_list.Output.Ok.Body.jsonPayload.self,
                             from: responseBody,
                             transforming: { value in
                                 .json(value)
@@ -11036,7 +11214,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretList.Output.BadRequest.Body
+                    let body: Operations.secret_list.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11058,7 +11236,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretList.Output.Unauthorized.Body
+                    let body: Operations.secret_list.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11080,7 +11258,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretList.Output.NotFound.Body
+                    let body: Operations.secret_list.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11102,7 +11280,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretList.Output.InternalServerError.Body
+                    let body: Operations.secret_list.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11138,16 +11316,18 @@ public struct Client: APIProtocol {
     ///
     /// Create a new app secret
     ///
-    /// - Remark: HTTP `POST /apps/{app-slug}/secrets`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/post(appSecretCreate)`.
-    public func appSecretCreate(_ input: Operations.appSecretCreate.Input) async throws -> Operations.appSecretCreate.Output {
+    /// - Remark: HTTP `POST /apps/{app_slug}/secrets`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/secrets/post(app_secret_create)`.
+    public func app_secret_create(_ input: Operations.app_secret_create.Input) async throws -> Operations.app_secret_create.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.appSecretCreate.id,
+            forOperation: Operations.app_secret_create.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/secrets",
-                    parameters: []
+                    template: "/apps/{}/secrets",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -11173,7 +11353,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 201:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appSecretCreate.Output.Created.Body
+                    let body: Operations.app_secret_create.Output.Created.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11195,7 +11375,7 @@ public struct Client: APIProtocol {
                     return .created(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appSecretCreate.Output.Unauthorized.Body
+                    let body: Operations.app_secret_create.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11217,7 +11397,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 403:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appSecretCreate.Output.Forbidden.Body
+                    let body: Operations.app_secret_create.Output.Forbidden.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11239,7 +11419,7 @@ public struct Client: APIProtocol {
                     return .forbidden(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appSecretCreate.Output.NotFound.Body
+                    let body: Operations.app_secret_create.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11275,16 +11455,19 @@ public struct Client: APIProtocol {
     ///
     /// Get a single app secret by name, including the value if not protected
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/secrets/{secret-name}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/{secret-name}/get(appSecretsShow)`.
-    public func appSecretsShow(_ input: Operations.appSecretsShow.Input) async throws -> Operations.appSecretsShow.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/secrets/{secret_name}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/secrets/{secret_name}/get(app_secrets_show)`.
+    public func app_secrets_show(_ input: Operations.app_secrets_show.Input) async throws -> Operations.app_secrets_show.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.appSecretsShow.id,
+            forOperation: Operations.app_secrets_show.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/secrets/secret-name",
-                    parameters: []
+                    template: "/apps/{}/secrets/{}",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.secret_name
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -11301,7 +11484,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appSecretsShow.Output.Ok.Body
+                    let body: Operations.app_secrets_show.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11311,7 +11494,7 @@ public struct Client: APIProtocol {
                     switch chosenContentType {
                     case "application/json":
                         body = try await converter.getResponseBodyAsJSON(
-                            Operations.appSecretsShow.Output.Ok.Body.jsonPayload.self,
+                            Operations.app_secrets_show.Output.Ok.Body.jsonPayload.self,
                             from: responseBody,
                             transforming: { value in
                                 .json(value)
@@ -11323,7 +11506,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appSecretsShow.Output.Unauthorized.Body
+                    let body: Operations.app_secrets_show.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11345,7 +11528,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 403:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appSecretsShow.Output.Forbidden.Body
+                    let body: Operations.app_secrets_show.Output.Forbidden.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11367,7 +11550,7 @@ public struct Client: APIProtocol {
                     return .forbidden(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appSecretsShow.Output.NotFound.Body
+                    let body: Operations.app_secrets_show.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11403,16 +11586,19 @@ public struct Client: APIProtocol {
     ///
     /// Update an existing app secret. If the secret is protected, only its value can be overridden.
     ///
-    /// - Remark: HTTP `PATCH /apps/{app-slug}/secrets/{secret-name}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/{secret-name}/patch(appSecretUpdate)`.
-    public func appSecretUpdate(_ input: Operations.appSecretUpdate.Input) async throws -> Operations.appSecretUpdate.Output {
+    /// - Remark: HTTP `PATCH /apps/{app_slug}/secrets/{secret_name}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/secrets/{secret_name}/patch(app_secret_update)`.
+    public func app_secret_update(_ input: Operations.app_secret_update.Input) async throws -> Operations.app_secret_update.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.appSecretUpdate.id,
+            forOperation: Operations.app_secret_update.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/secrets/secret-name",
-                    parameters: []
+                    template: "/apps/{}/secrets/{}",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.secret_name
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -11438,7 +11624,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appSecretUpdate.Output.Ok.Body
+                    let body: Operations.app_secret_update.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11448,7 +11634,7 @@ public struct Client: APIProtocol {
                     switch chosenContentType {
                     case "application/json":
                         body = try await converter.getResponseBodyAsJSON(
-                            Operations.appSecretUpdate.Output.Ok.Body.jsonPayload.self,
+                            Operations.app_secret_update.Output.Ok.Body.jsonPayload.self,
                             from: responseBody,
                             transforming: { value in
                                 .json(value)
@@ -11460,7 +11646,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appSecretUpdate.Output.Unauthorized.Body
+                    let body: Operations.app_secret_update.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11482,7 +11668,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 403:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appSecretUpdate.Output.Forbidden.Body
+                    let body: Operations.app_secret_update.Output.Forbidden.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11504,7 +11690,7 @@ public struct Client: APIProtocol {
                     return .forbidden(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appSecretUpdate.Output.NotFound.Body
+                    let body: Operations.app_secret_update.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11540,17 +11726,20 @@ public struct Client: APIProtocol {
     ///
     /// Upsert an application secret. Requires administrator level privileges to the app.
     ///
-    /// - Remark: HTTP `PUT /apps/{app-slug}/secrets/{secret-name}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/{secret-name}/put(secretUpsert)`.
+    /// - Remark: HTTP `PUT /apps/{app_slug}/secrets/{secret_name}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/secrets/{secret_name}/put(secret_upsert)`.
     @available(*, deprecated)
-    public func secretUpsert(_ input: Operations.secretUpsert.Input) async throws -> Operations.secretUpsert.Output {
+    public func secret_upsert(_ input: Operations.secret_upsert.Input) async throws -> Operations.secret_upsert.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.secretUpsert.id,
+            forOperation: Operations.secret_upsert.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/secrets/secret-name",
-                    parameters: []
+                    template: "/apps/{}/secrets/{}",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.secret_name
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -11580,7 +11769,7 @@ public struct Client: APIProtocol {
                     return .noContent(.init())
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretUpsert.Output.BadRequest.Body
+                    let body: Operations.secret_upsert.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11602,7 +11791,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretUpsert.Output.Unauthorized.Body
+                    let body: Operations.secret_upsert.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11624,7 +11813,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretUpsert.Output.NotFound.Body
+                    let body: Operations.secret_upsert.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11646,7 +11835,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretUpsert.Output.InternalServerError.Body
+                    let body: Operations.secret_upsert.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11682,16 +11871,19 @@ public struct Client: APIProtocol {
     ///
     /// Delete an application secret. Requires administrator level privileges to the app.
     ///
-    /// - Remark: HTTP `DELETE /apps/{app-slug}/secrets/{secret-name}`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/{secret-name}/delete(secretDelete)`.
-    public func secretDelete(_ input: Operations.secretDelete.Input) async throws -> Operations.secretDelete.Output {
+    /// - Remark: HTTP `DELETE /apps/{app_slug}/secrets/{secret_name}`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/secrets/{secret_name}/delete(secret_delete)`.
+    public func secret_delete(_ input: Operations.secret_delete.Input) async throws -> Operations.secret_delete.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.secretDelete.id,
+            forOperation: Operations.secret_delete.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/secrets/secret-name",
-                    parameters: []
+                    template: "/apps/{}/secrets/{}",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.secret_name
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -11710,7 +11902,7 @@ public struct Client: APIProtocol {
                     return .noContent(.init())
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretDelete.Output.BadRequest.Body
+                    let body: Operations.secret_delete.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11732,7 +11924,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretDelete.Output.Unauthorized.Body
+                    let body: Operations.secret_delete.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11754,7 +11946,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretDelete.Output.NotFound.Body
+                    let body: Operations.secret_delete.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11776,7 +11968,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretDelete.Output.InternalServerError.Body
+                    let body: Operations.secret_delete.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11812,17 +12004,20 @@ public struct Client: APIProtocol {
     ///
     /// Get the value of an (unprotected) application secrets. Requires administrator level privileges to the app.
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/secrets/{secret-name}/value`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/secrets/{secret-name}/value/get(secretValueGet)`.
+    /// - Remark: HTTP `GET /apps/{app_slug}/secrets/{secret_name}/value`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/secrets/{secret_name}/value/get(secret_value_get)`.
     @available(*, deprecated)
-    public func secretValueGet(_ input: Operations.secretValueGet.Input) async throws -> Operations.secretValueGet.Output {
+    public func secret_value_get(_ input: Operations.secret_value_get.Input) async throws -> Operations.secret_value_get.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.secretValueGet.id,
+            forOperation: Operations.secret_value_get.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/secrets/secret-name/value",
-                    parameters: []
+                    template: "/apps/{}/secrets/{}/value",
+                    parameters: [
+                        input.path.app_slug,
+                        input.path.secret_name
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -11839,7 +12034,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretValueGet.Output.Ok.Body
+                    let body: Operations.secret_value_get.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11849,7 +12044,7 @@ public struct Client: APIProtocol {
                     switch chosenContentType {
                     case "application/json":
                         body = try await converter.getResponseBodyAsJSON(
-                            Operations.secretValueGet.Output.Ok.Body.jsonPayload.self,
+                            Operations.secret_value_get.Output.Ok.Body.jsonPayload.self,
                             from: responseBody,
                             transforming: { value in
                                 .json(value)
@@ -11861,7 +12056,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretValueGet.Output.BadRequest.Body
+                    let body: Operations.secret_value_get.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11883,7 +12078,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretValueGet.Output.Unauthorized.Body
+                    let body: Operations.secret_value_get.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11905,7 +12100,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretValueGet.Output.NotFound.Body
+                    let body: Operations.secret_value_get.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11927,7 +12122,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.secretValueGet.Output.InternalServerError.Body
+                    let body: Operations.secret_value_get.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -11963,16 +12158,18 @@ public struct Client: APIProtocol {
     ///
     /// List registered test devices of all members of a specified Bitrise app
     ///
-    /// - Remark: HTTP `GET /apps/{app-slug}/test-devices`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/test-devices/get(testDeviceList)`.
-    public func testDeviceList(_ input: Operations.testDeviceList.Input) async throws -> Operations.testDeviceList.Output {
+    /// - Remark: HTTP `GET /apps/{app_slug}/test-devices`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/test-devices/get(test_device_list)`.
+    public func test_device_list(_ input: Operations.test_device_list.Input) async throws -> Operations.test_device_list.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.testDeviceList.id,
+            forOperation: Operations.test_device_list.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/test-devices",
-                    parameters: []
+                    template: "/apps/{}/test-devices",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -11989,7 +12186,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.testDeviceList.Output.Ok.Body
+                    let body: Operations.test_device_list.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12011,7 +12208,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.testDeviceList.Output.BadRequest.Body
+                    let body: Operations.test_device_list.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12033,7 +12230,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.testDeviceList.Output.Unauthorized.Body
+                    let body: Operations.test_device_list.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12055,7 +12252,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.testDeviceList.Output.NotFound.Body
+                    let body: Operations.test_device_list.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12077,7 +12274,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.testDeviceList.Output.InternalServerError.Body
+                    let body: Operations.test_device_list.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12113,16 +12310,18 @@ public struct Client: APIProtocol {
     ///
     /// Updates the app's email notification settings with parameters
     ///
-    /// - Remark: HTTP `PATCH /apps/{app-slug}/update-email-notifications`.
-    /// - Remark: Generated from `#/paths//apps/{app-slug}/update-email-notifications/patch(appNotifications)`.
-    public func appNotifications(_ input: Operations.appNotifications.Input) async throws -> Operations.appNotifications.Output {
+    /// - Remark: HTTP `PATCH /apps/{app_slug}/update-email-notifications`.
+    /// - Remark: Generated from `#/paths//apps/{app_slug}/update-email-notifications/patch(app_notifications)`.
+    public func app_notifications(_ input: Operations.app_notifications.Input) async throws -> Operations.app_notifications.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.appNotifications.id,
+            forOperation: Operations.app_notifications.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/apps/app-slug/update-email-notifications",
-                    parameters: []
+                    template: "/apps/{}/update-email-notifications",
+                    parameters: [
+                        input.path.app_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -12148,7 +12347,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appNotifications.Output.Ok.Body
+                    let body: Operations.app_notifications.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12170,7 +12369,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appNotifications.Output.BadRequest.Body
+                    let body: Operations.app_notifications.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12192,7 +12391,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appNotifications.Output.Unauthorized.Body
+                    let body: Operations.app_notifications.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12214,7 +12413,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appNotifications.Output.NotFound.Body
+                    let body: Operations.app_notifications.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12236,7 +12435,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appNotifications.Output.InternalServerError.Body
+                    let body: Operations.app_notifications.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12273,11 +12472,11 @@ public struct Client: APIProtocol {
     /// List all the Bitrise builds that can be accessed with the authenticated account. Filter builds based on their owner, using the owner slug, or the status of the build.
     ///
     /// - Remark: HTTP `GET /builds`.
-    /// - Remark: Generated from `#/paths//builds/get(buildListAll)`.
-    public func buildListAll(_ input: Operations.buildListAll.Input) async throws -> Operations.buildListAll.Output {
+    /// - Remark: Generated from `#/paths//builds/get(build_list_all)`.
+    public func build_list_all(_ input: Operations.build_list_all.Input) async throws -> Operations.build_list_all.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.buildListAll.id,
+            forOperation: Operations.build_list_all.id,
             serializer: { input in
                 let path = try converter.renderedPath(
                     template: "/builds",
@@ -12333,7 +12532,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildListAll.Output.Ok.Body
+                    let body: Operations.build_list_all.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12355,7 +12554,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildListAll.Output.BadRequest.Body
+                    let body: Operations.build_list_all.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12377,7 +12576,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildListAll.Output.Unauthorized.Body
+                    let body: Operations.build_list_all.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12399,7 +12598,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildListAll.Output.NotFound.Body
+                    let body: Operations.build_list_all.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12421,7 +12620,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.buildListAll.Output.InternalServerError.Body
+                    let body: Operations.build_list_all.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12457,16 +12656,18 @@ public struct Client: APIProtocol {
     ///
     /// Add a member to a group
     ///
-    /// - Remark: HTTP `POST /groups/{group-slug}/add_member`.
-    /// - Remark: Generated from `#/paths//groups/{group-slug}/add_member/post(groupMemberAdd)`.
-    public func groupMemberAdd(_ input: Operations.groupMemberAdd.Input) async throws -> Operations.groupMemberAdd.Output {
+    /// - Remark: HTTP `POST /groups/{group_slug}/add_member`.
+    /// - Remark: Generated from `#/paths//groups/{group_slug}/add_member/post(group_member_add)`.
+    public func group_member_add(_ input: Operations.group_member_add.Input) async throws -> Operations.group_member_add.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.groupMemberAdd.id,
+            forOperation: Operations.group_member_add.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/groups/group-slug/add_member",
-                    parameters: []
+                    template: "/groups/{}/add_member",
+                    parameters: [
+                        input.path.group_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -12505,11 +12706,11 @@ public struct Client: APIProtocol {
     /// Shows the authenticated users profile info
     ///
     /// - Remark: HTTP `GET /me`.
-    /// - Remark: Generated from `#/paths//me/get(userProfile)`.
-    public func userProfile(_ input: Operations.userProfile.Input) async throws -> Operations.userProfile.Output {
+    /// - Remark: Generated from `#/paths//me/get(user_profile)`.
+    public func user_profile(_ input: Operations.user_profile.Input) async throws -> Operations.user_profile.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.userProfile.id,
+            forOperation: Operations.user_profile.id,
             serializer: { input in
                 let path = try converter.renderedPath(
                     template: "/me",
@@ -12530,7 +12731,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.userProfile.Output.Ok.Body
+                    let body: Operations.user_profile.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12552,7 +12753,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.userProfile.Output.Unauthorized.Body
+                    let body: Operations.user_profile.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12574,7 +12775,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.userProfile.Output.NotFound.Body
+                    let body: Operations.user_profile.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12596,7 +12797,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.userProfile.Output.InternalServerError.Body
+                    let body: Operations.user_profile.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12633,11 +12834,11 @@ public struct Client: APIProtocol {
     /// List all the Bitrise activity events
     ///
     /// - Remark: HTTP `GET /me/activities`.
-    /// - Remark: Generated from `#/paths//me/activities/get(activityList)`.
-    public func activityList(_ input: Operations.activityList.Input) async throws -> Operations.activityList.Output {
+    /// - Remark: Generated from `#/paths//me/activities/get(activity_list)`.
+    public func activity_list(_ input: Operations.activity_list.Input) async throws -> Operations.activity_list.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.activityList.id,
+            forOperation: Operations.activity_list.id,
             serializer: { input in
                 let path = try converter.renderedPath(
                     template: "/me/activities",
@@ -12672,7 +12873,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.activityList.Output.Ok.Body
+                    let body: Operations.activity_list.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12694,7 +12895,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.activityList.Output.BadRequest.Body
+                    let body: Operations.activity_list.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12716,7 +12917,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.activityList.Output.Unauthorized.Body
+                    let body: Operations.activity_list.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12738,7 +12939,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.activityList.Output.NotFound.Body
+                    let body: Operations.activity_list.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12760,7 +12961,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.activityList.Output.InternalServerError.Body
+                    let body: Operations.activity_list.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12797,11 +12998,11 @@ public struct Client: APIProtocol {
     /// Get the subscription of the user: the current plan, any pending plans, and the duration of a trial period if applicable
     ///
     /// - Remark: HTTP `GET /me/plan`.
-    /// - Remark: Generated from `#/paths//me/plan/get(userPlan)`.
-    public func userPlan(_ input: Operations.userPlan.Input) async throws -> Operations.userPlan.Output {
+    /// - Remark: Generated from `#/paths//me/plan/get(user_plan)`.
+    public func user_plan(_ input: Operations.user_plan.Input) async throws -> Operations.user_plan.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.userPlan.id,
+            forOperation: Operations.user_plan.id,
             serializer: { input in
                 let path = try converter.renderedPath(
                     template: "/me/plan",
@@ -12822,7 +13023,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.userPlan.Output.Ok.Body
+                    let body: Operations.user_plan.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12844,7 +13045,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.userPlan.Output.BadRequest.Body
+                    let body: Operations.user_plan.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12866,7 +13067,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.userPlan.Output.Unauthorized.Body
+                    let body: Operations.user_plan.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12888,7 +13089,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.userPlan.Output.NotFound.Body
+                    let body: Operations.user_plan.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12910,7 +13111,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.userPlan.Output.InternalServerError.Body
+                    let body: Operations.user_plan.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12947,11 +13148,11 @@ public struct Client: APIProtocol {
     /// List all Bitrise organizations that the user is part of
     ///
     /// - Remark: HTTP `GET /organizations`.
-    /// - Remark: Generated from `#/paths//organizations/get(orgList)`.
-    public func orgList(_ input: Operations.orgList.Input) async throws -> Operations.orgList.Output {
+    /// - Remark: Generated from `#/paths//organizations/get(org_list)`.
+    public func org_list(_ input: Operations.org_list.Input) async throws -> Operations.org_list.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.orgList.id,
+            forOperation: Operations.org_list.id,
             serializer: { input in
                 let path = try converter.renderedPath(
                     template: "/organizations",
@@ -12972,7 +13173,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.orgList.Output.Ok.Body
+                    let body: Operations.org_list.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -12994,7 +13195,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.orgList.Output.BadRequest.Body
+                    let body: Operations.org_list.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13016,7 +13217,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.orgList.Output.Unauthorized.Body
+                    let body: Operations.org_list.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13038,7 +13239,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.orgList.Output.NotFound.Body
+                    let body: Operations.org_list.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13060,7 +13261,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.orgList.Output.InternalServerError.Body
+                    let body: Operations.org_list.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13096,16 +13297,18 @@ public struct Client: APIProtocol {
     ///
     /// Get a specified Bitrise organization that the user is part of.
     ///
-    /// - Remark: HTTP `GET /organizations/{org-slug}`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/get(orgShow)`.
-    public func orgShow(_ input: Operations.orgShow.Input) async throws -> Operations.orgShow.Output {
+    /// - Remark: HTTP `GET /organizations/{org_slug}`.
+    /// - Remark: Generated from `#/paths//organizations/{org_slug}/get(org_show)`.
+    public func org_show(_ input: Operations.org_show.Input) async throws -> Operations.org_show.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.orgShow.id,
+            forOperation: Operations.org_show.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/organizations/org-slug",
-                    parameters: []
+                    template: "/organizations/{}",
+                    parameters: [
+                        input.path.org_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -13122,7 +13325,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.orgShow.Output.Ok.Body
+                    let body: Operations.org_show.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13144,7 +13347,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.orgShow.Output.BadRequest.Body
+                    let body: Operations.org_show.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13166,7 +13369,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.orgShow.Output.Unauthorized.Body
+                    let body: Operations.org_show.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13188,7 +13391,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.orgShow.Output.NotFound.Body
+                    let body: Operations.org_show.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13210,7 +13413,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.orgShow.Output.InternalServerError.Body
+                    let body: Operations.org_show.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13246,16 +13449,18 @@ public struct Client: APIProtocol {
     ///
     /// List all the available apps owned by a given organization. [Find the organization URL](https://devcenter.bitrise.io/team-management/organizations/org-url/) of the organisations you are part of; be aware that the endpoint will not return any apps if the authenticated account is not a member of the given organisation.
     ///
-    /// - Remark: HTTP `GET /organizations/{org-slug}/apps`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/apps/get(appListByOrganization)`.
-    public func appListByOrganization(_ input: Operations.appListByOrganization.Input) async throws -> Operations.appListByOrganization.Output {
+    /// - Remark: HTTP `GET /organizations/{org_slug}/apps`.
+    /// - Remark: Generated from `#/paths//organizations/{org_slug}/apps/get(app_list_by_organization)`.
+    public func app_list_by_organization(_ input: Operations.app_list_by_organization.Input) async throws -> Operations.app_list_by_organization.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.appListByOrganization.id,
+            forOperation: Operations.app_list_by_organization.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/organizations/org-slug/apps",
-                    parameters: []
+                    template: "/organizations/{}/apps",
+                    parameters: [
+                        input.path.org_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -13307,7 +13512,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appListByOrganization.Output.Ok.Body
+                    let body: Operations.app_list_by_organization.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13329,7 +13534,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appListByOrganization.Output.BadRequest.Body
+                    let body: Operations.app_list_by_organization.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13351,7 +13556,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appListByOrganization.Output.Unauthorized.Body
+                    let body: Operations.app_list_by_organization.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13373,7 +13578,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appListByOrganization.Output.NotFound.Body
+                    let body: Operations.app_list_by_organization.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13395,7 +13600,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appListByOrganization.Output.InternalServerError.Body
+                    let body: Operations.app_list_by_organization.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13431,16 +13636,18 @@ public struct Client: APIProtocol {
     ///
     /// Migrates all apps' machine types of an organization from one machine type to another
     ///
-    /// - Remark: HTTP `PATCH /organizations/{org-slug}/apps/machine_types`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/apps/machine_types/patch(organizationMachineTypeUpdate)`.
-    public func organizationMachineTypeUpdate(_ input: Operations.organizationMachineTypeUpdate.Input) async throws -> Operations.organizationMachineTypeUpdate.Output {
+    /// - Remark: HTTP `PATCH /organizations/{org_slug}/apps/machine_types`.
+    /// - Remark: Generated from `#/paths//organizations/{org_slug}/apps/machine_types/patch(organization_machine_type_update)`.
+    public func organization_machine_type_update(_ input: Operations.organization_machine_type_update.Input) async throws -> Operations.organization_machine_type_update.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.organizationMachineTypeUpdate.id,
+            forOperation: Operations.organization_machine_type_update.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/organizations/org-slug/apps/machine_types",
-                    parameters: []
+                    template: "/organizations/{}/apps/machine_types",
+                    parameters: [
+                        input.path.org_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -13466,7 +13673,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationMachineTypeUpdate.Output.Ok.Body
+                    let body: Operations.organization_machine_type_update.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13488,7 +13695,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationMachineTypeUpdate.Output.BadRequest.Body
+                    let body: Operations.organization_machine_type_update.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13510,7 +13717,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationMachineTypeUpdate.Output.Unauthorized.Body
+                    let body: Operations.organization_machine_type_update.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13532,7 +13739,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationMachineTypeUpdate.Output.NotFound.Body
+                    let body: Operations.organization_machine_type_update.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13554,7 +13761,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationMachineTypeUpdate.Output.InternalServerError.Body
+                    let body: Operations.organization_machine_type_update.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13590,16 +13797,18 @@ public struct Client: APIProtocol {
     ///
     /// Lists the groups of an organization
     ///
-    /// - Remark: HTTP `GET /organizations/{org-slug}/groups`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/groups/get(organizationGroupList)`.
-    public func organizationGroupList(_ input: Operations.organizationGroupList.Input) async throws -> Operations.organizationGroupList.Output {
+    /// - Remark: HTTP `GET /organizations/{org_slug}/groups`.
+    /// - Remark: Generated from `#/paths//organizations/{org_slug}/groups/get(organization_group_list)`.
+    public func organization_group_list(_ input: Operations.organization_group_list.Input) async throws -> Operations.organization_group_list.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.organizationGroupList.id,
+            forOperation: Operations.organization_group_list.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/organizations/org-slug/groups",
-                    parameters: []
+                    template: "/organizations/{}/groups",
+                    parameters: [
+                        input.path.org_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -13616,7 +13825,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 201:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationGroupList.Output.Created.Body
+                    let body: Operations.organization_group_list.Output.Created.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13638,7 +13847,7 @@ public struct Client: APIProtocol {
                     return .created(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationGroupList.Output.Unauthorized.Body
+                    let body: Operations.organization_group_list.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13660,7 +13869,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 403:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationGroupList.Output.Forbidden.Body
+                    let body: Operations.organization_group_list.Output.Forbidden.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13682,7 +13891,7 @@ public struct Client: APIProtocol {
                     return .forbidden(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationGroupList.Output.NotFound.Body
+                    let body: Operations.organization_group_list.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13718,16 +13927,18 @@ public struct Client: APIProtocol {
     ///
     /// Adds a group to the organization
     ///
-    /// - Remark: HTTP `POST /organizations/{org-slug}/groups`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/groups/post(organizationGroupAdd)`.
-    public func organizationGroupAdd(_ input: Operations.organizationGroupAdd.Input) async throws -> Operations.organizationGroupAdd.Output {
+    /// - Remark: HTTP `POST /organizations/{org_slug}/groups`.
+    /// - Remark: Generated from `#/paths//organizations/{org_slug}/groups/post(organization_group_add)`.
+    public func organization_group_add(_ input: Operations.organization_group_add.Input) async throws -> Operations.organization_group_add.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.organizationGroupAdd.id,
+            forOperation: Operations.organization_group_add.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/organizations/org-slug/groups",
-                    parameters: []
+                    template: "/organizations/{}/groups",
+                    parameters: [
+                        input.path.org_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -13753,7 +13964,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 201:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationGroupAdd.Output.Created.Body
+                    let body: Operations.organization_group_add.Output.Created.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13775,7 +13986,7 @@ public struct Client: APIProtocol {
                     return .created(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationGroupAdd.Output.Unauthorized.Body
+                    let body: Operations.organization_group_add.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13797,7 +14008,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 403:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationGroupAdd.Output.Forbidden.Body
+                    let body: Operations.organization_group_add.Output.Forbidden.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13819,7 +14030,7 @@ public struct Client: APIProtocol {
                     return .forbidden(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationGroupAdd.Output.NotFound.Body
+                    let body: Operations.organization_group_add.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13855,16 +14066,18 @@ public struct Client: APIProtocol {
     ///
     /// List the members of the organization
     ///
-    /// - Remark: HTTP `GET /organizations/{org-slug}/members`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/members/get(memberList)`.
-    public func memberList(_ input: Operations.memberList.Input) async throws -> Operations.memberList.Output {
+    /// - Remark: HTTP `GET /organizations/{org_slug}/members`.
+    /// - Remark: Generated from `#/paths//organizations/{org_slug}/members/get(member_list)`.
+    public func member_list(_ input: Operations.member_list.Input) async throws -> Operations.member_list.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.memberList.id,
+            forOperation: Operations.member_list.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/organizations/org-slug/members",
-                    parameters: []
+                    template: "/organizations/{}/members",
+                    parameters: [
+                        input.path.org_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -13881,7 +14094,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.memberList.Output.Ok.Body
+                    let body: Operations.member_list.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13903,7 +14116,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.memberList.Output.Unauthorized.Body
+                    let body: Operations.member_list.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13925,7 +14138,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.memberList.Output.NotFound.Body
+                    let body: Operations.member_list.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -13961,16 +14174,18 @@ public struct Client: APIProtocol {
     ///
     /// Adds a member to the organization
     ///
-    /// - Remark: HTTP `POST /organizations/{org-slug}/members`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/members/post(memberAdd)`.
-    public func memberAdd(_ input: Operations.memberAdd.Input) async throws -> Operations.memberAdd.Output {
+    /// - Remark: HTTP `POST /organizations/{org_slug}/members`.
+    /// - Remark: Generated from `#/paths//organizations/{org_slug}/members/post(member_add)`.
+    public func member_add(_ input: Operations.member_add.Input) async throws -> Operations.member_add.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.memberAdd.id,
+            forOperation: Operations.member_add.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/organizations/org-slug/members",
-                    parameters: []
+                    template: "/organizations/{}/members",
+                    parameters: [
+                        input.path.org_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -13996,7 +14211,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 201:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.memberAdd.Output.Created.Body
+                    let body: Operations.member_add.Output.Created.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14018,7 +14233,7 @@ public struct Client: APIProtocol {
                     return .created(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.memberAdd.Output.Unauthorized.Body
+                    let body: Operations.member_add.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14040,7 +14255,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 403:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.memberAdd.Output.Forbidden.Body
+                    let body: Operations.member_add.Output.Forbidden.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14062,7 +14277,7 @@ public struct Client: APIProtocol {
                     return .forbidden(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.memberAdd.Output.NotFound.Body
+                    let body: Operations.member_add.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14098,16 +14313,18 @@ public struct Client: APIProtocol {
     ///
     /// Get the secrets of an organization
     ///
-    /// - Remark: HTTP `GET /organizations/{org-slug}/secrets`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/get(organizationSecretsList)`.
-    public func organizationSecretsList(_ input: Operations.organizationSecretsList.Input) async throws -> Operations.organizationSecretsList.Output {
+    /// - Remark: HTTP `GET /organizations/{org_slug}/secrets`.
+    /// - Remark: Generated from `#/paths//organizations/{org_slug}/secrets/get(organization_secrets_list)`.
+    public func organization_secrets_list(_ input: Operations.organization_secrets_list.Input) async throws -> Operations.organization_secrets_list.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.organizationSecretsList.id,
+            forOperation: Operations.organization_secrets_list.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/organizations/org-slug/secrets",
-                    parameters: []
+                    template: "/organizations/{}/secrets",
+                    parameters: [
+                        input.path.org_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -14124,7 +14341,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationSecretsList.Output.Ok.Body
+                    let body: Operations.organization_secrets_list.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14134,7 +14351,7 @@ public struct Client: APIProtocol {
                     switch chosenContentType {
                     case "application/json":
                         body = try await converter.getResponseBodyAsJSON(
-                            Operations.organizationSecretsList.Output.Ok.Body.jsonPayload.self,
+                            Operations.organization_secrets_list.Output.Ok.Body.jsonPayload.self,
                             from: responseBody,
                             transforming: { value in
                                 .json(value)
@@ -14146,7 +14363,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationSecretsList.Output.Unauthorized.Body
+                    let body: Operations.organization_secrets_list.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14168,7 +14385,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 403:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationSecretsList.Output.Forbidden.Body
+                    let body: Operations.organization_secrets_list.Output.Forbidden.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14190,7 +14407,7 @@ public struct Client: APIProtocol {
                     return .forbidden(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationSecretsList.Output.NotFound.Body
+                    let body: Operations.organization_secrets_list.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14226,16 +14443,18 @@ public struct Client: APIProtocol {
     ///
     /// Create a new organization secret
     ///
-    /// - Remark: HTTP `POST /organizations/{org-slug}/secrets`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/post(organizationSecretCreate)`.
-    public func organizationSecretCreate(_ input: Operations.organizationSecretCreate.Input) async throws -> Operations.organizationSecretCreate.Output {
+    /// - Remark: HTTP `POST /organizations/{org_slug}/secrets`.
+    /// - Remark: Generated from `#/paths//organizations/{org_slug}/secrets/post(organization_secret_create)`.
+    public func organization_secret_create(_ input: Operations.organization_secret_create.Input) async throws -> Operations.organization_secret_create.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.organizationSecretCreate.id,
+            forOperation: Operations.organization_secret_create.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/organizations/org-slug/secrets",
-                    parameters: []
+                    template: "/organizations/{}/secrets",
+                    parameters: [
+                        input.path.org_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -14261,7 +14480,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 201:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationSecretCreate.Output.Created.Body
+                    let body: Operations.organization_secret_create.Output.Created.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14283,7 +14502,7 @@ public struct Client: APIProtocol {
                     return .created(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationSecretCreate.Output.Unauthorized.Body
+                    let body: Operations.organization_secret_create.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14305,7 +14524,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 403:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationSecretCreate.Output.Forbidden.Body
+                    let body: Operations.organization_secret_create.Output.Forbidden.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14327,7 +14546,7 @@ public struct Client: APIProtocol {
                     return .forbidden(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationSecretCreate.Output.NotFound.Body
+                    let body: Operations.organization_secret_create.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14363,16 +14582,19 @@ public struct Client: APIProtocol {
     ///
     /// Get a single secret by name, including the value if not protected
     ///
-    /// - Remark: HTTP `GET /organizations/{org-slug}/secrets/{secret-name}`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/get(organizationSecretsShow)`.
-    public func organizationSecretsShow(_ input: Operations.organizationSecretsShow.Input) async throws -> Operations.organizationSecretsShow.Output {
+    /// - Remark: HTTP `GET /organizations/{org_slug}/secrets/{secret_name}`.
+    /// - Remark: Generated from `#/paths//organizations/{org_slug}/secrets/{secret_name}/get(organization_secrets_show)`.
+    public func organization_secrets_show(_ input: Operations.organization_secrets_show.Input) async throws -> Operations.organization_secrets_show.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.organizationSecretsShow.id,
+            forOperation: Operations.organization_secrets_show.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/organizations/org-slug/secrets/secret-name",
-                    parameters: []
+                    template: "/organizations/{}/secrets/{}",
+                    parameters: [
+                        input.path.org_slug,
+                        input.path.secret_name
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -14389,7 +14611,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationSecretsShow.Output.Ok.Body
+                    let body: Operations.organization_secrets_show.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14399,7 +14621,7 @@ public struct Client: APIProtocol {
                     switch chosenContentType {
                     case "application/json":
                         body = try await converter.getResponseBodyAsJSON(
-                            Operations.organizationSecretsShow.Output.Ok.Body.jsonPayload.self,
+                            Operations.organization_secrets_show.Output.Ok.Body.jsonPayload.self,
                             from: responseBody,
                             transforming: { value in
                                 .json(value)
@@ -14411,7 +14633,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationSecretsShow.Output.Unauthorized.Body
+                    let body: Operations.organization_secrets_show.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14433,7 +14655,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 403:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationSecretsShow.Output.Forbidden.Body
+                    let body: Operations.organization_secrets_show.Output.Forbidden.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14455,7 +14677,7 @@ public struct Client: APIProtocol {
                     return .forbidden(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationSecretsShow.Output.NotFound.Body
+                    let body: Operations.organization_secrets_show.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14491,16 +14713,19 @@ public struct Client: APIProtocol {
     ///
     /// Update an existing secret. If the secret is protected, only its value can be overridden.
     ///
-    /// - Remark: HTTP `PATCH /organizations/{org-slug}/secrets/{secret-name}`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/patch(organizationSecretUpdate)`.
-    public func organizationSecretUpdate(_ input: Operations.organizationSecretUpdate.Input) async throws -> Operations.organizationSecretUpdate.Output {
+    /// - Remark: HTTP `PATCH /organizations/{org_slug}/secrets/{secret_name}`.
+    /// - Remark: Generated from `#/paths//organizations/{org_slug}/secrets/{secret_name}/patch(organization_secret_update)`.
+    public func organization_secret_update(_ input: Operations.organization_secret_update.Input) async throws -> Operations.organization_secret_update.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.organizationSecretUpdate.id,
+            forOperation: Operations.organization_secret_update.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/organizations/org-slug/secrets/secret-name",
-                    parameters: []
+                    template: "/organizations/{}/secrets/{}",
+                    parameters: [
+                        input.path.org_slug,
+                        input.path.secret_name
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -14526,7 +14751,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationSecretUpdate.Output.Ok.Body
+                    let body: Operations.organization_secret_update.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14536,7 +14761,7 @@ public struct Client: APIProtocol {
                     switch chosenContentType {
                     case "application/json":
                         body = try await converter.getResponseBodyAsJSON(
-                            Operations.organizationSecretUpdate.Output.Ok.Body.jsonPayload.self,
+                            Operations.organization_secret_update.Output.Ok.Body.jsonPayload.self,
                             from: responseBody,
                             transforming: { value in
                                 .json(value)
@@ -14548,7 +14773,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationSecretUpdate.Output.Unauthorized.Body
+                    let body: Operations.organization_secret_update.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14570,7 +14795,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 403:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationSecretUpdate.Output.Forbidden.Body
+                    let body: Operations.organization_secret_update.Output.Forbidden.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14592,7 +14817,7 @@ public struct Client: APIProtocol {
                     return .forbidden(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationSecretUpdate.Output.NotFound.Body
+                    let body: Operations.organization_secret_update.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14628,16 +14853,19 @@ public struct Client: APIProtocol {
     ///
     /// Delete a secret by name
     ///
-    /// - Remark: HTTP `DELETE /organizations/{org-slug}/secrets/{secret-name}`.
-    /// - Remark: Generated from `#/paths//organizations/{org-slug}/secrets/{secret-name}/delete(organizationSecretDelete)`.
-    public func organizationSecretDelete(_ input: Operations.organizationSecretDelete.Input) async throws -> Operations.organizationSecretDelete.Output {
+    /// - Remark: HTTP `DELETE /organizations/{org_slug}/secrets/{secret_name}`.
+    /// - Remark: Generated from `#/paths//organizations/{org_slug}/secrets/{secret_name}/delete(organization_secret_delete)`.
+    public func organization_secret_delete(_ input: Operations.organization_secret_delete.Input) async throws -> Operations.organization_secret_delete.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.organizationSecretDelete.id,
+            forOperation: Operations.organization_secret_delete.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/organizations/org-slug/secrets/secret-name",
-                    parameters: []
+                    template: "/organizations/{}/secrets/{}",
+                    parameters: [
+                        input.path.org_slug,
+                        input.path.secret_name
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -14656,7 +14884,7 @@ public struct Client: APIProtocol {
                     return .noContent(.init())
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationSecretDelete.Output.Unauthorized.Body
+                    let body: Operations.organization_secret_delete.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14678,7 +14906,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 403:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationSecretDelete.Output.Forbidden.Body
+                    let body: Operations.organization_secret_delete.Output.Forbidden.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14700,7 +14928,7 @@ public struct Client: APIProtocol {
                     return .forbidden(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.organizationSecretDelete.Output.NotFound.Body
+                    let body: Operations.organization_secret_delete.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14736,16 +14964,18 @@ public struct Client: APIProtocol {
     ///
     /// List all the provisioned addons for organization
     ///
-    /// - Remark: HTTP `GET /organizations/{organization-slug}/addons`.
-    /// - Remark: Generated from `#/paths//organizations/{organization-slug}/addons/get(addonListByOrganization)`.
-    public func addonListByOrganization(_ input: Operations.addonListByOrganization.Input) async throws -> Operations.addonListByOrganization.Output {
+    /// - Remark: HTTP `GET /organizations/{organization_slug}/addons`.
+    /// - Remark: Generated from `#/paths//organizations/{organization_slug}/addons/get(addon_list_by_organization)`.
+    public func addon_list_by_organization(_ input: Operations.addon_list_by_organization.Input) async throws -> Operations.addon_list_by_organization.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.addonListByOrganization.id,
+            forOperation: Operations.addon_list_by_organization.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/organizations/organization-slug/addons",
-                    parameters: []
+                    template: "/organizations/{}/addons",
+                    parameters: [
+                        input.path.organization_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -14762,7 +14992,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.addonListByOrganization.Output.Ok.Body
+                    let body: Operations.addon_list_by_organization.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14784,7 +15014,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.addonListByOrganization.Output.BadRequest.Body
+                    let body: Operations.addon_list_by_organization.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14806,7 +15036,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.addonListByOrganization.Output.Unauthorized.Body
+                    let body: Operations.addon_list_by_organization.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14828,7 +15058,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.addonListByOrganization.Output.NotFound.Body
+                    let body: Operations.addon_list_by_organization.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14850,7 +15080,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.addonListByOrganization.Output.InternalServerError.Body
+                    let body: Operations.addon_list_by_organization.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14887,11 +15117,11 @@ public struct Client: APIProtocol {
     /// List all the Bitrise pipelines/standalone builds that can be accessed with the authenticated account. Filter pipelines/standalone builds based on their owner, using the owner slug, or the status of the pipeline/standalone build.
     ///
     /// - Remark: HTTP `GET /pipelines`.
-    /// - Remark: Generated from `#/paths//pipelines/get(pipelineListAll)`.
-    public func pipelineListAll(_ input: Operations.pipelineListAll.Input) async throws -> Operations.pipelineListAll.Output {
+    /// - Remark: Generated from `#/paths//pipelines/get(pipeline_list_all)`.
+    public func pipeline_list_all(_ input: Operations.pipeline_list_all.Input) async throws -> Operations.pipeline_list_all.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.pipelineListAll.id,
+            forOperation: Operations.pipeline_list_all.id,
             serializer: { input in
                 let path = try converter.renderedPath(
                     template: "/pipelines",
@@ -14940,7 +15170,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.pipelineListAll.Output.Ok.Body
+                    let body: Operations.pipeline_list_all.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14962,7 +15192,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.pipelineListAll.Output.BadRequest.Body
+                    let body: Operations.pipeline_list_all.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -14984,7 +15214,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.pipelineListAll.Output.Unauthorized.Body
+                    let body: Operations.pipeline_list_all.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -15006,7 +15236,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.pipelineListAll.Output.NotFound.Body
+                    let body: Operations.pipeline_list_all.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -15028,7 +15258,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.pipelineListAll.Output.InternalServerError.Body
+                    let body: Operations.pipeline_list_all.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -15064,16 +15294,18 @@ public struct Client: APIProtocol {
     ///
     /// Migrates all apps' machine types of a user from one machine type to another
     ///
-    /// - Remark: HTTP `PATCH /user/{user-slug}/apps/machine_types`.
-    /// - Remark: Generated from `#/paths//user/{user-slug}/apps/machine_types/patch(userMachineTypeUpdate)`.
-    public func userMachineTypeUpdate(_ input: Operations.userMachineTypeUpdate.Input) async throws -> Operations.userMachineTypeUpdate.Output {
+    /// - Remark: HTTP `PATCH /user/{user_slug}/apps/machine_types`.
+    /// - Remark: Generated from `#/paths//user/{user_slug}/apps/machine_types/patch(user_machine_type_update)`.
+    public func user_machine_type_update(_ input: Operations.user_machine_type_update.Input) async throws -> Operations.user_machine_type_update.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.userMachineTypeUpdate.id,
+            forOperation: Operations.user_machine_type_update.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/user/user-slug/apps/machine_types",
-                    parameters: []
+                    template: "/user/{}/apps/machine_types",
+                    parameters: [
+                        input.path.user_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -15099,7 +15331,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.userMachineTypeUpdate.Output.Ok.Body
+                    let body: Operations.user_machine_type_update.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -15121,7 +15353,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.userMachineTypeUpdate.Output.BadRequest.Body
+                    let body: Operations.user_machine_type_update.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -15143,7 +15375,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.userMachineTypeUpdate.Output.Unauthorized.Body
+                    let body: Operations.user_machine_type_update.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -15165,7 +15397,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.userMachineTypeUpdate.Output.NotFound.Body
+                    let body: Operations.user_machine_type_update.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -15187,7 +15419,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.userMachineTypeUpdate.Output.InternalServerError.Body
+                    let body: Operations.user_machine_type_update.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -15223,16 +15455,18 @@ public struct Client: APIProtocol {
     ///
     /// Show information about a specific user
     ///
-    /// - Remark: HTTP `GET /users/{user-slug}`.
-    /// - Remark: Generated from `#/paths//users/{user-slug}/get(userShow)`.
-    public func userShow(_ input: Operations.userShow.Input) async throws -> Operations.userShow.Output {
+    /// - Remark: HTTP `GET /users/{user_slug}`.
+    /// - Remark: Generated from `#/paths//users/{user_slug}/get(user_show)`.
+    public func user_show(_ input: Operations.user_show.Input) async throws -> Operations.user_show.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.userShow.id,
+            forOperation: Operations.user_show.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/users/user-slug",
-                    parameters: []
+                    template: "/users/{}",
+                    parameters: [
+                        input.path.user_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -15249,7 +15483,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.userShow.Output.Ok.Body
+                    let body: Operations.user_show.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -15271,7 +15505,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.userShow.Output.BadRequest.Body
+                    let body: Operations.user_show.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -15293,7 +15527,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.userShow.Output.Unauthorized.Body
+                    let body: Operations.user_show.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -15315,7 +15549,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.userShow.Output.NotFound.Body
+                    let body: Operations.user_show.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -15337,7 +15571,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.userShow.Output.InternalServerError.Body
+                    let body: Operations.user_show.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -15373,16 +15607,18 @@ public struct Client: APIProtocol {
     ///
     /// List all the provisioned addons for the authenticated user
     ///
-    /// - Remark: HTTP `GET /users/{user-slug}/addons`.
-    /// - Remark: Generated from `#/paths//users/{user-slug}/addons/get(addonListByUser)`.
-    public func addonListByUser(_ input: Operations.addonListByUser.Input) async throws -> Operations.addonListByUser.Output {
+    /// - Remark: HTTP `GET /users/{user_slug}/addons`.
+    /// - Remark: Generated from `#/paths//users/{user_slug}/addons/get(addon_list_by_user)`.
+    public func addon_list_by_user(_ input: Operations.addon_list_by_user.Input) async throws -> Operations.addon_list_by_user.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.addonListByUser.id,
+            forOperation: Operations.addon_list_by_user.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/users/user-slug/addons",
-                    parameters: []
+                    template: "/users/{}/addons",
+                    parameters: [
+                        input.path.user_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -15399,7 +15635,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.addonListByUser.Output.Ok.Body
+                    let body: Operations.addon_list_by_user.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -15421,7 +15657,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.addonListByUser.Output.BadRequest.Body
+                    let body: Operations.addon_list_by_user.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -15443,7 +15679,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.addonListByUser.Output.Unauthorized.Body
+                    let body: Operations.addon_list_by_user.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -15465,7 +15701,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.addonListByUser.Output.NotFound.Body
+                    let body: Operations.addon_list_by_user.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -15487,7 +15723,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.addonListByUser.Output.InternalServerError.Body
+                    let body: Operations.addon_list_by_user.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -15523,16 +15759,18 @@ public struct Client: APIProtocol {
     ///
     /// List Apple API credentials for a specific Bitrise user
     ///
-    /// - Remark: HTTP `GET /users/{user-slug}/apple-api-credentials`.
-    /// - Remark: Generated from `#/paths//users/{user-slug}/apple-api-credentials/get(appleApiCredentialList)`.
-    public func appleApiCredentialList(_ input: Operations.appleApiCredentialList.Input) async throws -> Operations.appleApiCredentialList.Output {
+    /// - Remark: HTTP `GET /users/{user_slug}/apple-api-credentials`.
+    /// - Remark: Generated from `#/paths//users/{user_slug}/apple-api-credentials/get(apple_api_credential_list)`.
+    public func apple_api_credential_list(_ input: Operations.apple_api_credential_list.Input) async throws -> Operations.apple_api_credential_list.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.appleApiCredentialList.id,
+            forOperation: Operations.apple_api_credential_list.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/users/user-slug/apple-api-credentials",
-                    parameters: []
+                    template: "/users/{}/apple-api-credentials",
+                    parameters: [
+                        input.path.user_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -15549,7 +15787,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appleApiCredentialList.Output.Ok.Body
+                    let body: Operations.apple_api_credential_list.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -15571,7 +15809,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appleApiCredentialList.Output.BadRequest.Body
+                    let body: Operations.apple_api_credential_list.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -15593,7 +15831,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appleApiCredentialList.Output.Unauthorized.Body
+                    let body: Operations.apple_api_credential_list.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -15615,7 +15853,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appleApiCredentialList.Output.NotFound.Body
+                    let body: Operations.apple_api_credential_list.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -15637,7 +15875,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appleApiCredentialList.Output.InternalServerError.Body
+                    let body: Operations.apple_api_credential_list.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -15673,16 +15911,18 @@ public struct Client: APIProtocol {
     ///
     /// List all the available apps for the given user.  It needs the user slug that you can get from the [GET /me](https://api-docs.bitrise.io/#/user/user-profile) endpoint.
     ///
-    /// - Remark: HTTP `GET /users/{user-slug}/apps`.
-    /// - Remark: Generated from `#/paths//users/{user-slug}/apps/get(appListByUser)`.
-    public func appListByUser(_ input: Operations.appListByUser.Input) async throws -> Operations.appListByUser.Output {
+    /// - Remark: HTTP `GET /users/{user_slug}/apps`.
+    /// - Remark: Generated from `#/paths//users/{user_slug}/apps/get(app_list_by_user)`.
+    public func app_list_by_user(_ input: Operations.app_list_by_user.Input) async throws -> Operations.app_list_by_user.Output {
         try await client.send(
             input: input,
-            forOperation: Operations.appListByUser.id,
+            forOperation: Operations.app_list_by_user.id,
             serializer: { input in
                 let path = try converter.renderedPath(
-                    template: "/users/user-slug/apps",
-                    parameters: []
+                    template: "/users/{}/apps",
+                    parameters: [
+                        input.path.user_slug
+                    ]
                 )
                 var request: HTTPTypes.HTTPRequest = .init(
                     soar_path: path,
@@ -15734,7 +15974,7 @@ public struct Client: APIProtocol {
                 switch response.status.code {
                 case 200:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appListByUser.Output.Ok.Body
+                    let body: Operations.app_list_by_user.Output.Ok.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -15756,7 +15996,7 @@ public struct Client: APIProtocol {
                     return .ok(.init(body: body))
                 case 400:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appListByUser.Output.BadRequest.Body
+                    let body: Operations.app_list_by_user.Output.BadRequest.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -15778,7 +16018,7 @@ public struct Client: APIProtocol {
                     return .badRequest(.init(body: body))
                 case 401:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appListByUser.Output.Unauthorized.Body
+                    let body: Operations.app_list_by_user.Output.Unauthorized.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -15800,7 +16040,7 @@ public struct Client: APIProtocol {
                     return .unauthorized(.init(body: body))
                 case 404:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appListByUser.Output.NotFound.Body
+                    let body: Operations.app_list_by_user.Output.NotFound.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
@@ -15822,7 +16062,7 @@ public struct Client: APIProtocol {
                     return .notFound(.init(body: body))
                 case 500:
                     let contentType = converter.extractContentTypeIfPresent(in: response.headerFields)
-                    let body: Operations.appListByUser.Output.InternalServerError.Body
+                    let body: Operations.app_list_by_user.Output.InternalServerError.Body
                     let chosenContentType = try converter.bestContentType(
                         received: contentType,
                         options: [
