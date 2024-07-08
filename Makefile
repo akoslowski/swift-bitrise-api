@@ -8,15 +8,15 @@ CONFIG := openapi-generator-config.yaml
 OUTPUT := Sources/BitriseAPI
 
 # Targets
-.PHONY: all download rename-operations convert-to-openapi generate
+.PHONY: all download rename convert-to-openapi generate
 
-all: download rename-operations convert-to-openapi generate
+all: download rename convert-to-openapi generate
 
 download:
 	@curl -sS -o $(FILE) $(URL)
 	@echo "Download completed. $(FILE)"
 
-rename-operations:
+rename:
 	@swift run renamer
 	@echo "Everything renamed."
 
