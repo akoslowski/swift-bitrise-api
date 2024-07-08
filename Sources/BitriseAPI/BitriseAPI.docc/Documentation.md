@@ -14,9 +14,11 @@ The API provides you with control of - and access to - the features and data ava
 
 ## Basic usage
 
-The following example sets up a client with ``Client/init(serverURL:configuration:transport:middlewares:)`` and makes a request to list the configured applications for your account using ``Client/appList(_:)``. 
-
 Running the code requires to create a personal access token. See [Authenticating with the Bitrise API](https://devcenter.bitrise.io/en/api/authenticating-with-the-bitrise-api.html) for more details.
+
+The example uses [OpenAPIURLSession](https://github.com/apple/swift-openapi-urlsession) which needs to be declared as a Swift Package dependency.
+
+The following code sets up a client with ``Client/init(serverURL:configuration:transport:middlewares:)`` and makes a request to list the configured applications for your account using ``Client/appList(_:)``.
 
 ```swift
 import OpenAPIURLSession
