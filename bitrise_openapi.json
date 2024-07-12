@@ -3362,6 +3362,16 @@
                     }
                 ],
                 "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/v0.BuildLogResponseModel"
+                                }
+                            }
+                        }
+                    },
                     "400": {
                         "description": "Bad Request",
                         "content": {
@@ -11254,6 +11264,17 @@
                         "items": {
                             "type": "string"
                         }
+                    }
+                }
+            },
+            "v0.BuildLogResponseModel": {
+                "type": "object",
+                "properties": {
+                    "expiring_raw_log_url": {
+                        "type": "string"
+                    },
+                    "is_archived": {
+                        "type": "boolean"
                     }
                 }
             },
