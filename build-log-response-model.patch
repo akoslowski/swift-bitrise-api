@@ -1,0 +1,42 @@
+diff --git a/bitrise_swagger.json b/bitrise_swagger.json
+index a1940f1..4276ef2 100644
+--- a/bitrise_swagger.json
++++ b/bitrise_swagger.json
+@@ -2616,6 +2616,12 @@
+           }
+         ],
+         "responses": {
++          "200": {
++            "description": "OK",
++            "schema": {
++                "$ref": "#/definitions/v0.BuildLogResponseModel"
++            }
++          },
+           "400": {
+             "description": "Bad Request",
+             "schema": {
+@@ -9171,6 +9177,17 @@
+         }
+       }
+     },
++    "v0.BuildLogResponseModel": {
++      "type": "object",
++      "properties": {
++        "expiring_raw_log_url": {
++          "type": "string"
++        },
++        "is_archived": {
++            "type": "boolean"
++        }
++      }
++    },
+     "v0.CacheItemDownloadResponseModel": {
+       "type": "object",
+       "properties": {
+@@ -10448,4 +10465,4 @@
+       "in": "header"
+     }
+   }
+-}
+\ No newline at end of file
++}
