@@ -5791,6 +5791,29 @@ public enum Components {
                 case data
             }
         }
+        /// - Remark: Generated from `#/components/schemas/v0.BuildLogResponseModel`.
+        public struct v0_period_BuildLogResponseModel: Codable, Hashable, Sendable {
+            /// - Remark: Generated from `#/components/schemas/v0.BuildLogResponseModel/expiring_raw_log_url`.
+            public var expiring_raw_log_url: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/v0.BuildLogResponseModel/is_archived`.
+            public var is_archived: Swift.Bool?
+            /// Creates a new `v0_period_BuildLogResponseModel`.
+            ///
+            /// - Parameters:
+            ///   - expiring_raw_log_url:
+            ///   - is_archived:
+            public init(
+                expiring_raw_log_url: Swift.String? = nil,
+                is_archived: Swift.Bool? = nil
+            ) {
+                self.expiring_raw_log_url = expiring_raw_log_url
+                self.is_archived = is_archived
+            }
+            public enum CodingKeys: String, CodingKey {
+                case expiring_raw_log_url
+                case is_archived
+            }
+        }
         /// - Remark: Generated from `#/components/schemas/v0.CacheItemDownloadResponseModel`.
         public struct v0_period_CacheItemDownloadResponseModel: Codable, Hashable, Sendable {
             /// - Remark: Generated from `#/components/schemas/v0.CacheItemDownloadResponseModel/data`.
@@ -20867,6 +20890,57 @@ public enum Operations {
             }
         }
         @frozen public enum Output: Sendable, Hashable {
+            public struct Ok: Sendable, Hashable {
+                /// - Remark: Generated from `#/paths/apps/{app_slug}/builds/{build_slug}/log/GET/responses/200/content`.
+                @frozen public enum Body: Sendable, Hashable {
+                    /// - Remark: Generated from `#/paths/apps/{app_slug}/builds/{build_slug}/log/GET/responses/200/content/application\/json`.
+                    case json(Components.Schemas.v0_period_BuildLogResponseModel)
+                    /// The associated value of the enum case if `self` is `.json`.
+                    ///
+                    /// - Throws: An error if `self` is not `.json`.
+                    /// - SeeAlso: `.json`.
+                    public var json: Components.Schemas.v0_period_BuildLogResponseModel {
+                        get throws {
+                            switch self {
+                            case let .json(body):
+                                return body
+                            }
+                        }
+                    }
+                }
+                /// Received HTTP response body
+                public var body: Operations.build_log.Output.Ok.Body
+                /// Creates a new `Ok`.
+                ///
+                /// - Parameters:
+                ///   - body: Received HTTP response body
+                public init(body: Operations.build_log.Output.Ok.Body) {
+                    self.body = body
+                }
+            }
+            /// OK
+            ///
+            /// - Remark: Generated from `#/paths//apps/{app_slug}/builds/{build_slug}/log/get(build_log)/responses/200`.
+            ///
+            /// HTTP response code: `200 ok`.
+            case ok(Operations.build_log.Output.Ok)
+            /// The associated value of the enum case if `self` is `.ok`.
+            ///
+            /// - Throws: An error if `self` is not `.ok`.
+            /// - SeeAlso: `.ok`.
+            public var ok: Operations.build_log.Output.Ok {
+                get throws {
+                    switch self {
+                    case let .ok(response):
+                        return response
+                    default:
+                        try throwUnexpectedResponseStatus(
+                            expectedStatus: "ok",
+                            response: self
+                        )
+                    }
+                }
+            }
             public struct BadRequest: Sendable, Hashable {
                 /// - Remark: Generated from `#/paths/apps/{app_slug}/builds/{build_slug}/log/GET/responses/400/content`.
                 @frozen public enum Body: Sendable, Hashable {
