@@ -4806,10 +4806,11 @@
             "enum": [
               "admin",
               "manager",
-              "member"
+              "member",
+              "platform_engineer"
             ],
             "type": "string",
-            "description": "Name of the role being queried, supported values are: admin, manager (equals developer), and member (equals tester/qa)",
+            "description": "Name of the role being queried, supported values are: admin, manager (equals developer), member (equals tester/qa) and platform_engineer",
             "name": "role_name",
             "in": "path",
             "required": true
@@ -4872,10 +4873,11 @@
             "enum": [
               "admin",
               "manager",
-              "member"
+              "member",
+              "platform_engineer"
             ],
             "type": "string",
-            "description": "Name of the role being modified, supported values are: admin, manager (equals developer), and member (equals tester/qa)",
+            "description": "Name of the role being modified, supported values are: admin, manager (equals developer), member (equals tester/qa), and platform_engineer",
             "name": "role_name",
             "in": "path",
             "required": true
@@ -5842,56 +5844,6 @@
             "description": "OK",
             "schema": {
               "$ref": "#/definitions/v0.ActivityEventListResponseModel"
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/service.StandardErrorRespModel"
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "$ref": "#/definitions/service.StandardErrorRespModel"
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "schema": {
-              "$ref": "#/definitions/service.StandardErrorRespModel"
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "$ref": "#/definitions/service.StandardErrorRespModel"
-            }
-          }
-        }
-      }
-    },
-    "/me/plan": {
-      "get": {
-        "security": [
-          {
-            "PersonalAccessToken": []
-          }
-        ],
-        "description": "Get the subscription of the user: the current plan, any pending plans, and the duration of a trial period if applicable",
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "user"
-        ],
-        "summary": "The subscription plan of the user",
-        "operationId": "user_plan",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/v0.UserPlanRespModel"
             }
           },
           "400": {
@@ -8189,6 +8141,9 @@
         "created_at": {
           "type": "string"
         },
+        "is_enterprise_account": {
+          "type": "boolean"
+        },
         "issuer_id": {
           "type": "string"
         },
@@ -8983,7 +8938,7 @@
         }
       }
     },
-    "v0.BuildTriggerRespModel": {
+    "v0.BuildTriggerRespItemModel": {
       "type": "object",
       "properties": {
         "build_number": {
@@ -8998,6 +8953,41 @@
         "message": {
           "type": "string"
         },
+        "status": {
+          "type": "string"
+        },
+        "triggered_pipeline": {
+          "type": "string"
+        },
+        "triggered_workflow": {
+          "type": "string"
+        }
+      }
+    },
+    "v0.BuildTriggerRespModel": {
+      "type": "object",
+      "properties": {
+        "build_number": {
+          "description": "Deprecated",
+          "type": "integer"
+        },
+        "build_slug": {
+          "description": "Deprecated",
+          "type": "string"
+        },
+        "build_url": {
+          "description": "Deprecated",
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v0.BuildTriggerRespItemModel"
+          }
+        },
         "service": {
           "type": "string"
         },
@@ -9008,6 +8998,7 @@
           "type": "string"
         },
         "triggered_workflow": {
+          "description": "Deprecated",
           "type": "string"
         }
       }
@@ -9708,26 +9699,6 @@
         }
       }
     },
-    "v0.PlanDataModel": {
-      "type": "object",
-      "properties": {
-        "container_count": {
-          "type": "integer"
-        },
-        "expires_at": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "price": {
-          "type": "integer"
-        }
-      }
-    },
     "v0.ProjectFileStorageDocumentUpdateParams": {
       "type": "object",
       "properties": {
@@ -10039,28 +10010,6 @@
         },
         "owner": {
           "type": "string"
-        }
-      }
-    },
-    "v0.UserPlanDataModel": {
-      "type": "object",
-      "properties": {
-        "current_plan": {
-          "$ref": "#/definitions/v0.PlanDataModel"
-        },
-        "pending_plan": {
-          "$ref": "#/definitions/v0.PlanDataModel"
-        },
-        "trial_expires_at": {
-          "type": "string"
-        }
-      }
-    },
-    "v0.UserPlanRespModel": {
-      "type": "object",
-      "properties": {
-        "data": {
-          "$ref": "#/definitions/v0.UserPlanDataModel"
         }
       }
     },

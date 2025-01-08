@@ -585,13 +585,6 @@ public protocol APIProtocol: Sendable {
     /// - Remark: HTTP `GET /me/activities`.
     /// - Remark: Generated from `#/paths//me/activities/get(activity_list)`.
     func activity_list(_ input: Operations.activity_list.Input) async throws -> Operations.activity_list.Output
-    /// The subscription plan of the user
-    ///
-    /// Get the subscription of the user: the current plan, any pending plans, and the duration of a trial period if applicable
-    ///
-    /// - Remark: HTTP `GET /me/plan`.
-    /// - Remark: Generated from `#/paths//me/plan/get(user_plan)`.
-    func user_plan(_ input: Operations.user_plan.Input) async throws -> Operations.user_plan.Output
     /// List the organizations that the user is part of
     ///
     /// List all Bitrise organizations that the user is part of
@@ -2027,15 +2020,6 @@ extension APIProtocol {
             query: query,
             headers: headers
         ))
-    }
-    /// The subscription plan of the user
-    ///
-    /// Get the subscription of the user: the current plan, any pending plans, and the duration of a trial period if applicable
-    ///
-    /// - Remark: HTTP `GET /me/plan`.
-    /// - Remark: Generated from `#/paths//me/plan/get(user_plan)`.
-    public func user_plan(headers: Operations.user_plan.Input.Headers = .init()) async throws -> Operations.user_plan.Output {
-        try await user_plan(Operations.user_plan.Input(headers: headers))
     }
     /// List the organizations that the user is part of
     ///
@@ -4051,6 +4035,8 @@ public enum Components {
         public struct v0_period_AppleAPICredentialResponseItem: Codable, Hashable, Sendable {
             /// - Remark: Generated from `#/components/schemas/v0.AppleAPICredentialResponseItem/created_at`.
             public var created_at: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/v0.AppleAPICredentialResponseItem/is_enterprise_account`.
+            public var is_enterprise_account: Swift.Bool?
             /// - Remark: Generated from `#/components/schemas/v0.AppleAPICredentialResponseItem/issuer_id`.
             public var issuer_id: Swift.String?
             /// - Remark: Generated from `#/components/schemas/v0.AppleAPICredentialResponseItem/key_id`.
@@ -4065,6 +4051,7 @@ public enum Components {
             ///
             /// - Parameters:
             ///   - created_at:
+            ///   - is_enterprise_account:
             ///   - issuer_id:
             ///   - key_id:
             ///   - name:
@@ -4072,6 +4059,7 @@ public enum Components {
             ///   - updated_at:
             public init(
                 created_at: Swift.String? = nil,
+                is_enterprise_account: Swift.Bool? = nil,
                 issuer_id: Swift.String? = nil,
                 key_id: Swift.String? = nil,
                 name: Swift.String? = nil,
@@ -4079,6 +4067,7 @@ public enum Components {
                 updated_at: Swift.String? = nil
             ) {
                 self.created_at = created_at
+                self.is_enterprise_account = is_enterprise_account
                 self.issuer_id = issuer_id
                 self.key_id = key_id
                 self.name = name
@@ -4087,6 +4076,7 @@ public enum Components {
             }
             public enum CodingKeys: String, CodingKey {
                 case created_at
+                case is_enterprise_account
                 case issuer_id
                 case key_id
                 case name
@@ -5669,40 +5659,105 @@ public enum Components {
                 case _type = "type"
             }
         }
-        /// - Remark: Generated from `#/components/schemas/v0.BuildTriggerRespModel`.
-        public struct v0_period_BuildTriggerRespModel: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/v0.BuildTriggerRespModel/build_number`.
+        /// - Remark: Generated from `#/components/schemas/v0.BuildTriggerRespItemModel`.
+        public struct v0_period_BuildTriggerRespItemModel: Codable, Hashable, Sendable {
+            /// - Remark: Generated from `#/components/schemas/v0.BuildTriggerRespItemModel/build_number`.
             public var build_number: Swift.Int?
-            /// - Remark: Generated from `#/components/schemas/v0.BuildTriggerRespModel/build_slug`.
+            /// - Remark: Generated from `#/components/schemas/v0.BuildTriggerRespItemModel/build_slug`.
             public var build_slug: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/v0.BuildTriggerRespModel/build_url`.
+            /// - Remark: Generated from `#/components/schemas/v0.BuildTriggerRespItemModel/build_url`.
             public var build_url: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/v0.BuildTriggerRespModel/message`.
+            /// - Remark: Generated from `#/components/schemas/v0.BuildTriggerRespItemModel/message`.
             public var message: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/v0.BuildTriggerRespModel/service`.
-            public var service: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/v0.BuildTriggerRespModel/slug`.
-            public var slug: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/v0.BuildTriggerRespModel/status`.
+            /// - Remark: Generated from `#/components/schemas/v0.BuildTriggerRespItemModel/status`.
             public var status: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/v0.BuildTriggerRespModel/triggered_workflow`.
+            /// - Remark: Generated from `#/components/schemas/v0.BuildTriggerRespItemModel/triggered_pipeline`.
+            public var triggered_pipeline: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/v0.BuildTriggerRespItemModel/triggered_workflow`.
             public var triggered_workflow: Swift.String?
-            /// Creates a new `v0_period_BuildTriggerRespModel`.
+            /// Creates a new `v0_period_BuildTriggerRespItemModel`.
             ///
             /// - Parameters:
             ///   - build_number:
             ///   - build_slug:
             ///   - build_url:
             ///   - message:
-            ///   - service:
-            ///   - slug:
             ///   - status:
+            ///   - triggered_pipeline:
             ///   - triggered_workflow:
             public init(
                 build_number: Swift.Int? = nil,
                 build_slug: Swift.String? = nil,
                 build_url: Swift.String? = nil,
                 message: Swift.String? = nil,
+                status: Swift.String? = nil,
+                triggered_pipeline: Swift.String? = nil,
+                triggered_workflow: Swift.String? = nil
+            ) {
+                self.build_number = build_number
+                self.build_slug = build_slug
+                self.build_url = build_url
+                self.message = message
+                self.status = status
+                self.triggered_pipeline = triggered_pipeline
+                self.triggered_workflow = triggered_workflow
+            }
+            public enum CodingKeys: String, CodingKey {
+                case build_number
+                case build_slug
+                case build_url
+                case message
+                case status
+                case triggered_pipeline
+                case triggered_workflow
+            }
+        }
+        /// - Remark: Generated from `#/components/schemas/v0.BuildTriggerRespModel`.
+        public struct v0_period_BuildTriggerRespModel: Codable, Hashable, Sendable {
+            /// Deprecated
+            ///
+            /// - Remark: Generated from `#/components/schemas/v0.BuildTriggerRespModel/build_number`.
+            public var build_number: Swift.Int?
+            /// Deprecated
+            ///
+            /// - Remark: Generated from `#/components/schemas/v0.BuildTriggerRespModel/build_slug`.
+            public var build_slug: Swift.String?
+            /// Deprecated
+            ///
+            /// - Remark: Generated from `#/components/schemas/v0.BuildTriggerRespModel/build_url`.
+            public var build_url: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/v0.BuildTriggerRespModel/message`.
+            public var message: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/v0.BuildTriggerRespModel/results`.
+            public var results: [Components.Schemas.v0_period_BuildTriggerRespItemModel]?
+            /// - Remark: Generated from `#/components/schemas/v0.BuildTriggerRespModel/service`.
+            public var service: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/v0.BuildTriggerRespModel/slug`.
+            public var slug: Swift.String?
+            /// - Remark: Generated from `#/components/schemas/v0.BuildTriggerRespModel/status`.
+            public var status: Swift.String?
+            /// Deprecated
+            ///
+            /// - Remark: Generated from `#/components/schemas/v0.BuildTriggerRespModel/triggered_workflow`.
+            public var triggered_workflow: Swift.String?
+            /// Creates a new `v0_period_BuildTriggerRespModel`.
+            ///
+            /// - Parameters:
+            ///   - build_number: Deprecated
+            ///   - build_slug: Deprecated
+            ///   - build_url: Deprecated
+            ///   - message:
+            ///   - results:
+            ///   - service:
+            ///   - slug:
+            ///   - status:
+            ///   - triggered_workflow: Deprecated
+            public init(
+                build_number: Swift.Int? = nil,
+                build_slug: Swift.String? = nil,
+                build_url: Swift.String? = nil,
+                message: Swift.String? = nil,
+                results: [Components.Schemas.v0_period_BuildTriggerRespItemModel]? = nil,
                 service: Swift.String? = nil,
                 slug: Swift.String? = nil,
                 status: Swift.String? = nil,
@@ -5712,6 +5767,7 @@ public enum Components {
                 self.build_slug = build_slug
                 self.build_url = build_url
                 self.message = message
+                self.results = results
                 self.service = service
                 self.slug = slug
                 self.status = status
@@ -5722,6 +5778,7 @@ public enum Components {
                 case build_slug
                 case build_url
                 case message
+                case results
                 case service
                 case slug
                 case status
@@ -7032,47 +7089,6 @@ public enum Components {
                 case status
             }
         }
-        /// - Remark: Generated from `#/components/schemas/v0.PlanDataModel`.
-        public struct v0_period_PlanDataModel: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/v0.PlanDataModel/container_count`.
-            public var container_count: Swift.Int?
-            /// - Remark: Generated from `#/components/schemas/v0.PlanDataModel/expires_at`.
-            public var expires_at: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/v0.PlanDataModel/id`.
-            public var id: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/v0.PlanDataModel/name`.
-            public var name: Swift.String?
-            /// - Remark: Generated from `#/components/schemas/v0.PlanDataModel/price`.
-            public var price: Swift.Int?
-            /// Creates a new `v0_period_PlanDataModel`.
-            ///
-            /// - Parameters:
-            ///   - container_count:
-            ///   - expires_at:
-            ///   - id:
-            ///   - name:
-            ///   - price:
-            public init(
-                container_count: Swift.Int? = nil,
-                expires_at: Swift.String? = nil,
-                id: Swift.String? = nil,
-                name: Swift.String? = nil,
-                price: Swift.Int? = nil
-            ) {
-                self.container_count = container_count
-                self.expires_at = expires_at
-                self.id = id
-                self.name = name
-                self.price = price
-            }
-            public enum CodingKeys: String, CodingKey {
-                case container_count
-                case expires_at
-                case id
-                case name
-                case price
-            }
-        }
         /// - Remark: Generated from `#/components/schemas/v0.ProjectFileStorageDocumentUpdateParams`.
         public struct v0_period_ProjectFileStorageDocumentUpdateParams: Codable, Hashable, Sendable {
             /// - Remark: Generated from `#/components/schemas/v0.ProjectFileStorageDocumentUpdateParams/exposed_meta_datastore`.
@@ -7685,50 +7701,6 @@ public enum Components {
                 case device_id
                 case device_type
                 case owner
-            }
-        }
-        /// - Remark: Generated from `#/components/schemas/v0.UserPlanDataModel`.
-        public struct v0_period_UserPlanDataModel: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/v0.UserPlanDataModel/current_plan`.
-            public var current_plan: Components.Schemas.v0_period_PlanDataModel?
-            /// - Remark: Generated from `#/components/schemas/v0.UserPlanDataModel/pending_plan`.
-            public var pending_plan: Components.Schemas.v0_period_PlanDataModel?
-            /// - Remark: Generated from `#/components/schemas/v0.UserPlanDataModel/trial_expires_at`.
-            public var trial_expires_at: Swift.String?
-            /// Creates a new `v0_period_UserPlanDataModel`.
-            ///
-            /// - Parameters:
-            ///   - current_plan:
-            ///   - pending_plan:
-            ///   - trial_expires_at:
-            public init(
-                current_plan: Components.Schemas.v0_period_PlanDataModel? = nil,
-                pending_plan: Components.Schemas.v0_period_PlanDataModel? = nil,
-                trial_expires_at: Swift.String? = nil
-            ) {
-                self.current_plan = current_plan
-                self.pending_plan = pending_plan
-                self.trial_expires_at = trial_expires_at
-            }
-            public enum CodingKeys: String, CodingKey {
-                case current_plan
-                case pending_plan
-                case trial_expires_at
-            }
-        }
-        /// - Remark: Generated from `#/components/schemas/v0.UserPlanRespModel`.
-        public struct v0_period_UserPlanRespModel: Codable, Hashable, Sendable {
-            /// - Remark: Generated from `#/components/schemas/v0.UserPlanRespModel/data`.
-            public var data: Components.Schemas.v0_period_UserPlanDataModel?
-            /// Creates a new `v0_period_UserPlanRespModel`.
-            ///
-            /// - Parameters:
-            ///   - data:
-            public init(data: Components.Schemas.v0_period_UserPlanDataModel? = nil) {
-                self.data = data
-            }
-            public enum CodingKeys: String, CodingKey {
-                case data
             }
         }
         /// - Remark: Generated from `#/components/schemas/v0.UserProfileDataModel`.
@@ -31216,8 +31188,9 @@ public enum Operations {
                     case admin = "admin"
                     case manager = "manager"
                     case member = "member"
+                    case platform_engineer = "platform_engineer"
                 }
-                /// Name of the role being queried, supported values are: admin, manager (equals developer), and member (equals tester/qa)
+                /// Name of the role being queried, supported values are: admin, manager (equals developer), member (equals tester/qa) and platform_engineer
                 ///
                 /// - Remark: Generated from `#/paths/apps/{app_slug}/roles/{role_name}/GET/path/role_name`.
                 public var role_name: Operations.app_roles_query.Input.Path.role_namePayload
@@ -31225,7 +31198,7 @@ public enum Operations {
                 ///
                 /// - Parameters:
                 ///   - app_slug: Slug of the app
-                ///   - role_name: Name of the role being queried, supported values are: admin, manager (equals developer), and member (equals tester/qa)
+                ///   - role_name: Name of the role being queried, supported values are: admin, manager (equals developer), member (equals tester/qa) and platform_engineer
                 public init(
                     app_slug: Swift.String,
                     role_name: Operations.app_roles_query.Input.Path.role_namePayload
@@ -31456,8 +31429,9 @@ public enum Operations {
                     case admin = "admin"
                     case manager = "manager"
                     case member = "member"
+                    case platform_engineer = "platform_engineer"
                 }
-                /// Name of the role being modified, supported values are: admin, manager (equals developer), and member (equals tester/qa)
+                /// Name of the role being modified, supported values are: admin, manager (equals developer), member (equals tester/qa), and platform_engineer
                 ///
                 /// - Remark: Generated from `#/paths/apps/{app_slug}/roles/{role_name}/PUT/path/role_name`.
                 public var role_name: Operations.app_roles_update.Input.Path.role_namePayload
@@ -31465,7 +31439,7 @@ public enum Operations {
                 ///
                 /// - Parameters:
                 ///   - app_slug: Slug of the app
-                ///   - role_name: Name of the role being modified, supported values are: admin, manager (equals developer), and member (equals tester/qa)
+                ///   - role_name: Name of the role being modified, supported values are: admin, manager (equals developer), member (equals tester/qa), and platform_engineer
                 public init(
                     app_slug: Swift.String,
                     role_name: Operations.app_roles_update.Input.Path.role_namePayload
@@ -35876,322 +35850,6 @@ public enum Operations {
             /// - Throws: An error if `self` is not `.internalServerError`.
             /// - SeeAlso: `.internalServerError`.
             public var internalServerError: Operations.activity_list.Output.InternalServerError {
-                get throws {
-                    switch self {
-                    case let .internalServerError(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "internalServerError",
-                            response: self
-                        )
-                    }
-                }
-            }
-            /// Undocumented response.
-            ///
-            /// A response with a code that is not documented in the OpenAPI document.
-            case undocumented(statusCode: Swift.Int, OpenAPIRuntime.UndocumentedPayload)
-        }
-        @frozen public enum AcceptableContentType: AcceptableProtocol {
-            case json
-            case other(Swift.String)
-            public init?(rawValue: Swift.String) {
-                switch rawValue.lowercased() {
-                case "application/json":
-                    self = .json
-                default:
-                    self = .other(rawValue)
-                }
-            }
-            public var rawValue: Swift.String {
-                switch self {
-                case let .other(string):
-                    return string
-                case .json:
-                    return "application/json"
-                }
-            }
-            public static var allCases: [Self] {
-                [
-                    .json
-                ]
-            }
-        }
-    }
-    /// The subscription plan of the user
-    ///
-    /// Get the subscription of the user: the current plan, any pending plans, and the duration of a trial period if applicable
-    ///
-    /// - Remark: HTTP `GET /me/plan`.
-    /// - Remark: Generated from `#/paths//me/plan/get(user_plan)`.
-    public enum user_plan {
-        public static let id: Swift.String = "user_plan"
-        public struct Input: Sendable, Hashable {
-            /// - Remark: Generated from `#/paths/me/plan/GET/header`.
-            public struct Headers: Sendable, Hashable {
-                public var accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.user_plan.AcceptableContentType>]
-                /// Creates a new `Headers`.
-                ///
-                /// - Parameters:
-                ///   - accept:
-                public init(accept: [OpenAPIRuntime.AcceptHeaderContentType<Operations.user_plan.AcceptableContentType>] = .defaultValues()) {
-                    self.accept = accept
-                }
-            }
-            public var headers: Operations.user_plan.Input.Headers
-            /// Creates a new `Input`.
-            ///
-            /// - Parameters:
-            ///   - headers:
-            public init(headers: Operations.user_plan.Input.Headers = .init()) {
-                self.headers = headers
-            }
-        }
-        @frozen public enum Output: Sendable, Hashable {
-            public struct Ok: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/me/plan/GET/responses/200/content`.
-                @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/me/plan/GET/responses/200/content/application\/json`.
-                    case json(Components.Schemas.v0_period_UserPlanRespModel)
-                    /// The associated value of the enum case if `self` is `.json`.
-                    ///
-                    /// - Throws: An error if `self` is not `.json`.
-                    /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.v0_period_UserPlanRespModel {
-                        get throws {
-                            switch self {
-                            case let .json(body):
-                                return body
-                            }
-                        }
-                    }
-                }
-                /// Received HTTP response body
-                public var body: Operations.user_plan.Output.Ok.Body
-                /// Creates a new `Ok`.
-                ///
-                /// - Parameters:
-                ///   - body: Received HTTP response body
-                public init(body: Operations.user_plan.Output.Ok.Body) {
-                    self.body = body
-                }
-            }
-            /// OK
-            ///
-            /// - Remark: Generated from `#/paths//me/plan/get(user_plan)/responses/200`.
-            ///
-            /// HTTP response code: `200 ok`.
-            case ok(Operations.user_plan.Output.Ok)
-            /// The associated value of the enum case if `self` is `.ok`.
-            ///
-            /// - Throws: An error if `self` is not `.ok`.
-            /// - SeeAlso: `.ok`.
-            public var ok: Operations.user_plan.Output.Ok {
-                get throws {
-                    switch self {
-                    case let .ok(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "ok",
-                            response: self
-                        )
-                    }
-                }
-            }
-            public struct BadRequest: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/me/plan/GET/responses/400/content`.
-                @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/me/plan/GET/responses/400/content/application\/json`.
-                    case json(Components.Schemas.service_period_StandardErrorRespModel)
-                    /// The associated value of the enum case if `self` is `.json`.
-                    ///
-                    /// - Throws: An error if `self` is not `.json`.
-                    /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.service_period_StandardErrorRespModel {
-                        get throws {
-                            switch self {
-                            case let .json(body):
-                                return body
-                            }
-                        }
-                    }
-                }
-                /// Received HTTP response body
-                public var body: Operations.user_plan.Output.BadRequest.Body
-                /// Creates a new `BadRequest`.
-                ///
-                /// - Parameters:
-                ///   - body: Received HTTP response body
-                public init(body: Operations.user_plan.Output.BadRequest.Body) {
-                    self.body = body
-                }
-            }
-            /// Bad Request
-            ///
-            /// - Remark: Generated from `#/paths//me/plan/get(user_plan)/responses/400`.
-            ///
-            /// HTTP response code: `400 badRequest`.
-            case badRequest(Operations.user_plan.Output.BadRequest)
-            /// The associated value of the enum case if `self` is `.badRequest`.
-            ///
-            /// - Throws: An error if `self` is not `.badRequest`.
-            /// - SeeAlso: `.badRequest`.
-            public var badRequest: Operations.user_plan.Output.BadRequest {
-                get throws {
-                    switch self {
-                    case let .badRequest(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "badRequest",
-                            response: self
-                        )
-                    }
-                }
-            }
-            public struct Unauthorized: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/me/plan/GET/responses/401/content`.
-                @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/me/plan/GET/responses/401/content/application\/json`.
-                    case json(Components.Schemas.service_period_StandardErrorRespModel)
-                    /// The associated value of the enum case if `self` is `.json`.
-                    ///
-                    /// - Throws: An error if `self` is not `.json`.
-                    /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.service_period_StandardErrorRespModel {
-                        get throws {
-                            switch self {
-                            case let .json(body):
-                                return body
-                            }
-                        }
-                    }
-                }
-                /// Received HTTP response body
-                public var body: Operations.user_plan.Output.Unauthorized.Body
-                /// Creates a new `Unauthorized`.
-                ///
-                /// - Parameters:
-                ///   - body: Received HTTP response body
-                public init(body: Operations.user_plan.Output.Unauthorized.Body) {
-                    self.body = body
-                }
-            }
-            /// Unauthorized
-            ///
-            /// - Remark: Generated from `#/paths//me/plan/get(user_plan)/responses/401`.
-            ///
-            /// HTTP response code: `401 unauthorized`.
-            case unauthorized(Operations.user_plan.Output.Unauthorized)
-            /// The associated value of the enum case if `self` is `.unauthorized`.
-            ///
-            /// - Throws: An error if `self` is not `.unauthorized`.
-            /// - SeeAlso: `.unauthorized`.
-            public var unauthorized: Operations.user_plan.Output.Unauthorized {
-                get throws {
-                    switch self {
-                    case let .unauthorized(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "unauthorized",
-                            response: self
-                        )
-                    }
-                }
-            }
-            public struct NotFound: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/me/plan/GET/responses/404/content`.
-                @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/me/plan/GET/responses/404/content/application\/json`.
-                    case json(Components.Schemas.service_period_StandardErrorRespModel)
-                    /// The associated value of the enum case if `self` is `.json`.
-                    ///
-                    /// - Throws: An error if `self` is not `.json`.
-                    /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.service_period_StandardErrorRespModel {
-                        get throws {
-                            switch self {
-                            case let .json(body):
-                                return body
-                            }
-                        }
-                    }
-                }
-                /// Received HTTP response body
-                public var body: Operations.user_plan.Output.NotFound.Body
-                /// Creates a new `NotFound`.
-                ///
-                /// - Parameters:
-                ///   - body: Received HTTP response body
-                public init(body: Operations.user_plan.Output.NotFound.Body) {
-                    self.body = body
-                }
-            }
-            /// Not Found
-            ///
-            /// - Remark: Generated from `#/paths//me/plan/get(user_plan)/responses/404`.
-            ///
-            /// HTTP response code: `404 notFound`.
-            case notFound(Operations.user_plan.Output.NotFound)
-            /// The associated value of the enum case if `self` is `.notFound`.
-            ///
-            /// - Throws: An error if `self` is not `.notFound`.
-            /// - SeeAlso: `.notFound`.
-            public var notFound: Operations.user_plan.Output.NotFound {
-                get throws {
-                    switch self {
-                    case let .notFound(response):
-                        return response
-                    default:
-                        try throwUnexpectedResponseStatus(
-                            expectedStatus: "notFound",
-                            response: self
-                        )
-                    }
-                }
-            }
-            public struct InternalServerError: Sendable, Hashable {
-                /// - Remark: Generated from `#/paths/me/plan/GET/responses/500/content`.
-                @frozen public enum Body: Sendable, Hashable {
-                    /// - Remark: Generated from `#/paths/me/plan/GET/responses/500/content/application\/json`.
-                    case json(Components.Schemas.service_period_StandardErrorRespModel)
-                    /// The associated value of the enum case if `self` is `.json`.
-                    ///
-                    /// - Throws: An error if `self` is not `.json`.
-                    /// - SeeAlso: `.json`.
-                    public var json: Components.Schemas.service_period_StandardErrorRespModel {
-                        get throws {
-                            switch self {
-                            case let .json(body):
-                                return body
-                            }
-                        }
-                    }
-                }
-                /// Received HTTP response body
-                public var body: Operations.user_plan.Output.InternalServerError.Body
-                /// Creates a new `InternalServerError`.
-                ///
-                /// - Parameters:
-                ///   - body: Received HTTP response body
-                public init(body: Operations.user_plan.Output.InternalServerError.Body) {
-                    self.body = body
-                }
-            }
-            /// Internal Server Error
-            ///
-            /// - Remark: Generated from `#/paths//me/plan/get(user_plan)/responses/500`.
-            ///
-            /// HTTP response code: `500 internalServerError`.
-            case internalServerError(Operations.user_plan.Output.InternalServerError)
-            /// The associated value of the enum case if `self` is `.internalServerError`.
-            ///
-            /// - Throws: An error if `self` is not `.internalServerError`.
-            /// - SeeAlso: `.internalServerError`.
-            public var internalServerError: Operations.user_plan.Output.InternalServerError {
                 get throws {
                     switch self {
                     case let .internalServerError(response):
