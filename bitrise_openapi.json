@@ -6204,14 +6204,15 @@
                     {
                         "name": "role_name",
                         "in": "path",
-                        "description": "Name of the role being queried, supported values are: admin, manager (equals developer), and member (equals tester/qa)",
+                        "description": "Name of the role being queried, supported values are: admin, manager (equals developer), member (equals tester/qa) and platform_engineer",
                         "required": true,
                         "schema": {
                             "type": "string",
                             "enum": [
                                 "admin",
                                 "manager",
-                                "member"
+                                "member",
+                                "platform_engineer"
                             ]
                         }
                     }
@@ -6279,14 +6280,15 @@
                     {
                         "name": "role_name",
                         "in": "path",
-                        "description": "Name of the role being modified, supported values are: admin, manager (equals developer), and member (equals tester/qa)",
+                        "description": "Name of the role being modified, supported values are: admin, manager (equals developer), member (equals tester/qa), and platform_engineer",
                         "required": true,
                         "schema": {
                             "type": "string",
                             "enum": [
                                 "admin",
                                 "manager",
-                                "member"
+                                "member",
+                                "platform_engineer"
                             ]
                         }
                     }
@@ -7458,73 +7460,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/v0.ActivityEventListResponseModel"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/service.StandardErrorRespModel"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/service.StandardErrorRespModel"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/service.StandardErrorRespModel"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/service.StandardErrorRespModel"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "PersonalAccessToken": []
-                    }
-                ]
-            }
-        },
-        "/me/plan": {
-            "get": {
-                "tags": [
-                    "user"
-                ],
-                "summary": "The subscription plan of the user",
-                "description": "Get the subscription of the user: the current plan, any pending plans, and the duration of a trial period if applicable",
-                "operationId": "user_plan",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/v0.UserPlanRespModel"
                                 }
                             }
                         }
@@ -10215,6 +10150,9 @@
                     "created_at": {
                         "type": "string"
                     },
+                    "is_enterprise_account": {
+                        "type": "boolean"
+                    },
                     "issuer_id": {
                         "type": "string"
                     },
@@ -11027,7 +10965,7 @@
                     }
                 }
             },
-            "v0.BuildTriggerRespModel": {
+            "v0.BuildTriggerRespItemModel": {
                 "type": "object",
                 "properties": {
                     "build_number": {
@@ -11042,6 +10980,41 @@
                     "message": {
                         "type": "string"
                     },
+                    "status": {
+                        "type": "string"
+                    },
+                    "triggered_pipeline": {
+                        "type": "string"
+                    },
+                    "triggered_workflow": {
+                        "type": "string"
+                    }
+                }
+            },
+            "v0.BuildTriggerRespModel": {
+                "type": "object",
+                "properties": {
+                    "build_number": {
+                        "type": "integer",
+                        "description": "Deprecated"
+                    },
+                    "build_slug": {
+                        "type": "string",
+                        "description": "Deprecated"
+                    },
+                    "build_url": {
+                        "type": "string",
+                        "description": "Deprecated"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "results": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/v0.BuildTriggerRespItemModel"
+                        }
+                    },
                     "service": {
                         "type": "string"
                     },
@@ -11052,7 +11025,8 @@
                         "type": "string"
                     },
                     "triggered_workflow": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Deprecated"
                     }
                 }
             },
@@ -11761,26 +11735,6 @@
                     }
                 }
             },
-            "v0.PlanDataModel": {
-                "type": "object",
-                "properties": {
-                    "container_count": {
-                        "type": "integer"
-                    },
-                    "expires_at": {
-                        "type": "string"
-                    },
-                    "id": {
-                        "type": "string"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "price": {
-                        "type": "integer"
-                    }
-                }
-            },
             "v0.ProjectFileStorageDocumentUpdateParams": {
                 "type": "object",
                 "properties": {
@@ -12098,28 +12052,6 @@
                     },
                     "owner": {
                         "type": "string"
-                    }
-                }
-            },
-            "v0.UserPlanDataModel": {
-                "type": "object",
-                "properties": {
-                    "current_plan": {
-                        "$ref": "#/components/schemas/v0.PlanDataModel"
-                    },
-                    "pending_plan": {
-                        "$ref": "#/components/schemas/v0.PlanDataModel"
-                    },
-                    "trial_expires_at": {
-                        "type": "string"
-                    }
-                }
-            },
-            "v0.UserPlanRespModel": {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/v0.UserPlanDataModel"
                     }
                 }
             },
